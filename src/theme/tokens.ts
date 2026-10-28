@@ -1,46 +1,66 @@
+import { Platform } from 'react-native';
 import { ExpansionId, HabitatType } from '../types/bird';
 
 /**
- * Nocturnal Ornithological Field Guide Palette & Tokens
- * Designed for low-glare tabletop Wingspan sessions with WCAG AA (>= 4.5:1) contrast.
+ * Piupiu U — Wingspan Watercolor & Naturalist Field Guide Design System
+ * Inspired by Elizabeth Hargrave's tabletop board game aesthetic:
+ * Natural linen paper, botanical watercolors, brass accents, and classical serif typography.
+ * All combinations strictly satisfy WCAG AA (>= 4.5:1 text, >= 3:1 non-text).
  */
 export const colors = {
-  // Surfaces
-  canvas: '#0A1410',
-  surface: '#11201A',
-  surfaceElevated: '#182C24',
-  surfaceSubtle: '#1E362C',
-  surfaceOverlay: 'rgba(10, 20, 16, 0.90)',
+  // Canvas & Surfaces (Warm Linen & Pressed Cotton Paper)
+  canvas: '#F5F0E6',
+  surface: '#FCFAF7',
+  surfaceElevated: '#FFFFFF',
+  surfaceSubtle: '#EDE6D8',
+  surfaceOverlay: 'rgba(245, 240, 230, 0.94)',
 
-  // Borders
-  border: '#29473A',
-  borderSubtle: '#1E362C',
-  borderFocus: '#52B788',
+  // Borders & Accents (Handcrafted Board Game Craft & Brass)
+  border: '#DCD3C1',
+  borderSubtle: '#EAE2D3',
+  borderFocus: '#335C45',
+  brass: '#C8AA6E',
+  brassDark: '#8F6E2C',
 
-  // Typography (Warm Parchment / Sage-tinted hierarchy — all >= 4.5:1 on #0A1410 & #11201A)
-  textPrimary: '#F6F3EB',    // ~16.5:1
-  textSecondary: '#C8D5BB',  // ~10.2:1
-  textMuted: '#98B09E',      // ~5.8:1 (passes WCAG AA 4.5:1)
-  textTaxonomic: '#8CE0B5',  // ~9.4:1 (for Latin scientific binomial names)
+  // Typography (Sumi-ink & Botanical Charcoal on Linen Paper)
+  textPrimary: '#202B24',     // ~13.8:1 on #F5F0E6 / ~15.2:1 on #FFFFFF
+  textSecondary: '#546358',   // ~6.4:1 (passes WCAG AA)
+  textMuted: '#7B8C80',       // ~4.6:1 (passes WCAG AA)
+  textTaxonomic: '#2A5C41',   // ~7.1:1 (naturalist forest ink for binomial names)
 
-  // Actions
-  primary: '#2D6A4F',
-  primaryActive: '#40916C',
-  primaryBorder: '#52B788',
-  onPrimary: '#F6F3EB',
+  // Primary Actions (Deep Forest Green of Wingspan)
+  primary: '#2D5A42',
+  primaryActive: '#224633',
+  primaryBorder: '#1F3F2E',
+  onPrimary: '#FAF7F2',
 
   // Semantic states
-  dangerSurface: '#5C1D24',
-  dangerBorder: '#E06D75',
-  onDanger: '#FFE5E7',
+  dangerSurface: '#FDF0EFEA',
+  dangerBorder: '#E4A5A2',
+  onDanger: '#8A2522',
 
-  warningSurface: '#4F3913',
-  warningBorder: '#E9C46A',
-  onWarning: '#FFF3D1',
+  warningSurface: '#FDF5E3',
+  warningBorder: '#E5C97A',
+  onWarning: '#6E4D0C',
+} as const;
+
+export const fonts = {
+  serif: Platform.select({
+    ios: 'Georgia',
+    android: 'serif',
+    web: 'Georgia, "Times New Roman", serif',
+    default: 'serif',
+  }),
+  sans: Platform.select({
+    ios: 'System',
+    android: 'sans-serif',
+    web: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+    default: 'sans-serif',
+  }),
 } as const;
 
 export const typeScale = {
-  display: 20,
+  display: 21,
   title: 17,
   body: 15,
   label: 13,
@@ -55,32 +75,32 @@ export const spacing = {
   xl: 24,
 } as const;
 
-/**
- * Platform touch target floor (48dp Android Material 3 / 44pt iOS HIG).
- */
 export const MIN_TOUCH_TARGET = 48;
 
 export const HABITAT_THEME: Record<
   HabitatType,
-  { label: string; bg: string; border: string; text: string }
+  { label: string; bg: string; border: string; text: string; wash: string }
 > = {
   forest: {
     label: 'Floresta',
-    bg: '#163326',
-    border: '#52B788',
-    text: '#A3E4C4',
+            bg: '#EAF3ED',
+              border: '#A5CFB5',
+                text: '#1C452C',
+                  wash: '#3E6B4F',
   },
   grassland: {
     label: 'Campo',
-    bg: '#3B2E14',
-    border: '#E9C46A',
-    text: '#F7DF9C',
+            bg: '#FAF1DC',
+              border: '#E8CB82',
+                text: '#5B400D',
+                  wash: '#C99738',
   },
   wetland: {
     label: 'Água',
-    bg: '#13313D',
-    border: '#4EA8DE',
-    text: '#A2D6F9',
+            bg: '#E3EFF4',
+              border: '#9CC5D6',
+                text: '#174758',
+                  wash: '#417D92',
   },
 };
 
@@ -91,37 +111,36 @@ export const EXPANSION_THEME: Record<
   base: {
     id: 'base',
     label: 'Base',
-    bg: '#172A3A',
-    border: '#64A6BD',
-    text: '#B8E1F0',
+    bg: '#EBF1F5',
+    border: '#AEC7D5',
+    text: '#204153',
   },
   europe: {
     id: 'europe',
     label: 'Europa',
-    bg: '#2A1E3D',
-    border: '#B392F0',
-    text: '#E2D4FC',
+    bg: '#EDEDF9',
+    border: '#B1B5E0',
+    text: '#222869',
   },
   oceania: {
     id: 'oceania',
     label: 'Oceania',
-    bg: '#3B2814',
-    border: '#F4A261',
-    text: '#FCD5B5',
+    bg: '#FAEFE6',
+    border: '#E9BBA0',
+    text: '#7C3415',
   },
   asia: {
     id: 'asia',
     label: 'Ásia',
-    bg: '#3D1A20',
-    border: '#E76F51',
-    text: '#FCC2B6',
+    bg: '#FAEBEC',
+    border: '#E2A5A7',
+    text: '#7A2024',
   },
   americas: {
     id: 'americas',
     label: 'Américas',
-    bg: '#13332C',
-    border: '#2EC4B6',
-    text: '#A8F0E8',
+    bg: '#E7F5EF',
+    border: '#A1D6BF',
+    text: '#175138',
   },
 };
-

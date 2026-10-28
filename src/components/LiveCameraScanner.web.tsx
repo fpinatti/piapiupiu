@@ -2,7 +2,7 @@ import { Feather } from '@expo/vector-icons';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { createWorker, Worker } from 'tesseract.js';
-import { colors, MIN_TOUCH_TARGET, spacing, typeScale } from '../theme/tokens';
+import { colors, fonts, MIN_TOUCH_TARGET, spacing, typeScale } from '../theme/tokens';
 import { DEFAULT_TARGET_BOX } from '../utils/boundingBoxFilter';
 import { LiveCameraScannerProps } from './LiveCameraScanner.types';
 
@@ -302,220 +302,221 @@ export function LiveCameraScanner({
             }}
           />
 
-            <View style={styles.topWebcamControls} pointerEvents="box-none">
-              <TouchableOpacity
-                onPress={stopWebcam}
-                style={styles.stopCamBtn}
-                accessibilityRole="button"
-                accessibilityLabel="Desligar câmera"
-              >
-                <Feather name="video-off" size={16} color={colors.onDanger} />
-              </TouchableOpacity>
-            </View>
-
-              <View style={styles.bottomShutterContainer} pointerEvents="box-none">
-                <TouchableOpacity
-                  onPress={captureFromWebcamAndRecognize}
-                  disabled={isProcessingPhoto}
-                  style={[
-                    styles.shutterButton,
-                    isProcessingPhoto && styles.shutterButtonAnalyzing,
-                  ]}
-                  activeOpacity={0.85}
-                  accessibilityRole="button"
-                  accessibilityLabel="Fotografar carta"
-                >
-                  <View style={styles.shutterInnerCircle}>
-                    {isProcessingPhoto ? (
-                      <ActivityIndicator size="small" color={colors.onPrimary} />
-                    ) : (
-                      <Feather name="camera" size={28} color={colors.onPrimary} />
-                    )}
-                  </View>
-                </TouchableOpacity>
-              </View>
-            </View>
-            ) : (
-            <View style={styles.fallbackBg}>
-              <View style={styles.fallbackContent}>
-                <Text style={styles.title}>Leitor de Cartas Wingspan</Text>
-                <Text style={styles.subtitle}>
-                  Toque abaixo para abrir a câmera ou fotografar uma carta de ave e ouvir o seu canto.
-                </Text>
-
-                {isProcessingPhoto ? (
-                  <Text style={styles.processingText}>{ocrStatus}</Text>
-                ) : null}
-
-                {webcamError ? (
-                  <Text style={styles.errorText}>{webcamError}</Text>
-                ) : null}
-
-                <View style={styles.btnGroup}>
-                  <TouchableOpacity
-                    onPress={startWebcam}
-                    style={styles.webcamBtn}
-                    activeOpacity={0.8}
-                    accessibilityRole="button"
-                    accessibilityLabel="Ativar câmera para fotografar cartas"
-                  >
-                    <Feather name="camera" size={18} color={colors.onPrimary} />
-                    <Text style={styles.webcamBtnText}>
-                      {isProcessingPhoto ? 'Lendo Carta...' : 'Abrir Câmera / Fotografar Carta'}
-                    </Text>
-                  </TouchableOpacity>
-
-                  {capturedPreviewUrl && !isProcessingPhoto ? (
-                    <TouchableOpacity
-                      onPress={openPhotoCaptureFallback}
-                      style={styles.secondaryPhotoBtn}
-                      activeOpacity={0.8}
-                      accessibilityRole="button"
-                      accessibilityLabel="Tirar outra foto de carta"
-                    >
-                      <Feather name="refresh-cw" size={16} color={colors.textPrimary} />
-                      <Text style={styles.secondaryPhotoBtnText}>Fotografar Outra Carta</Text>
-                    </TouchableOpacity>
-                  ) : null}
-                </View>
-              </View>
-            </View>
-      )}
+          <View style={styles.topWebcamControls} pointerEvents="box-none">
+            <TouchableOpacity
+              onPress={stopWebcam}
+              style={styles.stopCamBtn}
+              accessibilityRole="button"
+              accessibilityLabel="Desligar câmera"
+            >
+              <Feather name="video-off" size={16} color={colors.onDanger} />
+            </TouchableOpacity>
           </View>
-          );
+
+          <View style={styles.bottomShutterContainer} pointerEvents="box-none">
+            <TouchableOpacity
+              onPress={captureFromWebcamAndRecognize}
+              disabled={isProcessingPhoto}
+              style={[
+                styles.shutterButton,
+                isProcessingPhoto && styles.shutterButtonAnalyzing,
+              ]}
+              activeOpacity={0.85}
+              accessibilityRole="button"
+              accessibilityLabel="Fotografar carta"
+            >
+              <View style={styles.shutterInnerCircle}>
+                {isProcessingPhoto ? (
+                  <ActivityIndicator size="small" color={colors.onPrimary} />
+                ) : (
+                  <Feather name="camera" size={28} color={colors.onPrimary} />
+                )}
+              </View>
+            </TouchableOpacity>
+          </View>
+        </View>
+      ) : (
+        <View style={styles.fallbackBg}>
+          <View style={styles.fallbackContent}>
+            <Text style={styles.title}>Leitor de Cartas Wingspan</Text>
+            <Text style={styles.subtitle}>
+              Toque abaixo para abrir a câmera ou fotografar uma carta de ave e ouvir o seu canto.
+            </Text>
+
+            {isProcessingPhoto ? (
+              <Text style={styles.processingText}>{ocrStatus}</Text>
+            ) : null}
+
+            {webcamError ? (
+              <Text style={styles.errorText}>{webcamError}</Text>
+            ) : null}
+
+            <View style={styles.btnGroup}>
+              <TouchableOpacity
+                onPress={startWebcam}
+                style={styles.webcamBtn}
+                activeOpacity={0.8}
+                accessibilityRole="button"
+                accessibilityLabel="Ativar câmera para fotografar cartas"
+              >
+                <Feather name="camera" size={18} color={colors.onPrimary} />
+                <Text style={styles.webcamBtnText}>
+                  {isProcessingPhoto ? 'Lendo Carta...' : 'Abrir Câmera / Fotografar Carta'}
+                </Text>
+              </TouchableOpacity>
+
+              {capturedPreviewUrl && !isProcessingPhoto ? (
+                <TouchableOpacity
+                  onPress={openPhotoCaptureFallback}
+                  style={styles.secondaryPhotoBtn}
+                  activeOpacity={0.8}
+                  accessibilityRole="button"
+                  accessibilityLabel="Tirar outra foto de carta"
+                >
+                  <Feather name="refresh-cw" size={16} color={colors.textPrimary} />
+                  <Text style={styles.secondaryPhotoBtnText}>Fotografar Outra Carta</Text>
+                </TouchableOpacity>
+              ) : null}
+            </View>
+          </View>
+        </View>
+      )}
+    </View>
+  );
 }
 
-          const styles = StyleSheet.create({
-            container: {
-            ...StyleSheet.absoluteFill,
-            backgroundColor: colors.canvas,
+const styles = StyleSheet.create({
+  container: {
+    ...StyleSheet.absoluteFill,
+    backgroundColor: colors.canvas,
   },
-          fallbackBg: {
-            ...StyleSheet.absoluteFill,
-            backgroundColor: colors.canvas,
-          justifyContent: 'center',
-          alignItems: 'center',
-          paddingHorizontal: spacing.xl,
+  fallbackBg: {
+    ...StyleSheet.absoluteFill,
+    backgroundColor: colors.canvas,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: spacing.xl,
   },
-          fallbackContent: {
-            alignItems: 'center',
-          maxWidth: 400,
-          marginBottom: 90,
-          zIndex: 5,
+  fallbackContent: {
+    alignItems: 'center',
+    maxWidth: 400,
+    marginBottom: 90,
+    zIndex: 5,
   },
-          title: {
-            color: colors.textPrimary,
-          fontSize: typeScale.display,
-          fontWeight: '800',
-          textAlign: 'center',
-          marginBottom: spacing.xs,
-  },
-          subtitle: {
-            color: colors.textSecondary,
-          fontSize: typeScale.body,
-          textAlign: 'center',
-          lineHeight: 22,
-  },
-          processingText: {
-            color: colors.textTaxonomic,
-          fontSize: typeScale.label,
-          fontWeight: '700',
-          marginTop: spacing.sm,
-          textAlign: 'center',
-  },
-          errorText: {
-            color: colors.onDanger,
-          fontSize: typeScale.label,
-          marginTop: spacing.sm,
-          textAlign: 'center',
-  },
-          btnGroup: {
-            marginTop: spacing.lg,
-          alignItems: 'center',
-          gap: spacing.sm,
-  },
-          webcamBtn: {
-            minHeight: MIN_TOUCH_TARGET,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 8,
-          backgroundColor: colors.primary,
-          borderWidth: 1,
-          borderColor: colors.primaryBorder,
-          paddingHorizontal: spacing.xl,
-          borderRadius: 12,
-  },
-          webcamBtnText: {
-            color: colors.onPrimary,
-          fontWeight: '700',
-          fontSize: typeScale.body,
-  },
-          secondaryPhotoBtn: {
-            minHeight: 42,
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 8,
-          backgroundColor: colors.surfaceElevated,
-          borderWidth: 1,
-          borderColor: colors.border,
-          paddingHorizontal: spacing.lg,
-          borderRadius: 10,
-  },
-          secondaryPhotoBtnText: {
-            color: colors.textPrimary,
-          fontWeight: '600',
-          fontSize: typeScale.label,
-  },
-            topWebcamControls: {
-            position: 'absolute',
-          top: 56,
-          right: spacing.md,
-          zIndex: 10,
-  },
-          bottomShutterContainer: {
-            position: 'absolute',
-          bottom: 24,
-          left: 0,
-          right: 0,
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 10,
-  },
-          shutterButton: {
-            width: 74,
-          height: 74,
-          borderRadius: 37,
-          borderWidth: 4,
-          borderColor: 'rgba(255, 255, 255, 0.45)',
-          backgroundColor: 'rgba(0, 0, 0, 0.35)',
-          justifyContent: 'center',
-          alignItems: 'center',
-          shadowColor: '#000',
-          shadowOffset: {width: 0, height: 4 },
-          shadowOpacity: 0.35,
-          shadowRadius: 8,
-  },
-          shutterButtonAnalyzing: {
-            borderColor: colors.primaryBorder,
-  },
-          shutterInnerCircle: {
-            width: 58,
-          height: 58,
-          borderRadius: 29,
-          backgroundColor: colors.primary,
-          justifyContent: 'center',
-          alignItems: 'center',
-  },
-          stopCamBtn: {
-            minHeight: 36,
-          minWidth: 36,
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: colors.dangerSurface,
-          borderWidth: 1,
-          borderColor: colors.dangerBorder,
-          borderRadius: 999,
-  },
+  title: {
+    color: colors.textPrimary,
+  fontSize: typeScale.display,
+  fontWeight: '800',
+  fontFamily: fonts.serif,
+  textAlign: 'center',
+  marginBottom: spacing.xs,
+},
+  subtitle: {
+  color: colors.textSecondary,
+  fontSize: typeScale.body,
+  textAlign: 'center',
+  lineHeight: 22,
+},
+  processingText: {
+  color: colors.textTaxonomic,
+  fontSize: typeScale.label,
+  fontWeight: '700',
+  marginTop: spacing.sm,
+  textAlign: 'center',
+},
+  errorText: {
+  color: colors.onDanger,
+  fontSize: typeScale.label,
+  marginTop: spacing.sm,
+  textAlign: 'center',
+},
+  btnGroup: {
+  marginTop: spacing.lg,
+  alignItems: 'center',
+  gap: spacing.sm,
+},
+  webcamBtn: {
+  minHeight: MIN_TOUCH_TARGET,
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: 8,
+  backgroundColor: colors.primary,
+  borderWidth: 1,
+  borderColor: colors.primaryBorder,
+  paddingHorizontal: spacing.xl,
+  borderRadius: 12,
+},
+  webcamBtnText: {
+  color: colors.onPrimary,
+  fontWeight: '700',
+  fontSize: typeScale.body,
+},
+  secondaryPhotoBtn: {
+  minHeight: 42,
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: 8,
+  backgroundColor: colors.surfaceElevated,
+  borderWidth: 1,
+  borderColor: colors.border,
+  paddingHorizontal: spacing.lg,
+  borderRadius: 10,
+},
+  secondaryPhotoBtnText: {
+  color: colors.textPrimary,
+  fontWeight: '600',
+  fontSize: typeScale.label,
+},
+  topWebcamControls: {
+  position: 'absolute',
+  top: 56,
+  right: spacing.md,
+  zIndex: 10,
+},
+  bottomShutterContainer: {
+  position: 'absolute',
+  bottom: 24,
+  left: 0,
+  right: 0,
+  alignItems: 'center',
+  justifyContent: 'center',
+  zIndex: 10,
+},
+  shutterButton: {
+  width: 74,
+  height: 74,
+  borderRadius: 37,
+  borderWidth: 4,
+  borderColor: 'rgba(255, 255, 255, 0.45)',
+  backgroundColor: 'rgba(0, 0, 0, 0.35)',
+  justifyContent: 'center',
+  alignItems: 'center',
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 4 },
+  shadowOpacity: 0.35,
+  shadowRadius: 8,
+},
+  shutterButtonAnalyzing: {
+  borderColor: colors.primaryBorder,
+},
+  shutterInnerCircle: {
+  width: 58,
+  height: 58,
+  borderRadius: 29,
+  backgroundColor: colors.primary,
+  justifyContent: 'center',
+  alignItems: 'center',
+},
+  stopCamBtn: {
+  minHeight: 36,
+  minWidth: 36,
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: colors.dangerSurface,
+  borderWidth: 1,
+  borderColor: colors.dangerBorder,
+  borderRadius: 999,
+},
 });

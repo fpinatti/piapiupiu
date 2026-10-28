@@ -14,6 +14,7 @@ import { BirdMatcher } from '../services/birdMatcher';
 import {
   colors,
   EXPANSION_THEME,
+  fonts,
   HABITAT_THEME,
   MIN_TOUCH_TARGET,
   spacing,
@@ -44,9 +45,10 @@ export function CatalogScreen({
 
   return (
     <View style={styles.container}>
+      {/* Field Notebook Search Header */}
       <View style={styles.searchBarWrapper}>
         <View style={styles.searchInputContainer}>
-          <Feather name="search" size={18} color={colors.textMuted} />
+          <Feather name="search" size={18} color={colors.textSecondary} />
           <TextInput
             value={searchQuery}
             onChangeText={setSearchQuery}
@@ -71,7 +73,7 @@ export function CatalogScreen({
       <View style={styles.countRow}>
         <Text style={styles.countText}>
           {results.length}{' '}
-          {results.length === 1 ? 'ave disponível' : 'aves disponíveis'}
+          {results.length === 1 ? 'ave catalogada' : 'aves catalogadas'} (5 expansões)
         </Text>
       </View>
 
@@ -100,7 +102,7 @@ export function CatalogScreen({
                 numColumns > 1 && styles.birdRowColumn,
                 active && styles.birdRowActive,
               ]}
-              activeOpacity={0.75}
+              activeOpacity={0.8}
               accessibilityRole="button"
               accessibilityLabel={
                 active
@@ -173,7 +175,7 @@ export function CatalogScreen({
                 <Feather
                   name={active ? 'square' : 'volume-2'}
                   size={18}
-                  color={active ? colors.onDanger : colors.textPrimary}
+                  color={active ? colors.onDanger : colors.primary}
                 />
               </View>
             </TouchableOpacity>
@@ -181,7 +183,7 @@ export function CatalogScreen({
         }}
         ListEmptyComponent={
           <View style={styles.emptyBox}>
-            <Feather name="feather" size={28} color={colors.textMuted} />
+            <Feather name="feather" size={28} color={colors.textSecondary} />
             <Text style={styles.emptyTitle}>Nenhuma ave encontrada</Text>
             <Text style={styles.emptySubtitle}>
               Tente outro nome em Português, Inglês ou Latim.
@@ -207,12 +209,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     minHeight: MIN_TOUCH_TARGET,
-    backgroundColor: colors.surface,
-    borderWidth: 1,
+    backgroundColor: colors.surfaceElevated,
+    borderWidth: 1.5,
     borderColor: colors.border,
-    borderRadius: 12,
+    borderRadius: 14,
     paddingHorizontal: spacing.md,
     gap: 10,
+    shadowColor: '#2B1E12',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.06,
+    shadowRadius: 6,
   },
   searchInput: {
     flex: 1,
@@ -221,8 +227,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   clearBtn: {
-    minWidth: 44,
-    minHeight: 44,
+    minWidth: 40,
+    minHeight: 40,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -231,7 +237,9 @@ const styles = StyleSheet.create({
     paddingBottom: spacing.xs,
   },
   countText: {
-    color: colors.textMuted,
+    fontFamily: fonts.serif,
+    fontStyle: 'italic',
+    color: colors.textSecondary,
     fontSize: typeScale.caption,
     fontWeight: '600',
   },
@@ -248,18 +256,25 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: colors.surface,
-    borderRadius: 14,
+    borderRadius: 16,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.md,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: colors.border,
+    shadowColor: '#2B1E12',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
+    elevation: 2,
   },
   birdRowColumn: {
     flex: 1,
   },
   birdRowActive: {
-    borderColor: colors.primaryBorder,
-    backgroundColor: colors.surfaceElevated,
+    borderColor: colors.primary,
+    backgroundColor: '#FFFFFF',
+    shadowOpacity: 0.16,
+    shadowRadius: 10,
   },
   birdLeading: {
     marginRight: spacing.md,
@@ -275,14 +290,17 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   primaryName: {
+    fontFamily: fonts.serif,
     color: colors.textPrimary,
     fontSize: typeScale.title,
-    fontWeight: '800',
+    fontWeight: '700',
+    letterSpacing: 0.1,
   },
   secondaryName: {
+    fontFamily: fonts.serif,
     color: colors.textSecondary,
     fontSize: typeScale.label,
-    marginTop: 3,
+    marginTop: 2,
   },
   scientificName: {
     fontStyle: 'italic',
@@ -296,7 +314,7 @@ const styles = StyleSheet.create({
   },
   expTag: {
     paddingHorizontal: 8,
-    paddingVertical: 2,
+    paddingVertical: 2.5,
     borderRadius: 6,
     borderWidth: 1,
   },
@@ -306,18 +324,18 @@ const styles = StyleSheet.create({
   },
   habitatTag: {
     paddingHorizontal: 8,
-    paddingVertical: 2,
+    paddingVertical: 2.5,
     borderRadius: 6,
     borderWidth: 1,
   },
   habitatTagText: {
     fontSize: typeScale.caption,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   playCircle: {
-    width: MIN_TOUCH_TARGET,
-    height: MIN_TOUCH_TARGET,
-    borderRadius: MIN_TOUCH_TARGET / 2,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     backgroundColor: colors.surfaceSubtle,
     borderWidth: 1,
     borderColor: colors.border,
@@ -334,6 +352,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   emptyTitle: {
+    fontFamily: fonts.serif,
     color: colors.textPrimary,
     fontSize: typeScale.title,
     fontWeight: '700',

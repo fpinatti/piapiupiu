@@ -16,6 +16,7 @@ import {
 } from '../services/birdMatcher';
 import {
   colors,
+  fonts,
   spacing,
   typeScale,
 } from '../theme/tokens';
@@ -162,302 +163,308 @@ export function ScannerScreen({
                   size={15}
                   color={scannerPaused ? colors.onWarning : colors.textPrimary}
                 />
-                <Text
-                  style={[
-                    styles.actionBtnText,
-                    scannerPaused && { color: colors.onWarning },
-                  ]}
-                >
-                  {scannerPaused ? 'Pausado' : 'Lendo'}
-                </Text>
-              </TouchableOpacity>
-            )}
-          </View>
-        </View>
+        <Text
+          style={[
+            styles.actionBtnText,
+            scannerPaused && { color: colors.onWarning },
+          ]}
+        >
+          {scannerPaused ? 'Pausado' : 'Lendo'}
+        </Text>
+      </TouchableOpacity>
+  )
+}
+  </View >
+</View >
       )}
 
-      {/* Center Virtual Bounding Box (only rendered when camera is active, pointerEvents="none") */}
-      <View style={styles.centerOverlay} pointerEvents="none">
-        {cameraCaps.hasCamera && (
-            <View style={styles.targetWrapper}>
-              {/* Label placed OUTSIDE and ABOVE the dotted box */}
-              <View style={styles.targetLabelBadge}>
-                <Text style={styles.targetLabel}>
-                  Posicione o topo da carta aqui
-                </Text>
-              </View>
+{/* Center Virtual Bounding Box (only rendered when camera is active, pointerEvents="none") */ }
+<View style={styles.centerOverlay} pointerEvents="none">
+  {cameraCaps.hasCamera && (
+    <View style={styles.targetWrapper}>
+      {/* Label placed OUTSIDE and ABOVE the dotted box */}
+      <View style={styles.targetLabelBadge}>
+        <Text style={styles.targetLabel}>
+          Posicione o topo da carta aqui
+        </Text>
+      </View>
 
-                  {/* Dotted Target Box with Translucent Watermark Guide */}
-                  <View
-                    style={[
-                      styles.cardTargetBox,
-                      activeMatch && isPlaying && styles.cardTargetBoxActive,
-                    ]}
-                  >
-                    <View style={[styles.corner, styles.cornerTL]} />
-                    <View style={[styles.corner, styles.cornerTR]} />
-                    <View style={[styles.corner, styles.cornerBL]} />
-                    <View style={[styles.corner, styles.cornerBR]} />
+      {/* Dotted Target Box with Translucent Watermark Guide */}
+      <View
+        style={[
+          styles.cardTargetBox,
+          activeMatch && isPlaying && styles.cardTargetBoxActive,
+        ]}
+      >
+        <View style={[styles.corner, styles.cornerTL]} />
+        <View style={[styles.corner, styles.cornerTR]} />
+        <View style={[styles.corner, styles.cornerBL]} />
+        <View style={[styles.corner, styles.cornerBR]} />
 
-                    {/* Translucent alignment watermark guide */}
-                    <View style={styles.watermarkGuide}>
-                      <View style={styles.watermarkHeaderBox}>
-                        <Feather
-                          name="feather"
-                          size={20}
-                          color="rgba(255, 255, 255, 0.22)"
-                        />
-                        <View style={styles.watermarkTextLine} />
-                      </View>
-                    </View>
-                  </View>
-                </View>
-              )}
-            </View>
-
-            {/* Bottom Area: Recent Birds Strip and Active Bird Card */}
-            <View style={styles.bottomStack} pointerEvents="box-none">
-              {recentBirds.length > 0 && (
-                <View style={styles.recentBar}>
-                  <Text style={styles.recentLabel}>Recentes na mesa:</Text>
-                  <ScrollView
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={styles.recentChipsRow}
-                  >
-                    {recentBirds.map((bird) => {
-                      const active = isPlaying && playingBirdId === bird.id;
-                      return (
-                        <TouchableOpacity
-                          key={bird.id}
-                          onPress={() => handleReplayRecentBird(bird)}
-                          style={[
-                            styles.recentChip,
-                            active && styles.recentChipActive,
-                          ]}
-                          accessibilityRole="button"
-                          accessibilityLabel={`Ouvir novamente ${bird.name_pt}`}
-                        >
-                          <Feather
-                            name={active ? 'volume-2' : 'rotate-ccw'}
-                            size={13}
-                            color={active ? colors.onPrimary : colors.textTaxonomic}
-                          />
-                          <Text
-                            style={[
-                              styles.recentChipText,
-                              active && { color: colors.onPrimary },
-                            ]}
-                          >
-                            {bird.name_pt}
-                          </Text>
-                        </TouchableOpacity>
-                      );
-                    })}
-                  </ScrollView>
-                </View>
-              )}
-
-              {activeMatch && (
-                <View style={styles.bottomCardWrapper}>
-                  <BirdPlayingCard
-                    bird={activeMatch.bird}
-                    isPlaying={isPlaying && playingBirdId === activeMatch.bird.id}
-                    score={activeMatch.score}
-                    matchedText={activeMatch.matchedText}
-                    cooldownActive={cooldownNotice}
-                    onTogglePlay={onTogglePlayBird}
-                    onDismiss={() => onSelectMatch(null)}
-                  />
-                </View>
-              )}
-            </View>
+        {/* Translucent alignment watermark guide */}
+        <View style={styles.watermarkGuide}>
+          <View style={styles.watermarkHeaderBox}>
+            <Feather
+              name="feather"
+              size={20}
+              color="rgba(255, 255, 255, 0.22)"
+            />
+            <View style={styles.watermarkTextLine} />
           </View>
+        </View>
+      </View>
+    </View>
+  )}
+</View>
+
+{/* Bottom Area: Recent Birds Strip and Active Bird Card */ }
+<View style={styles.bottomStack} pointerEvents="box-none">
+  {recentBirds.length > 0 && (
+    <View style={styles.recentBar}>
+      <Text style={styles.recentLabel}>Recentes na mesa:</Text>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.recentChipsRow}
+      >
+        {recentBirds.map((bird) => {
+          const active = isPlaying && playingBirdId === bird.id;
+          return (
+            <TouchableOpacity
+              key={bird.id}
+              onPress={() => handleReplayRecentBird(bird)}
+              style={[
+                styles.recentChip,
+                active && styles.recentChipActive,
+              ]}
+              accessibilityRole="button"
+              accessibilityLabel={`Ouvir novamente ${bird.name_pt}`}
+            >
+              <Feather
+                name={active ? 'volume-2' : 'rotate-ccw'}
+                size={13}
+                color={active ? colors.onPrimary : colors.textTaxonomic}
+              />
+              <Text
+                style={[
+                  styles.recentChipText,
+                  active && { color: colors.onPrimary },
+                ]}
+              >
+                {bird.name_pt}
+              </Text>
+            </TouchableOpacity>
+          );
+        })}
+      </ScrollView>
+    </View>
+  )}
+
+  {activeMatch && (
+    <View style={styles.bottomCardWrapper}>
+      <BirdPlayingCard
+        bird={activeMatch.bird}
+        isPlaying={isPlaying && playingBirdId === activeMatch.bird.id}
+        score={activeMatch.score}
+        matchedText={activeMatch.matchedText}
+        cooldownActive={cooldownNotice}
+        onTogglePlay={onTogglePlayBird}
+        onDismiss={() => onSelectMatch(null)}
+      />
+    </View>
+  )}
+</View>
+          </View >
         );
 }
 
-        const styles = StyleSheet.create({
-          container: {
-          flex: 1,
-        backgroundColor: colors.canvas,
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.canvas,
   },
-        topOverlay: {
-          paddingTop: spacing.sm,
-        paddingHorizontal: spacing.md,
-        gap: spacing.xs,
-        zIndex: 10,
+  topOverlay: {
+    paddingTop: spacing.sm,
+    paddingHorizontal: spacing.md,
+    gap: spacing.xs,
+    zIndex: 10,
   },
-        quickActionsRow: {
-          flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'flex-end',
-        gap: 8,
+  quickActionsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-end',
+    gap: 8,
   },
-        actionBtn: {
-          minHeight: 44,
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 6,
-        backgroundColor: colors.surfaceOverlay,
-        paddingHorizontal: 14,
-        borderRadius: 999,
-        borderWidth: 1,
-        borderColor: colors.border,
+  actionBtn: {
+    minHeight: 44,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: colors.surfaceOverlay,
+    paddingHorizontal: 14,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: colors.border,
   },
-        actionBtnActive: {
-          backgroundColor: colors.primary,
+  actionBtnActive: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primaryBorder,
+  },
+  actionBtnWarn: {
+    backgroundColor: colors.warningSurface,
+    borderColor: colors.warningBorder,
+  },
+  actionBtnText: {
+    color: colors.textPrimary,
+  fontSize: typeScale.label,
+  fontWeight: '700',
+  fontFamily: fonts.sans,
+},
+  centerOverlay: {
+  flex: 1,
+  justifyContent: 'center',
+  alignItems: 'center',
+  paddingHorizontal: spacing.lg,
+},
+  targetWrapper: {
+  width: '88%',
+  maxWidth: 460,
+  alignItems: 'center',
+},
+  targetLabelBadge: {
+  marginBottom: 12,
+},
+  targetLabel: {
+  color: colors.textPrimary,
+  backgroundColor: colors.surfaceOverlay,
+  paddingHorizontal: 14,
+  paddingVertical: 6,
+  borderRadius: 8,
+  fontWeight: '700',
+  fontSize: typeScale.body,
+  fontFamily: fonts.serif,
+  overflow: 'hidden',
+  borderWidth: 1,
+  borderColor: colors.border,
+        },
+cardTargetBox: {
+  width: '100%',
+    height: 155,
+      borderWidth: 2,
+        borderColor: colors.primaryBorder,
+          borderStyle: 'dashed',
+            borderRadius: 16,
+              backgroundColor: 'rgba(45, 106, 79, 0.10)',
+                justifyContent: 'center',
+                  alignItems: 'center',
+                    paddingHorizontal: spacing.md,
+                      position: 'relative',
+  },
+cardTargetBoxActive: {
+  borderColor: colors.textTaxonomic,
+    backgroundColor: 'rgba(82, 183, 136, 0.18)',
+  },
+corner: {
+  position: 'absolute',
+    width: 20,
+      height: 20,
         borderColor: colors.primaryBorder,
   },
-        actionBtnWarn: {
-          backgroundColor: colors.warningSurface,
-        borderColor: colors.warningBorder,
-  },
-        actionBtnText: {
-          color: colors.textPrimary,
-        fontSize: typeScale.label,
-        fontWeight: '700',
-  },
-        centerOverlay: {
-          flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: spacing.lg,
-  },
-          targetWrapper: {
-          width: '88%',
-        maxWidth: 460,
-        alignItems: 'center',
-  },
-        targetLabelBadge: {
-          marginBottom: 12,
-  },
-        targetLabel: {
-          color: colors.textPrimary,
-        backgroundColor: colors.surfaceOverlay,
-        paddingHorizontal: 14,
-        paddingVertical: 6,
-        borderRadius: 8,
-        fontWeight: '700',
-        fontSize: typeScale.body,
-        overflow: 'hidden',
-        borderWidth: 1,
-        borderColor: colors.border,
-  },
-        cardTargetBox: {
-          width: '100%',
-        height: 155,
-        borderWidth: 2,
-        borderColor: colors.primaryBorder,
-        borderStyle: 'dashed',
-        borderRadius: 16,
-        backgroundColor: 'rgba(45, 106, 79, 0.10)',
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: spacing.md,
-        position: 'relative',
-  },
-        cardTargetBoxActive: {
-          borderColor: colors.textTaxonomic,
-        backgroundColor: 'rgba(82, 183, 136, 0.18)',
-  },
-        corner: {
-          position: 'absolute',
-        width: 20,
-        height: 20,
-        borderColor: colors.primaryBorder,
-  },
-        cornerTL: {
-          top: -2,
-        left: -2,
-        borderTopWidth: 4,
+cornerTL: {
+  top: -2,
+    left: -2,
+      borderTopWidth: 4,
         borderLeftWidth: 4,
-        borderTopLeftRadius: 12,
+          borderTopLeftRadius: 12,
   },
-        cornerTR: {
-          top: -2,
-        right: -2,
-        borderTopWidth: 4,
+cornerTR: {
+  top: -2,
+    right: -2,
+      borderTopWidth: 4,
         borderRightWidth: 4,
-        borderTopRightRadius: 12,
+          borderTopRightRadius: 12,
   },
-        cornerBL: {
-          bottom: -2,
-        left: -2,
-        borderBottomWidth: 4,
+cornerBL: {
+  bottom: -2,
+    left: -2,
+      borderBottomWidth: 4,
         borderLeftWidth: 4,
-        borderBottomLeftRadius: 12,
+          borderBottomLeftRadius: 12,
   },
-        cornerBR: {
-          bottom: -2,
-        right: -2,
-        borderBottomWidth: 4,
+cornerBR: {
+  bottom: -2,
+    right: -2,
+      borderBottomWidth: 4,
         borderRightWidth: 4,
-        borderBottomRightRadius: 12,
+          borderBottomRightRadius: 12,
   },
-        watermarkGuide: {
-          width: '86%',
-        alignItems: 'center',
-        justifyContent: 'center',
+watermarkGuide: {
+  width: '86%',
+    alignItems: 'center',
+      justifyContent: 'center',
   },
-        watermarkHeaderBox: {
-          flexDirection: 'row',
-        alignItems: 'center',
-        width: '100%',
+watermarkHeaderBox: {
+  flexDirection: 'row',
+    alignItems: 'center',
+      width: '100%',
         height: 40,
-        borderRadius: 10,
-        borderWidth: 1.5,
-        borderColor: 'rgba(255, 255, 255, 0.16)',
-        backgroundColor: 'rgba(255, 255, 255, 0.04)',
-        paddingHorizontal: 12,
-        gap: 10,
+          borderRadius: 10,
+            borderWidth: 1.5,
+              borderColor: 'rgba(255, 255, 255, 0.16)',
+                backgroundColor: 'rgba(255, 255, 255, 0.04)',
+                  paddingHorizontal: 12,
+                    gap: 10,
   },
-        watermarkTextLine: {
-          flex: 1,
-        height: 8,
-        borderRadius: 4,
+watermarkTextLine: {
+  flex: 1,
+    height: 8,
+      borderRadius: 4,
         backgroundColor: 'rgba(255, 255, 255, 0.14)',
   },
-        bottomStack: {
-          zIndex: 10,
+bottomStack: {
+  zIndex: 10,
   },
-        recentBar: {
-          flexDirection: 'row',
-        alignItems: 'center',
-        paddingHorizontal: spacing.md,
+recentBar: {
+  flexDirection: 'row',
+    alignItems: 'center',
+      paddingHorizontal: spacing.md,
         paddingBottom: spacing.xs,
-        gap: 8,
-  },
-        recentLabel: {
-          color: colors.textSecondary,
-        fontSize: typeScale.caption,
-        fontWeight: '700',
-  },
-        recentChipsRow: {
           gap: 8,
-        alignItems: 'center',
   },
-        recentChip: {
-          minHeight: 38,
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 6,
-        backgroundColor: colors.surfaceOverlay,
+recentLabel: {
+  color: colors.textSecondary,
+fontSize: typeScale.caption,
+  fontWeight: '700',
+    fontFamily: fonts.serif,
+      letterSpacing: 0.5,
+        },
+recentChipsRow: {
+  gap: 8,
+alignItems: 'center',
+        },
+recentChip: {
+  minHeight: 38,
+flexDirection: 'row',
+  alignItems: 'center',
+    gap: 6,
+      backgroundColor: colors.surfaceOverlay,
         borderWidth: 1,
-        borderColor: colors.border,
-        paddingHorizontal: 12,
-        borderRadius: 999,
-  },
-        recentChipActive: {
-          backgroundColor: colors.primary,
-        borderColor: colors.primaryBorder,
-  },
-        recentChipText: {
-          color: colors.textPrimary,
-        fontSize: typeScale.caption,
-        fontWeight: '700',
-  },
-        bottomCardWrapper: {
-          paddingHorizontal: spacing.md,
-        paddingBottom: spacing.sm,
+          borderColor: colors.border,
+            paddingHorizontal: 12,
+              borderRadius: 999,
+        },
+recentChipActive: {
+  backgroundColor: colors.primary,
+borderColor: colors.primaryBorder,
+        },
+recentChipText: {
+  color: colors.textPrimary,
+fontSize: typeScale.caption,
+  fontWeight: '600',
+    fontFamily: fonts.sans,
+        },
+bottomCardWrapper: {
+  paddingHorizontal: spacing.md,
+    paddingBottom: spacing.sm,
   },
 });

@@ -15,7 +15,7 @@ import {
   View,
 } from 'react-native';
 import { WebView, WebViewMessageEvent } from 'react-native-webview';
-import { colors, MIN_TOUCH_TARGET, spacing, typeScale } from '../theme/tokens';
+import { colors, fonts, MIN_TOUCH_TARGET, spacing, typeScale } from '../theme/tokens';
 import { DEFAULT_TARGET_BOX } from '../utils/boundingBoxFilter';
 import { LiveCameraScannerProps } from './LiveCameraScanner.types';
 
@@ -489,6 +489,7 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     fontSize: typeScale.display,
     fontWeight: '800',
+    fontFamily: fonts.serif,
     textAlign: 'center',
     marginBottom: spacing.xs,
   },

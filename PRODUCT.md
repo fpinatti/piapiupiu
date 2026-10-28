@@ -4,7 +4,7 @@
 
 ## Platform
 
-adaptive (Android & iOS via Expo SDK 58 / Expo Go + Web via `react-native-web`)
+adaptive
 
 ## Users
 

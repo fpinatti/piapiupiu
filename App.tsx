@@ -19,6 +19,7 @@ import { audioService } from './src/services/audioService';
 import { BirdMatcher } from './src/services/birdMatcher';
 import {
   colors,
+  fonts,
   MIN_TOUCH_TARGET,
   spacing,
   typeScale,
@@ -98,16 +99,18 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.safeArea}>
-        <StatusBar style="light" />
+        <StatusBar style="dark" />
 
-        {/* Compact Top App Header */}
+        {/* Naturalist Field Guide Header */}
         <View style={styles.header}>
           <View style={styles.brandRow}>
-            <Feather name="feather" size={20} color={colors.textTaxonomic} />
+            <View style={styles.brandEmblem}>
+              <Feather name="feather" size={18} color={colors.primary} />
+            </View>
             <View>
               <Text style={styles.brandTitle}>Piupiu U</Text>
               <Text style={styles.brandSubtitle}>
-                Guia Sonoro e Visual para Wingspan
+                Guia Sonoro & Visual para Wingspan
               </Text>
             </View>
           </View>
@@ -171,7 +174,7 @@ export default function App() {
             </View>
           )}
 
-        {/* Thumb-Zone Bottom Navigation Bar */}
+        {/* Botanical Tab Navigation Bar */}
         <View style={styles.bottomNav} accessibilityRole="tablist">
           <TouchableOpacity
             onPress={() => setActiveTab('scanner')}
@@ -185,11 +188,11 @@ export default function App() {
           >
             <Feather
               name="camera"
-              size={20}
+              size={18}
               color={
                 activeTab === 'scanner'
-                  ? colors.textTaxonomic
-                  : colors.textSecondary
+                    ? colors.primary
+                    : colors.textSecondary
               }
             />
             <Text
@@ -214,11 +217,11 @@ export default function App() {
           >
             <Feather
               name="book-open"
-              size={20}
+              size={18}
               color={
                 activeTab === 'catalog'
-                  ? colors.textTaxonomic
-                  : colors.textSecondary
+                    ? colors.primary
+                    : colors.textSecondary
               }
             />
             <Text
@@ -248,7 +251,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.sm,
     backgroundColor: colors.surface,
-    borderBottomWidth: 1,
+    borderBottomWidth: 1.5,
     borderBottomColor: colors.border,
   },
   brandRow: {
@@ -256,16 +259,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 10,
   },
+  brandEmblem: {
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    backgroundColor: colors.surfaceSubtle,
+    borderWidth: 1,
+    borderColor: colors.border,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   brandTitle: {
+    fontFamily: fonts.serif,
     color: colors.textPrimary,
-    fontSize: typeScale.title,
-    fontWeight: '900',
-    letterSpacing: 0.3,
+    fontSize: typeScale.display,
+    fontWeight: '700',
+    letterSpacing: 0.2,
   },
   brandSubtitle: {
+    fontFamily: fonts.serif,
+    fontStyle: 'italic',
     color: colors.textSecondary,
     fontSize: typeScale.caption,
-    fontWeight: '500',
+    marginTop: 1,
   },
   content: {
     flex: 1,
@@ -274,12 +290,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: colors.surfaceElevated,
-    borderTopWidth: 1,
-    borderTopColor: colors.primaryBorder,
+    backgroundColor: colors.surface,
+    borderTopWidth: 1.5,
+    borderTopColor: colors.border,
     paddingHorizontal: spacing.md,
     paddingVertical: spacing.xs,
     gap: spacing.md,
+    shadowColor: '#2B1E12',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 6,
   },
   miniPlayerInfo: {
     flexDirection: 'row',
@@ -291,16 +311,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   miniPlayerTitle: {
+    fontFamily: fonts.serif,
     color: colors.textPrimary,
     fontSize: typeScale.label,
-    fontWeight: '800',
+    fontWeight: '700',
   },
   miniPlayerSubtitle: {
     color: colors.textSecondary,
     fontSize: typeScale.caption,
   },
   miniPlayerStopBtn: {
-    minHeight: 40,
+    minHeight: 38,
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
@@ -317,8 +338,8 @@ const styles = StyleSheet.create({
   },
   bottomNav: {
     flexDirection: 'row',
-    backgroundColor: colors.surface,
-    borderTopWidth: 1,
+    backgroundColor: colors.surfaceSubtle,
+    borderTopWidth: 1.5,
     borderTopColor: colors.border,
     paddingHorizontal: spacing.sm,
     paddingVertical: spacing.xs,
@@ -336,15 +357,22 @@ const styles = StyleSheet.create({
   },
   navTabActive: {
     backgroundColor: colors.surfaceElevated,
-    borderWidth: 1,
-    borderColor: colors.primaryBorder,
+    borderWidth: 1.5,
+    borderColor: colors.primary,
+    shadowColor: '#2B1E12',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 2,
   },
   navTabText: {
+    fontFamily: fonts.serif,
     color: colors.textSecondary,
     fontSize: typeScale.label,
-    fontWeight: '700',
+    fontWeight: '600',
   },
   navTabTextActive: {
-    color: colors.textPrimary,
+    color: colors.primary,
+    fontWeight: '700',
   },
 });

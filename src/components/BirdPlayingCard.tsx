@@ -4,6 +4,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
   colors,
   EXPANSION_THEME,
+  fonts,
   HABITAT_THEME,
   MIN_TOUCH_TARGET,
   spacing,
@@ -31,10 +32,23 @@ export function BirdPlayingCard({
   onDismiss,
 }: BirdPlayingCardProps) {
   const expansionInfo = EXPANSION_THEME[bird.expansion];
+  const primaryHabitat = bird.habitats?.[0];
+  const primaryHabTheme = primaryHabitat
+    ? HABITAT_THEME[primaryHabitat]
+    : undefined;
 
   return (
-    <View style={styles.card}>
-      <View style={styles.headerRow}>
+    <View style={styles.cardContainer}>
+      {/* Authentic Wingspan Watercolor Header Ribbon */}
+      <View
+        style={[
+          styles.cardHeaderRibbon,
+          primaryHabTheme && {
+            backgroundColor: primaryHabTheme.bg,
+            borderBottomColor: primaryHabTheme.border,
+          },
+        ]}
+      >
         <View style={styles.badgesRow}>
           {expansionInfo && (
             <View
@@ -46,7 +60,9 @@ export function BirdPlayingCard({
                 },
               ]}
             >
-              <Text style={[styles.expansionText, { color: expansionInfo.text }]}>
+              <Text
+                style={[styles.expansionText, { color: expansionInfo.text }]}
+              >
                 {expansionInfo.label}
               </Text>
             </View>
@@ -73,11 +89,11 @@ export function BirdPlayingCard({
           <View style={styles.statusBadge}>
             <Feather
               name={cooldownActive ? 'clock' : 'check-circle'}
-              size={12}
+              size={11}
               color={colors.textTaxonomic}
             />
             <Text style={styles.statusBadgeText}>
-              {cooldownActive ? 'Leitura recente' : 'Carta reconhecida'}
+              {cooldownActive ? 'Recente' : 'Identificada'}
             </Text>
           </View>
         </View>
@@ -90,75 +106,84 @@ export function BirdPlayingCard({
             accessibilityRole="button"
             accessibilityLabel="Fechar card da ave"
           >
-            <Feather name="x" size={20} color={colors.textSecondary} />
+            <Feather name="x" size={18} color={colors.textSecondary} />
           </TouchableOpacity>
         )}
       </View>
 
-      <View style={styles.mainRow}>
-        <BirdPhoto bird={bird} variant="hero" enableZoom />
+      {/* Main Card Body (Linen Texture Surface) */}
+      <View style={styles.cardBody}>
+        <View style={styles.mainRow}>
+          <View style={styles.photoFrame}>
+            <BirdPhoto bird={bird} variant="hero" enableZoom />
+          </View>
 
-        <View style={styles.namesColumn}>
-          <Text style={styles.namePt}>{bird.name_pt}</Text>
-          <Text style={styles.nameEn}>
-            {bird.name_en} •{' '}
-            <Text style={styles.scientific}>{bird.scientific}</Text>
-          </Text>
-          {matchedText ? (
-            <Text style={styles.ocrSourceText} numberOfLines={1}>
-              Lido no topo da carta: &ldquo;{matchedText}&rdquo;
+          <View style={styles.namesColumn}>
+            <Text style={styles.namePt}>{bird.name_pt}</Text>
+            <Text style={styles.nameEn}>
+              {bird.name_en} •{' '}
+              <Text style={styles.scientific}>{bird.scientific}</Text>
             </Text>
-          ) : null}
-        </View>
+            {matchedText ? (
+              <Text style={styles.ocrSourceText} numberOfLines={1}>
+                Lido na carta: &ldquo;{matchedText}&rdquo;
+              </Text>
+            ) : null}
+          </View>
 
-        <TouchableOpacity
-          onPress={() => onTogglePlay(bird)}
-          style={[styles.playButton, isPlaying && styles.playButtonActive]}
-          activeOpacity={0.8}
-          accessibilityRole="button"
-          accessibilityLabel={
-            isPlaying
-              ? `Parar canto de ${bird.name_pt}`
-              : `Ouvir canto de ${bird.name_pt}`
-          }
-        >
-          <Feather
-            name={isPlaying ? 'square' : 'volume-2'}
-            size={18}
-            color={isPlaying ? colors.onDanger : colors.onPrimary}
-          />
-          <Text
-            style={[
-              styles.playButtonLabel,
-              isPlaying && { color: colors.onDanger },
-            ]}
+          <TouchableOpacity
+            onPress={() => onTogglePlay(bird)}
+            style={[styles.playButton, isPlaying && styles.playButtonActive]}
+            activeOpacity={0.85}
+            accessibilityRole="button"
+            accessibilityLabel={
+              isPlaying
+                ? `Parar canto de ${bird.name_pt}`
+                : `Ouvir canto de ${bird.name_pt}`
+            }
           >
-            {isPlaying ? 'Parar' : 'Ouvir'}
-          </Text>
-        </TouchableOpacity>
+            <Feather
+              name={isPlaying ? 'square' : 'volume-2'}
+              size={18}
+              color={isPlaying ? colors.onDanger : colors.onPrimary}
+            />
+            <Text
+              style={[
+                styles.playButtonLabel,
+                isPlaying && { color: colors.onDanger },
+              ]}
+            >
+              {isPlaying ? 'Parar' : 'Ouvir'}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
+  cardContainer: {
     backgroundColor: colors.surface,
     borderRadius: 18,
-    padding: spacing.md,
     borderWidth: 1.5,
-    borderColor: colors.primaryBorder,
-    shadowColor: '#000',
+    borderColor: colors.border,
+    shadowColor: '#2B1E12',
     shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.38,
-    shadowRadius: 12,
-    elevation: 8,
+    shadowOpacity: 0.16,
+    shadowRadius: 14,
+    elevation: 6,
+    overflow: 'hidden',
   },
-  headerRow: {
+  cardHeaderRibbon: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: spacing.xs,
+    paddingHorizontal: spacing.md,
+    paddingVertical: 7,
+    backgroundColor: colors.surfaceSubtle,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.borderSubtle,
   },
   badgesRow: {
     flexDirection: 'row',
@@ -169,7 +194,7 @@ const styles = StyleSheet.create({
   },
   expansionBadge: {
     paddingHorizontal: 8,
-    paddingVertical: 3,
+    paddingVertical: 2.5,
     borderRadius: 6,
     borderWidth: 1,
   },
@@ -179,22 +204,24 @@ const styles = StyleSheet.create({
   },
   habitatBadge: {
     paddingHorizontal: 8,
-    paddingVertical: 3,
+    paddingVertical: 2.5,
     borderRadius: 6,
     borderWidth: 1,
   },
   habitatText: {
     fontSize: typeScale.caption,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   statusBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
-    backgroundColor: colors.surfaceSubtle,
-    paddingHorizontal: 8,
-    paddingVertical: 3,
+    backgroundColor: 'rgba(255, 255, 255, 0.70)',
+    paddingHorizontal: 7,
+    paddingVertical: 2.5,
     borderRadius: 6,
+    borderWidth: 1,
+    borderColor: colors.borderSubtle,
   },
   statusBadgeText: {
     color: colors.textTaxonomic,
@@ -202,11 +229,17 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   closeBtn: {
-    minWidth: 44,
-    minHeight: 44,
+    minWidth: 36,
+    minHeight: 36,
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: 4,
+    borderRadius: 18,
+    backgroundColor: 'rgba(255, 255, 255, 0.65)',
+    marginLeft: 6,
+  },
+  cardBody: {
+    padding: spacing.md,
+    backgroundColor: colors.surface,
   },
   mainRow: {
     flexDirection: 'row',
@@ -214,15 +247,29 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: spacing.md,
   },
+  photoFrame: {
+    borderRadius: 16,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    padding: 2,
+    backgroundColor: '#FFFFFF',
+    shadowColor: '#2B1E12',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+  },
   namesColumn: {
     flex: 1,
   },
   namePt: {
+    fontFamily: fonts.serif,
     color: colors.textPrimary,
     fontSize: typeScale.display,
-    fontWeight: '800',
+    fontWeight: '700',
+    letterSpacing: 0.2,
   },
   nameEn: {
+    fontFamily: fonts.serif,
     color: colors.textSecondary,
     fontSize: typeScale.label,
     marginTop: 3,
@@ -233,21 +280,25 @@ const styles = StyleSheet.create({
   },
   ocrSourceText: {
     color: colors.textMuted,
-    fontSize: typeScale.caption,
-    marginTop: 5,
+    fontSize: 11,
+    marginTop: 4,
   },
   playButton: {
     minHeight: MIN_TOUCH_TARGET,
-    minWidth: 108,
+    minWidth: 96,
     backgroundColor: colors.primary,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: colors.primaryBorder,
     paddingHorizontal: spacing.md,
     borderRadius: 14,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 8,
+    gap: 7,
+    shadowColor: '#173627',
+    shadowOffset: { width: 0, height: 3 },
+    shadowOpacity: 0.18,
+    shadowRadius: 5,
   },
   playButtonActive: {
     backgroundColor: colors.dangerSurface,
@@ -257,5 +308,6 @@ const styles = StyleSheet.create({
     color: colors.onPrimary,
     fontSize: typeScale.label,
     fontWeight: '800',
+    letterSpacing: 0.3,
   },
 });
