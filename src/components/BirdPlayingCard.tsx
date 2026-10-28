@@ -1,34 +1,35 @@
+import { Feather } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  colors,
+  EXPANSION_THEME,
+  HABITAT_THEME,
+  MIN_TOUCH_TARGET,
+  spacing,
+  typeScale,
+} from '../theme/tokens';
 import { BirdCard } from '../types/bird';
-import { EXPANSION_META } from './FilterBar';
 
 interface BirdPlayingCardProps {
   bird: BirdCard;
   isPlaying: boolean;
   score?: number;
   matchedText?: string;
+  cooldownActive?: boolean;
   onTogglePlay: (bird: BirdCard) => void;
   onDismiss?: () => void;
 }
 
-const HABITAT_LABELS: Record<string, string> = {
-  forest: 'Floresta',
-  grassland: 'Campo',
-  wetland: 'Água',
-};
-
 export function BirdPlayingCard({
   bird,
   isPlaying,
-  score,
   matchedText,
+  cooldownActive = false,
   onTogglePlay,
   onDismiss,
 }: BirdPlayingCardProps) {
-  const expansionInfo = EXPANSION_META.find((e) => e.id === bird.expansion);
-  const confidencePct =
-    score !== undefined ? Math.max(1, Math.round((1 - score) * 100)) : null;
+  const expansionInfo = EXPANSION_THEME[bird.expansion];
 
   return (
     <View style={styles.card}>
@@ -39,31 +40,56 @@ export function BirdPlayingCard({
               style={[
                 styles.expansionBadge,
                 {
-                  backgroundColor: expansionInfo.color + '28',
-                  borderColor: expansionInfo.color,
+                  backgroundColor: expansionInfo.bg,
+                  borderColor: expansionInfo.border,
                 },
               ]}
             >
-              <Text style={[styles.expansionText, { color: expansionInfo.color }]}>
-                {expansionInfo.label.toUpperCase()}
+              <Text style={[styles.expansionText, { color: expansionInfo.text }]}>
+                {expansionInfo.label}
               </Text>
             </View>
           )}
-          {bird.habitats?.map((h) => (
-            <View key={h} style={styles.habitatBadge}>
-              <Text style={styles.habitatText}>{HABITAT_LABELS[h] || h}</Text>
-            </View>
-          ))}
-          {confidencePct !== null && (
-            <View style={styles.confidenceBadge}>
-              <Text style={styles.confidenceText}>OCR {confidencePct}%</Text>
-            </View>
-          )}
+
+          {bird.habitats?.map((h) => {
+            const hab = HABITAT_THEME[h];
+            if (!hab) return null;
+            return (
+              <View
+                key={h}
+                style={[
+                  styles.habitatBadge,
+                  { backgroundColor: hab.bg, borderColor: hab.border },
+                ]}
+              >
+                <Text style={[styles.habitatText, { color: hab.text }]}>
+                  {hab.label}
+                </Text>
+              </View>
+            );
+          })}
+
+          <View style={styles.statusBadge}>
+            <Feather
+              name={cooldownActive ? 'clock' : 'check-circle'}
+              size={12}
+              color={colors.textTaxonomic}
+            />
+            <Text style={styles.statusBadgeText}>
+              {cooldownActive ? 'Leitura recente' : 'Carta reconhecida'}
+            </Text>
+          </View>
         </View>
 
         {onDismiss && (
-          <TouchableOpacity onPress={onDismiss} style={styles.closeBtn}>
-            <Text style={styles.closeBtnText}>✕</Text>
+          <TouchableOpacity
+            onPress={onDismiss}
+            style={styles.closeBtn}
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            accessibilityRole="button"
+            accessibilityLabel="Fechar card da ave"
+          >
+            <Feather name="x" size={20} color={colors.textSecondary} />
           </TouchableOpacity>
         )}
       </View>
@@ -72,7 +98,8 @@ export function BirdPlayingCard({
         <View style={styles.namesColumn}>
           <Text style={styles.namePt}>{bird.name_pt}</Text>
           <Text style={styles.nameEn}>
-            {bird.name_en} • <Text style={styles.scientific}>{bird.scientific}</Text>
+            {bird.name_en} •{' '}
+            <Text style={styles.scientific}>{bird.scientific}</Text>
           </Text>
           {matchedText ? (
             <Text style={styles.ocrSourceText} numberOfLines={1}>
@@ -85,9 +112,24 @@ export function BirdPlayingCard({
           onPress={() => onTogglePlay(bird)}
           style={[styles.playButton, isPlaying && styles.playButtonActive]}
           activeOpacity={0.8}
+          accessibilityRole="button"
+          accessibilityLabel={
+            isPlaying
+              ? `Parar canto de ${bird.name_pt}`
+              : `Ouvir canto de ${bird.name_pt}`
+          }
         >
-          <Text style={styles.playButtonIcon}>{isPlaying ? '■' : '▶'}</Text>
-          <Text style={styles.playButtonLabel}>
+          <Feather
+            name={isPlaying ? 'square' : 'volume-2'}
+            size={18}
+            color={isPlaying ? colors.onDanger : colors.onPrimary}
+          />
+          <Text
+            style={[
+              styles.playButtonLabel,
+              isPlaying && { color: colors.onDanger },
+            ]}
+          >
             {isPlaying ? 'Parar' : 'Ouvir'}
           </Text>
         </TouchableOpacity>
@@ -98,120 +140,119 @@ export function BirdPlayingCard({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#111827',
+    backgroundColor: colors.surface,
     borderRadius: 18,
-    padding: 16,
+    padding: spacing.md,
     borderWidth: 1.5,
-    borderColor: '#10b981',
+    borderColor: colors.primaryBorder,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.35,
-    shadowRadius: 10,
+    shadowOpacity: 0.38,
+    shadowRadius: 12,
     elevation: 8,
   },
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: spacing.xs,
   },
   badgesRow: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: 6,
     alignItems: 'center',
+    flex: 1,
   },
   expansionBadge: {
     paddingHorizontal: 8,
-    paddingVertical: 2,
+    paddingVertical: 3,
     borderRadius: 6,
     borderWidth: 1,
   },
   expansionText: {
-    fontSize: 10,
-    fontWeight: '800',
-    letterSpacing: 0.5,
+    fontSize: typeScale.caption,
+    fontWeight: '700',
   },
   habitatBadge: {
-    backgroundColor: '#1f2937',
     paddingHorizontal: 8,
-    paddingVertical: 2,
+    paddingVertical: 3,
     borderRadius: 6,
+    borderWidth: 1,
   },
   habitatText: {
-    color: '#d1d5db',
-    fontSize: 10,
+    fontSize: typeScale.caption,
     fontWeight: '600',
   },
-  confidenceBadge: {
-    backgroundColor: '#064e3b',
-    paddingHorizontal: 7,
-    paddingVertical: 2,
+  statusBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    backgroundColor: colors.surfaceSubtle,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
     borderRadius: 6,
   },
-  confidenceText: {
-    color: '#6ee7b7',
-    fontSize: 10,
-    fontWeight: '700',
+  statusBadgeText: {
+    color: colors.textTaxonomic,
+    fontSize: typeScale.caption,
+    fontWeight: '600',
   },
   closeBtn: {
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-  },
-  closeBtnText: {
-    color: '#9ca3af',
-    fontSize: 15,
-    fontWeight: '700',
+    minWidth: 44,
+    minHeight: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 4,
   },
   mainRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    gap: 12,
+    gap: spacing.md,
   },
   namesColumn: {
     flex: 1,
   },
   namePt: {
-    color: '#f9fafb',
-    fontSize: 19,
+    color: colors.textPrimary,
+    fontSize: typeScale.display,
     fontWeight: '800',
   },
   nameEn: {
-    color: '#9ca3af',
-    fontSize: 13,
-    marginTop: 2,
+    color: colors.textSecondary,
+    fontSize: typeScale.label,
+    marginTop: 3,
   },
   scientific: {
     fontStyle: 'italic',
-    color: '#6ee7b7',
+    color: colors.textTaxonomic,
   },
   ocrSourceText: {
-    color: '#6b7280',
-    fontSize: 11,
-    marginTop: 4,
+    color: colors.textMuted,
+    fontSize: typeScale.caption,
+    marginTop: 5,
   },
   playButton: {
-    backgroundColor: '#10b981',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    minHeight: MIN_TOUCH_TARGET,
+    minWidth: 108,
+    backgroundColor: colors.primary,
+    borderWidth: 1,
+    borderColor: colors.primaryBorder,
+    paddingHorizontal: spacing.md,
     borderRadius: 14,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    justifyContent: 'center',
+    gap: 8,
   },
   playButtonActive: {
-    backgroundColor: '#ef4444',
-  },
-  playButtonIcon: {
-    color: '#ffffff',
-    fontSize: 14,
-    fontWeight: '900',
+    backgroundColor: colors.dangerSurface,
+    borderColor: colors.dangerBorder,
   },
   playButtonLabel: {
-    color: '#ffffff',
-    fontSize: 13,
+    color: colors.onPrimary,
+    fontSize: typeScale.label,
     fontWeight: '800',
   },
 });
-

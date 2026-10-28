@@ -1,3 +1,4 @@
+import { Feather } from '@expo/vector-icons';
 import React, { useMemo, useState } from 'react';
 import {
   FlatList,
@@ -5,10 +6,19 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  useWindowDimensions,
   View,
 } from 'react-native';
-import { EXPANSION_META, FilterBar } from '../components/FilterBar';
+import { FilterBar } from '../components/FilterBar';
 import { BirdMatcher } from '../services/birdMatcher';
+import {
+  colors,
+  EXPANSION_THEME,
+  HABITAT_THEME,
+  MIN_TOUCH_TARGET,
+  spacing,
+  typeScale,
+} from '../theme/tokens';
 import { AppLanguage, BirdCard, ExpansionId } from '../types/bird';
 
 interface CatalogScreenProps {
@@ -33,6 +43,8 @@ export function CatalogScreen({
   onTogglePlayBird,
 }: CatalogScreenProps) {
   const [searchQuery, setSearchQuery] = useState('');
+  const { width } = useWindowDimensions();
+  const numColumns = width >= 768 ? 2 : 1;
 
   const results = useMemo(() => {
     return matcher.searchCatalog(searchQuery);
@@ -48,37 +60,46 @@ export function CatalogScreen({
       />
 
       <View style={styles.searchBarWrapper}>
-        <TextInput
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-          placeholder="Buscar ave em PT-BR, Inglês ou Nome Científico..."
-          placeholderTextColor="#6b7280"
-          style={styles.searchInput}
-          autoCorrect={false}
-        />
-        {searchQuery.length > 0 && (
-          <TouchableOpacity
-            onPress={() => setSearchQuery('')}
-            style={styles.clearBtn}
-          >
-            <Text style={styles.clearBtnText}>Limpar</Text>
-          </TouchableOpacity>
-        )}
+        <View style={styles.searchInputContainer}>
+          <Feather name="search" size={18} color={colors.textMuted} />
+          <TextInput
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+            placeholder="Buscar ave em PT-BR, Inglês ou Latim..."
+            placeholderTextColor={colors.textMuted}
+            style={styles.searchInput}
+            autoCorrect={false}
+          />
+          {searchQuery.length > 0 && (
+            <TouchableOpacity
+              onPress={() => setSearchQuery('')}
+              style={styles.clearBtn}
+              accessibilityRole="button"
+              accessibilityLabel="Limpar busca"
+            >
+              <Feather name="x" size={18} color={colors.textSecondary} />
+            </TouchableOpacity>
+          )}
+        </View>
       </View>
 
       <View style={styles.countRow}>
         <Text style={styles.countText}>
-          {results.length} {results.length === 1 ? 'ave encontrada' : 'aves encontradas'} (100% offline)
+          {results.length}{' '}
+          {results.length === 1 ? 'ave disponível' : 'aves disponíveis'} (100% offline)
         </Text>
       </View>
 
       <FlatList
+        key={`catalog-grid-${numColumns}`}
         data={results}
+        numColumns={numColumns}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContent}
+        columnWrapperStyle={numColumns > 1 ? styles.columnWrapper : undefined}
         renderItem={({ item }) => {
           const active = isPlaying && playingBirdId === item.id;
-          const expMeta = EXPANSION_META.find((e) => e.id === item.expansion);
+          const expMeta = EXPANSION_THEME[item.expansion];
           const primaryTitle =
             language === 'en' ? item.name_en : item.name_pt;
           const secondaryTitle =
@@ -87,33 +108,69 @@ export function CatalogScreen({
           return (
             <TouchableOpacity
               onPress={() => onTogglePlayBird(item)}
-              style={[styles.birdRow, active && styles.birdRowActive]}
+              style={[
+                styles.birdRow,
+                numColumns > 1 && styles.birdRowColumn,
+                active && styles.birdRowActive,
+              ]}
               activeOpacity={0.75}
+              accessibilityRole="button"
+              accessibilityLabel={
+                active
+                  ? `Parar canto de ${primaryTitle}`
+                  : `Ouvir canto de ${primaryTitle}`
+              }
             >
               <View style={styles.birdInfo}>
                 <View style={styles.titleLine}>
                   <Text style={styles.primaryName}>{primaryTitle}</Text>
-                  {expMeta && (
-                    <View
-                      style={[
-                        styles.expTag,
-                        {
-                          backgroundColor: expMeta.color + '24',
-                          borderColor: expMeta.color,
-                        },
-                      ]}
-                    >
-                      <Text style={[styles.expTagText, { color: expMeta.color }]}>
-                        {expMeta.label}
-                      </Text>
-                    </View>
-                  )}
                 </View>
 
                 <Text style={styles.secondaryName}>
                   {secondaryTitle} •{' '}
                   <Text style={styles.scientificName}>{item.scientific}</Text>
                 </Text>
+
+                <View style={styles.tagsRow}>
+                  {expMeta && (
+                    <View
+                      style={[
+                        styles.expTag,
+                        {
+                          backgroundColor: expMeta.bg,
+                          borderColor: expMeta.border,
+                        },
+                      ]}
+                    >
+                      <Text style={[styles.expTagText, { color: expMeta.text }]}>
+                        {expMeta.label}
+                      </Text>
+                    </View>
+                  )}
+
+                  {item.habitats?.map((h) => {
+                    const hab = HABITAT_THEME[h];
+                    if (!hab) return null;
+                    return (
+                      <View
+                        key={h}
+                        style={[
+                          styles.habitatTag,
+                          {
+                            backgroundColor: hab.bg,
+                            borderColor: hab.border,
+                          },
+                        ]}
+                      >
+                        <Text
+                          style={[styles.habitatTagText, { color: hab.text }]}
+                        >
+                          {hab.label}
+                        </Text>
+                      </View>
+                    );
+                  })}
+                </View>
               </View>
 
               <View
@@ -122,18 +179,21 @@ export function CatalogScreen({
                   active && styles.playCircleActive,
                 ]}
               >
-                <Text style={styles.playCircleIcon}>
-                  {active ? '■' : '▶'}
-                </Text>
+                <Feather
+                  name={active ? 'square' : 'volume-2'}
+                  size={18}
+                  color={active ? colors.onDanger : colors.textPrimary}
+                />
               </View>
             </TouchableOpacity>
           );
         }}
         ListEmptyComponent={
           <View style={styles.emptyBox}>
+            <Feather name="feather" size={28} color={colors.textMuted} />
             <Text style={styles.emptyTitle}>Nenhuma ave encontrada</Text>
             <Text style={styles.emptySubtitle}>
-              Tente outro termo ou ative mais expansões no filtro acima.
+              Tente outro nome ou ative mais expansões no filtro acima.
             </Text>
           </View>
         }
@@ -145,70 +205,74 @@ export function CatalogScreen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#090d16',
+    backgroundColor: colors.canvas,
   },
   searchBarWrapper: {
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.sm,
+    paddingBottom: spacing.xs,
+  },
+  searchInputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 14,
-    paddingTop: 12,
-    paddingBottom: 6,
-    gap: 8,
+    minHeight: MIN_TOUCH_TARGET,
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 12,
+    paddingHorizontal: spacing.md,
+    gap: 10,
   },
   searchInput: {
     flex: 1,
-    backgroundColor: '#111827',
-    borderWidth: 1,
-    borderColor: '#374151',
-    borderRadius: 12,
-    paddingHorizontal: 14,
+    color: colors.textPrimary,
+    fontSize: typeScale.body,
     paddingVertical: 10,
-    color: '#f9fafb',
-    fontSize: 14,
   },
   clearBtn: {
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    backgroundColor: '#1f2937',
-    borderRadius: 10,
-  },
-  clearBtnText: {
-    color: '#d1d5db',
-    fontSize: 12,
-    fontWeight: '600',
+    minWidth: 44,
+    minHeight: 44,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   countRow: {
-    paddingHorizontal: 16,
-    paddingBottom: 6,
+    paddingHorizontal: spacing.md,
+    paddingBottom: spacing.xs,
   },
   countText: {
-    color: '#6b7280',
-    fontSize: 12,
+    color: colors.textMuted,
+    fontSize: typeScale.caption,
     fontWeight: '600',
   },
   listContent: {
-    paddingHorizontal: 14,
-    paddingBottom: 24,
-    gap: 8,
+    paddingHorizontal: spacing.md,
+    paddingBottom: spacing.xl,
+    gap: 10,
+  },
+  columnWrapper: {
+    gap: 10,
   },
   birdRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: '#111827',
+    backgroundColor: colors.surface,
     borderRadius: 14,
-    paddingHorizontal: 14,
-    paddingVertical: 12,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.md,
     borderWidth: 1,
-    borderColor: '#1f2937',
+    borderColor: colors.border,
+  },
+  birdRowColumn: {
+    flex: 1,
   },
   birdRowActive: {
-    borderColor: '#10b981',
-    backgroundColor: '#064e3b33',
+    borderColor: colors.primaryBorder,
+    backgroundColor: colors.surfaceElevated,
   },
   birdInfo: {
     flex: 1,
-    marginRight: 12,
+    marginRight: spacing.md,
   },
   titleLine: {
     flexDirection: 'row',
@@ -217,62 +281,72 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   primaryName: {
-    color: '#f9fafb',
-    fontSize: 16,
-    fontWeight: '700',
+    color: colors.textPrimary,
+    fontSize: typeScale.title,
+    fontWeight: '800',
+  },
+  secondaryName: {
+    color: colors.textSecondary,
+    fontSize: typeScale.label,
+    marginTop: 3,
+  },
+  scientificName: {
+    fontStyle: 'italic',
+    color: colors.textTaxonomic,
+  },
+  tagsRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 6,
+    marginTop: 8,
   },
   expTag: {
-    paddingHorizontal: 7,
+    paddingHorizontal: 8,
     paddingVertical: 2,
     borderRadius: 6,
     borderWidth: 1,
   },
   expTagText: {
-    fontSize: 10,
+    fontSize: typeScale.caption,
     fontWeight: '700',
   },
-  secondaryName: {
-    color: '#9ca3af',
-    fontSize: 13,
-    marginTop: 3,
+  habitatTag: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 6,
+    borderWidth: 1,
   },
-  scientificName: {
-    fontStyle: 'italic',
-    color: '#6ee7b7',
+  habitatTagText: {
+    fontSize: typeScale.caption,
+    fontWeight: '600',
   },
   playCircle: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#1f2937',
+    width: MIN_TOUCH_TARGET,
+    height: MIN_TOUCH_TARGET,
+    borderRadius: MIN_TOUCH_TARGET / 2,
+    backgroundColor: colors.surfaceSubtle,
     borderWidth: 1,
-    borderColor: '#374151',
+    borderColor: colors.border,
     justifyContent: 'center',
     alignItems: 'center',
   },
   playCircleActive: {
-    backgroundColor: '#ef4444',
-    borderColor: '#f87171',
-  },
-  playCircleIcon: {
-    color: '#ffffff',
-    fontSize: 14,
-    fontWeight: '900',
+    backgroundColor: colors.dangerSurface,
+    borderColor: colors.dangerBorder,
   },
   emptyBox: {
-    paddingVertical: 48,
+    paddingVertical: 56,
     alignItems: 'center',
+    gap: 8,
   },
   emptyTitle: {
-    color: '#e5e7eb',
-    fontSize: 16,
+    color: colors.textPrimary,
+    fontSize: typeScale.title,
     fontWeight: '700',
   },
   emptySubtitle: {
-    color: '#9ca3af',
-    fontSize: 13,
-    marginTop: 4,
+    color: colors.textSecondary,
+    fontSize: typeScale.label,
     textAlign: 'center',
   },
 });
-

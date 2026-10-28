@@ -1,3 +1,4 @@
+import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
@@ -13,6 +14,12 @@ import { ScannerScreen } from './src/screens/ScannerScreen';
 import { audioService } from './src/services/audioService';
 import { BirdMatcher } from './src/services/birdMatcher';
 import {
+  colors,
+  MIN_TOUCH_TARGET,
+  spacing,
+  typeScale,
+} from './src/theme/tokens';
+import {
   AppLanguage,
   BirdCard,
   ExpansionId,
@@ -22,6 +29,7 @@ import {
 type ActiveTab = 'scanner' | 'catalog';
 
 const ALL_EXPANSIONS: ExpansionId[] = ['base', 'europe', 'oceania', 'asia'];
+const CATALOG_BIRDS = birdsCatalogJson as BirdCard[];
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('scanner');
@@ -29,13 +37,14 @@ export default function App() {
     useState<ExpansionId[]>(ALL_EXPANSIONS);
   const [language, setLanguage] = useState<AppLanguage>('all');
   const [activeMatch, setActiveMatch] = useState<ScanMatchResult | null>(null);
+  const [recentBirds, setRecentBirds] = useState<BirdCard[]>([]);
   const [playbackState, setPlaybackState] = useState<{
     isPlaying: boolean;
     birdId: string | null;
   }>({ isPlaying: false, birdId: null });
 
   const matcher = useMemo(() => {
-    return new BirdMatcher(birdsCatalogJson as BirdCard[], {
+    return new BirdMatcher(CATALOG_BIRDS, {
       threshold: 0.35,
       expansions: selectedExpansions,
       language,
@@ -62,7 +71,6 @@ export default function App() {
   const handleToggleExpansion = useCallback((expansion: ExpansionId) => {
     setSelectedExpansions((prev) => {
       if (prev.includes(expansion)) {
-        // Prevent deselecting all expansions at once
         if (prev.length === 1) return prev;
         return prev.filter((item) => item !== expansion);
       }
@@ -70,61 +78,48 @@ export default function App() {
     });
   }, []);
 
-  const handlePlayBird = useCallback((bird: BirdCard) => {
-    audioService.playBird(bird);
+  const handleRecordRecentBird = useCallback((bird: BirdCard) => {
+    setRecentBirds((prev) => {
+      const withoutCurrent = prev.filter((item) => item.id !== bird.id);
+      return [bird, ...withoutCurrent].slice(0, 5);
+    });
   }, []);
 
-  const handleTogglePlayBird = useCallback((bird: BirdCard) => {
-    audioService.toggleBird(bird);
-  }, []);
+  const handlePlayBird = useCallback(
+    (bird: BirdCard) => {
+      handleRecordRecentBird(bird);
+      audioService.playBird(bird);
+    },
+    [handleRecordRecentBird]
+  );
+
+  const handleTogglePlayBird = useCallback(
+    (bird: BirdCard) => {
+      handleRecordRecentBird(bird);
+      audioService.toggleBird(bird);
+    },
+    [handleRecordRecentBird]
+  );
+
+  const currentlyPlayingBird = useMemo(() => {
+    if (!playbackState.birdId) return null;
+    return CATALOG_BIRDS.find((b) => b.id === playbackState.birdId) ?? null;
+  }, [playbackState.birdId]);
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style="light" />
 
-      {/* App Header */}
+      {/* Compact Top App Header */}
       <View style={styles.header}>
-        <View>
-          <Text style={styles.brandTitle}>PiaPiuPiu</Text>
-          <Text style={styles.brandSubtitle}>
-            Wingsong Companion • OCR & Cantos Offline
-          </Text>
-        </View>
-
-        <View style={styles.tabSwitcher}>
-          <TouchableOpacity
-            onPress={() => setActiveTab('scanner')}
-            style={[
-              styles.tabButton,
-              activeTab === 'scanner' && styles.tabButtonActive,
-            ]}
-          >
-            <Text
-              style={[
-                styles.tabButtonText,
-                activeTab === 'scanner' && styles.tabButtonTextActive,
-              ]}
-            >
-              Scanner OCR
+        <View style={styles.brandRow}>
+          <Feather name="feather" size={20} color={colors.textTaxonomic} />
+          <View>
+            <Text style={styles.brandTitle}>PiaPiuPiu</Text>
+            <Text style={styles.brandSubtitle}>
+              Guia Sonoro Offline para Wingspan
             </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={() => setActiveTab('catalog')}
-            style={[
-              styles.tabButton,
-              activeTab === 'catalog' && styles.tabButtonActive,
-            ]}
-          >
-            <Text
-              style={[
-                styles.tabButtonText,
-                activeTab === 'catalog' && styles.tabButtonTextActive,
-              ]}
-            >
-              Catálogo ({(birdsCatalogJson as BirdCard[]).length})
-            </Text>
-          </TouchableOpacity>
+          </View>
         </View>
       </View>
 
@@ -139,6 +134,8 @@ export default function App() {
             onChangeLanguage={setLanguage}
             activeMatch={activeMatch}
             onSelectMatch={setActiveMatch}
+            recentBirds={recentBirds}
+            onRecordRecentBird={handleRecordRecentBird}
             isPlaying={playbackState.isPlaying}
             playingBirdId={playbackState.birdId}
             onPlayBird={handlePlayBird}
@@ -157,6 +154,101 @@ export default function App() {
           />
         )}
       </View>
+
+      {/* Persistent Mini-Player when audio is playing in Catalog */}
+      {activeTab === 'catalog' &&
+        playbackState.isPlaying &&
+        currentlyPlayingBird && (
+          <View style={styles.miniPlayer}>
+            <View style={styles.miniPlayerInfo}>
+              <Feather
+                name="volume-2"
+                size={18}
+                color={colors.textTaxonomic}
+              />
+              <View style={styles.miniPlayerTexts}>
+                <Text style={styles.miniPlayerTitle} numberOfLines={1}>
+                  Tocando: {currentlyPlayingBird.name_pt}
+                </Text>
+                <Text style={styles.miniPlayerSubtitle} numberOfLines={1}>
+                  {currentlyPlayingBird.name_en} •{' '}
+                  {currentlyPlayingBird.scientific}
+                </Text>
+              </View>
+            </View>
+
+            <TouchableOpacity
+              onPress={() => audioService.stop()}
+              style={styles.miniPlayerStopBtn}
+              accessibilityRole="button"
+              accessibilityLabel={`Parar canto de ${currentlyPlayingBird.name_pt}`}
+            >
+              <Feather name="square" size={15} color={colors.onDanger} />
+              <Text style={styles.miniPlayerStopText}>Parar</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+
+      {/* Thumb-Zone Bottom Navigation Bar */}
+      <View style={styles.bottomNav} accessibilityRole="tablist">
+        <TouchableOpacity
+          onPress={() => setActiveTab('scanner')}
+          style={[
+            styles.navTab,
+            activeTab === 'scanner' && styles.navTabActive,
+          ]}
+          accessibilityRole="tab"
+          accessibilityState={{ selected: activeTab === 'scanner' }}
+          accessibilityLabel="Scanner de Cartas"
+        >
+          <Feather
+            name="camera"
+            size={20}
+            color={
+              activeTab === 'scanner'
+                ? colors.textTaxonomic
+                : colors.textSecondary
+            }
+          />
+          <Text
+            style={[
+              styles.navTabText,
+              activeTab === 'scanner' && styles.navTabTextActive,
+            ]}
+          >
+            Scanner de Cartas
+          </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          onPress={() => setActiveTab('catalog')}
+          style={[
+            styles.navTab,
+            activeTab === 'catalog' && styles.navTabActive,
+          ]}
+          accessibilityRole="tab"
+          accessibilityState={{ selected: activeTab === 'catalog' }}
+          accessibilityLabel={`Catálogo de ${CATALOG_BIRDS.length} aves`}
+        >
+          <Feather
+            name="book-open"
+            size={20}
+            color={
+              activeTab === 'catalog'
+                ? colors.textTaxonomic
+                : colors.textSecondary
+            }
+          />
+          <Text
+            style={[
+              styles.navTabText,
+              activeTab === 'catalog' && styles.navTabTextActive,
+            ]}
+          >
+            Catálogo ({CATALOG_BIRDS.length})
+          </Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
@@ -164,53 +256,112 @@ export default function App() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#090d16',
+    backgroundColor: colors.canvas,
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 14,
-    paddingVertical: 10,
-    backgroundColor: '#111827',
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    backgroundColor: colors.surface,
     borderBottomWidth: 1,
-    borderBottomColor: '#1f2937',
+    borderBottomColor: colors.border,
+  },
+  brandRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
   brandTitle: {
-    color: '#10b981',
-    fontSize: 19,
+    color: colors.textPrimary,
+    fontSize: typeScale.title,
     fontWeight: '900',
     letterSpacing: 0.3,
   },
   brandSubtitle: {
-    color: '#9ca3af',
-    fontSize: 11,
+    color: colors.textSecondary,
+    fontSize: typeScale.caption,
     fontWeight: '500',
-  },
-  tabSwitcher: {
-    flexDirection: 'row',
-    backgroundColor: '#1f2937',
-    borderRadius: 10,
-    padding: 3,
-  },
-  tabButton: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-  },
-  tabButtonActive: {
-    backgroundColor: '#10b981',
-  },
-  tabButtonText: {
-    color: '#9ca3af',
-    fontSize: 12,
-    fontWeight: '700',
-  },
-  tabButtonTextActive: {
-    color: '#ffffff',
   },
   content: {
     flex: 1,
   },
+  miniPlayer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: colors.surfaceElevated,
+    borderTopWidth: 1,
+    borderTopColor: colors.primaryBorder,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs,
+    gap: spacing.md,
+  },
+  miniPlayerInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
+    flex: 1,
+  },
+  miniPlayerTexts: {
+    flex: 1,
+  },
+  miniPlayerTitle: {
+    color: colors.textPrimary,
+    fontSize: typeScale.label,
+    fontWeight: '800',
+  },
+  miniPlayerSubtitle: {
+    color: colors.textSecondary,
+    fontSize: typeScale.caption,
+  },
+  miniPlayerStopBtn: {
+    minHeight: 40,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: colors.dangerSurface,
+    borderWidth: 1,
+    borderColor: colors.dangerBorder,
+    paddingHorizontal: 14,
+    borderRadius: 10,
+  },
+  miniPlayerStopText: {
+    color: colors.onDanger,
+    fontSize: typeScale.caption,
+    fontWeight: '700',
+  },
+  bottomNav: {
+    flexDirection: 'row',
+    backgroundColor: colors.surface,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: spacing.xs,
+    gap: spacing.sm,
+  },
+  navTab: {
+    flex: 1,
+    minHeight: MIN_TOUCH_TARGET,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    borderRadius: 12,
+    backgroundColor: 'transparent',
+  },
+  navTabActive: {
+    backgroundColor: colors.surfaceElevated,
+    borderWidth: 1,
+    borderColor: colors.primaryBorder,
+  },
+  navTabText: {
+    color: colors.textSecondary,
+    fontSize: typeScale.label,
+    fontWeight: '700',
+  },
+  navTabTextActive: {
+    color: colors.textPrimary,
+  },
 });
-

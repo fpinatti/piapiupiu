@@ -1,4 +1,5 @@
-import React, { useCallback, useRef, useState } from 'react';
+import { Feather } from '@expo/vector-icons';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -16,6 +17,12 @@ import {
   shouldTriggerBirdAudio,
 } from '../services/birdMatcher';
 import {
+  colors,
+  MIN_TOUCH_TARGET,
+  spacing,
+  typeScale,
+} from '../theme/tokens';
+import {
   AppLanguage,
   BirdCard,
   ExpansionId,
@@ -31,6 +38,8 @@ interface ScannerScreenProps {
   onChangeLanguage: (language: AppLanguage) => void;
   activeMatch: ScanMatchResult | null;
   onSelectMatch: (match: ScanMatchResult | null) => void;
+  recentBirds: BirdCard[];
+  onRecordRecentBird: (bird: BirdCard) => void;
   isPlaying: boolean;
   playingBirdId: string | null;
   onPlayBird: (bird: BirdCard) => void;
@@ -56,6 +65,8 @@ export function ScannerScreen({
   onChangeLanguage,
   activeMatch,
   onSelectMatch,
+  recentBirds,
+  onRecordRecentBird,
   isPlaying,
   playingBirdId,
   onPlayBird,
@@ -63,15 +74,23 @@ export function ScannerScreen({
 }: ScannerScreenProps) {
   const [torchOn, setTorchOn] = useState(false);
   const [scannerPaused, setScannerPaused] = useState(false);
+  const [showFiltersDrawer, setShowFiltersDrawer] = useState(false);
   const [showSimPanel, setShowSimPanel] = useState(false);
   const [manualOcrInput, setManualOcrInput] = useState('');
   const [lastRawOcrLine, setLastRawOcrLine] = useState<string>('');
+  const [cooldownNotice, setCooldownNotice] = useState(false);
   const [cameraCaps, setCameraCaps] = useState<{
     hasCamera: boolean;
     hasTorch: boolean;
   }>({ hasCamera: false, hasTorch: false });
 
   const lastPlayedRef = useRef<LastPlayedRecord>({ id: '', time: 0 });
+
+  useEffect(() => {
+    if (!cooldownNotice) return;
+    const timer = setTimeout(() => setCooldownNotice(false), 2200);
+    return () => clearTimeout(timer);
+  }, [cooldownNotice]);
 
   const evaluateCandidateLines = useCallback(
     (lines: string[], bypassDebounce: boolean = false) => {
@@ -96,12 +115,16 @@ export function ScannerScreen({
         );
 
       if (shouldPlay) {
+        setCooldownNotice(false);
         lastPlayedRef.current = { id: match.bird.id, time: now };
         onSelectMatch(match);
+        onRecordRecentBird(match.bird);
         onPlayBird(match.bird);
+      } else {
+        setCooldownNotice(true);
       }
     },
-    [matcher, onPlayBird, onSelectMatch]
+    [matcher, onPlayBird, onRecordRecentBird, onSelectMatch]
   );
 
   const handleLiveOcrLines = useCallback(
@@ -117,6 +140,17 @@ export function ScannerScreen({
     evaluateCandidateLines([trimmed], true);
   };
 
+  const handleReplayRecentBird = (bird: BirdCard) => {
+    lastPlayedRef.current = { id: bird.id, time: Date.now() };
+    onSelectMatch({
+      bird,
+      score: 0,
+      matchedText: bird.name_pt.toUpperCase(),
+      normalizedQuery: bird.name_pt.toLowerCase(),
+    });
+    onPlayBird(bird);
+  };
+
   return (
     <View style={styles.container}>
       <LiveCameraScanner
@@ -126,24 +160,36 @@ export function ScannerScreen({
         onCameraCapabilitiesChange={setCameraCaps}
       />
 
-      {/* Top Controls & Filter Bar */}
-      <View style={styles.topOverlay}>
-        <FilterBar
-          selectedExpansions={selectedExpansions}
-          onToggleExpansion={onToggleExpansion}
-          language={language}
-          onChangeLanguage={onChangeLanguage}
-          compact
-        />
+      {/* Distilled Top Action Bar */}
+      <View style={styles.topOverlay} pointerEvents="box-none">
+        <View style={styles.quickActionsRow} pointerEvents="box-none">
+          <TouchableOpacity
+            onPress={() => setShowFiltersDrawer((prev) => !prev)}
+            style={[
+              styles.actionBtn,
+              showFiltersDrawer && styles.actionBtnActive,
+            ]}
+            accessibilityRole="button"
+            accessibilityLabel="Alternar filtros de idioma e expansão"
+          >
+            <Feather name="sliders" size={15} color={colors.textPrimary} />
+            <Text style={styles.actionBtnText}>
+              Filtros ({selectedExpansions.length})
+            </Text>
+          </TouchableOpacity>
 
-        <View style={styles.quickActionsRow}>
           {cameraCaps.hasTorch && (
             <TouchableOpacity
               onPress={() => setTorchOn((prev) => !prev)}
               style={[styles.actionBtn, torchOn && styles.actionBtnActive]}
+              accessibilityRole="button"
+              accessibilityLabel={
+                torchOn ? 'Desligar lanterna' : 'Ligar lanterna'
+              }
             >
+              <Feather name="zap" size={15} color={colors.textPrimary} />
               <Text style={styles.actionBtnText}>
-                {torchOn ? 'Lanterna: ON' : 'Lanterna: OFF'}
+                {torchOn ? 'Luz: ON' : 'Luz'}
               </Text>
             </TouchableOpacity>
           )}
@@ -152,9 +198,23 @@ export function ScannerScreen({
             <TouchableOpacity
               onPress={() => setScannerPaused((prev) => !prev)}
               style={[styles.actionBtn, scannerPaused && styles.actionBtnWarn]}
+              accessibilityRole="button"
+              accessibilityLabel={
+                scannerPaused ? 'Retomar leitura da câmera' : 'Pausar leitura da câmera'
+              }
             >
-              <Text style={styles.actionBtnText}>
-                {scannerPaused ? 'Scanner: Pausado' : 'Scanner: Ativo'}
+              <Feather
+                name={scannerPaused ? 'play' : 'pause'}
+                size={15}
+                color={scannerPaused ? colors.onWarning : colors.textPrimary}
+              />
+              <Text
+                style={[
+                  styles.actionBtnText,
+                  scannerPaused && { color: colors.onWarning },
+                ]}
+              >
+                {scannerPaused ? 'Pausado' : 'Lendo'}
               </Text>
             </TouchableOpacity>
           )}
@@ -165,95 +225,157 @@ export function ScannerScreen({
               styles.actionBtn,
               (showSimPanel || !cameraCaps.hasCamera) && styles.actionBtnActive,
             ]}
+            accessibilityRole="button"
+            accessibilityLabel="Alternar painel de teste sem câmera"
           >
-            <Text style={styles.actionBtnText}>Simulador OCR</Text>
+            <Feather name="terminal" size={15} color={colors.textPrimary} />
+            <Text style={styles.actionBtnText}>Testar Cartas</Text>
           </TouchableOpacity>
         </View>
-      </View>
 
-      {/* Center Virtual Bounding Box (Aiming Target for Card Header) */}
-      <View style={styles.centerOverlay} pointerEvents="box-none">
-        <View
-          style={[
-            styles.cardTargetBox,
-            activeMatch && isPlaying && styles.cardTargetBoxActive,
-          ]}
-        >
-          <View style={[styles.corner, styles.cornerTL]} />
-          <View style={[styles.corner, styles.cornerTR]} />
-          <View style={[styles.corner, styles.cornerBL]} />
-          <View style={[styles.corner, styles.cornerBR]} />
-
-          <Text style={styles.targetLabel}>
-            Posicione o topo da carta aqui
-          </Text>
-          <Text style={styles.targetSublabel}>
-            Alinhe o nome da ave em CAIXA ALTA dentro da mira
-          </Text>
-          {lastRawOcrLine ? (
-            <View style={styles.liveOcrPill}>
-              <Text style={styles.liveOcrText} numberOfLines={1}>
-                OCR: {lastRawOcrLine}
-              </Text>
-            </View>
-          ) : null}
-        </View>
-      </View>
-
-      {/* Interactive OCR Simulator Panel */}
-      {(showSimPanel || !cameraCaps.hasCamera) && (
-        <View style={styles.simContainer}>
-          <Text style={styles.simTitle}>
-            Simulador de Leitura OCR (Clique em uma carta ou digite com erros de reflexo)
-          </Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={styles.simChipsRow}
-          >
-            {SAMPLE_OCR_CARDS.map((sample) => (
-              <TouchableOpacity
-                key={sample}
-                onPress={() => handleSimulatedOcrTrigger(sample)}
-                style={styles.simChip}
-              >
-                <Text style={styles.simChipText}>{sample}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-
-          <View style={styles.simInputRow}>
-            <TextInput
-              value={manualOcrInput}
-              onChangeText={setManualOcrInput}
-              placeholder="Digite um texto OCR (ex: GA1O-AZUL, TUI)..."
-              placeholderTextColor="#6b7280"
-              style={styles.simInput}
-              onSubmitEditing={() => handleSimulatedOcrTrigger(manualOcrInput)}
-            />
-            <TouchableOpacity
-              onPress={() => handleSimulatedOcrTrigger(manualOcrInput)}
-              style={styles.simSendBtn}
-            >
-              <Text style={styles.simSendBtnText}>Simular</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      )}
-
-      {/* Bottom Detected Bird Card */}
-      {activeMatch && (
-        <View style={styles.bottomCardWrapper}>
-          <BirdPlayingCard
-            bird={activeMatch.bird}
-            isPlaying={isPlaying && playingBirdId === activeMatch.bird.id}
-            score={activeMatch.score}
-            matchedText={activeMatch.matchedText}
-            onTogglePlay={onTogglePlayBird}
-            onDismiss={() => onSelectMatch(null)}
+        {showFiltersDrawer && (
+          <FilterBar
+            selectedExpansions={selectedExpansions}
+            onToggleExpansion={onToggleExpansion}
+            language={language}
+            onChangeLanguage={onChangeLanguage}
+            compact
           />
-        </View>
-      )}
+        )}
+      </View>
+
+      {/* Center Virtual Bounding Box (only rendered when camera is active, pointerEvents="none") */}
+      <View style={styles.centerOverlay} pointerEvents="none">
+        {cameraCaps.hasCamera && (
+          <View
+            style={[
+              styles.cardTargetBox,
+              activeMatch && isPlaying && styles.cardTargetBoxActive,
+            ]}
+          >
+            <View style={[styles.corner, styles.cornerTL]} />
+            <View style={[styles.corner, styles.cornerTR]} />
+            <View style={[styles.corner, styles.cornerBL]} />
+            <View style={[styles.corner, styles.cornerBR]} />
+
+            <Text style={styles.targetLabel}>
+              Posicione o topo da carta aqui
+            </Text>
+            <Text style={styles.targetSublabel}>
+              Alinhe o nome da ave em CAIXA ALTA dentro da mira
+            </Text>
+            {lastRawOcrLine ? (
+              <View style={styles.liveOcrPill}>
+                <Text style={styles.liveOcrText} numberOfLines={1}>
+                  Lido: {lastRawOcrLine}
+                </Text>
+              </View>
+            ) : null}
+          </View>
+        )}
+      </View>
+
+      {/* Bottom Area: Recent Birds Strip, Test Deck Drawer, and Active Bird Card */}
+      <View style={styles.bottomStack} pointerEvents="box-none">
+        {recentBirds.length > 0 && (
+          <View style={styles.recentBar}>
+            <Text style={styles.recentLabel}>Recentes na mesa:</Text>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.recentChipsRow}
+            >
+              {recentBirds.map((bird) => {
+                const active = isPlaying && playingBirdId === bird.id;
+                return (
+                  <TouchableOpacity
+                    key={bird.id}
+                    onPress={() => handleReplayRecentBird(bird)}
+                    style={[
+                      styles.recentChip,
+                      active && styles.recentChipActive,
+                    ]}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Ouvir novamente ${bird.name_pt}`}
+                  >
+                    <Feather
+                      name={active ? 'volume-2' : 'rotate-ccw'}
+                      size={13}
+                      color={active ? colors.onPrimary : colors.textTaxonomic}
+                    />
+                    <Text
+                      style={[
+                        styles.recentChipText,
+                        active && { color: colors.onPrimary },
+                      ]}
+                    >
+                      {bird.name_pt}
+                    </Text>
+                  </TouchableOpacity>
+                );
+              })}
+            </ScrollView>
+          </View>
+        )}
+
+        {(showSimPanel || !cameraCaps.hasCamera) && (
+          <View style={styles.simContainer}>
+            <Text style={styles.simTitle}>
+              Testar cartas sem câmera (toque em um exemplo ou digite com reflexo)
+            </Text>
+            <ScrollView
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={styles.simChipsRow}
+            >
+              {SAMPLE_OCR_CARDS.map((sample) => (
+                <TouchableOpacity
+                  key={sample}
+                  onPress={() => handleSimulatedOcrTrigger(sample)}
+                  style={styles.simChip}
+                  accessibilityRole="button"
+                  accessibilityLabel={`Simular leitura da carta ${sample}`}
+                >
+                  <Text style={styles.simChipText}>{sample}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+
+            <View style={styles.simInputRow}>
+              <TextInput
+                value={manualOcrInput}
+                onChangeText={setManualOcrInput}
+                placeholder="Digite o topo da carta (ex: GA1O-AZUL, TUI)..."
+                placeholderTextColor={colors.textMuted}
+                style={styles.simInput}
+                onSubmitEditing={() => handleSimulatedOcrTrigger(manualOcrInput)}
+              />
+              <TouchableOpacity
+                onPress={() => handleSimulatedOcrTrigger(manualOcrInput)}
+                style={styles.simSendBtn}
+                accessibilityRole="button"
+                accessibilityLabel="Testar leitura digitada"
+              >
+                <Text style={styles.simSendBtnText}>Testar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+
+        {activeMatch && (
+          <View style={styles.bottomCardWrapper}>
+            <BirdPlayingCard
+              bird={activeMatch.bird}
+              isPlaying={isPlaying && playingBirdId === activeMatch.bird.id}
+              score={activeMatch.score}
+              matchedText={activeMatch.matchedText}
+              cooldownActive={cooldownNotice}
+              onTogglePlay={onTogglePlayBird}
+              onDismiss={() => onSelectMatch(null)}
+            />
+          </View>
+        )}
+      </View>
     </View>
   );
 }
@@ -261,68 +383,72 @@ export function ScannerScreen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#090d16',
+    backgroundColor: colors.canvas,
   },
   topOverlay: {
-    paddingTop: 10,
-    paddingHorizontal: 12,
-    gap: 8,
+    paddingTop: spacing.sm,
+    paddingHorizontal: spacing.md,
+    gap: spacing.xs,
     zIndex: 10,
   },
   quickActionsRow: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
     gap: 8,
   },
   actionBtn: {
-    backgroundColor: 'rgba(17, 24, 39, 0.85)',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    minHeight: 44,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: colors.surfaceOverlay,
+    paddingHorizontal: 14,
     borderRadius: 999,
     borderWidth: 1,
-    borderColor: '#374151',
+    borderColor: colors.border,
   },
   actionBtnActive: {
-    backgroundColor: '#065f46',
-    borderColor: '#10b981',
+    backgroundColor: colors.primary,
+    borderColor: colors.primaryBorder,
   },
   actionBtnWarn: {
-    backgroundColor: '#78350f',
-    borderColor: '#f59e0b',
+    backgroundColor: colors.warningSurface,
+    borderColor: colors.warningBorder,
   },
   actionBtnText: {
-    color: '#f3f4f6',
-    fontSize: 12,
-    fontWeight: '600',
+    color: colors.textPrimary,
+    fontSize: typeScale.label,
+    fontWeight: '700',
   },
   centerOverlay: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: spacing.lg,
   },
   cardTargetBox: {
     width: '88%',
     maxWidth: 460,
     height: 155,
     borderWidth: 2,
-    borderColor: '#4ade80',
+    borderColor: colors.primaryBorder,
     borderStyle: 'dashed',
     borderRadius: 16,
-    backgroundColor: 'rgba(16, 185, 129, 0.06)',
+    backgroundColor: 'rgba(45, 106, 79, 0.10)',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 16,
+    paddingHorizontal: spacing.md,
   },
   cardTargetBoxActive: {
-    borderColor: '#34d399',
-    backgroundColor: 'rgba(16, 185, 129, 0.16)',
+    borderColor: colors.textTaxonomic,
+    backgroundColor: 'rgba(82, 183, 136, 0.18)',
   },
   corner: {
     position: 'absolute',
-    width: 18,
-    height: 18,
-    borderColor: '#10b981',
+    width: 20,
+    height: 20,
+    borderColor: colors.primaryBorder,
   },
   cornerTL: {
     top: -2,
@@ -353,66 +479,106 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 12,
   },
   targetLabel: {
-    color: '#ffffff',
-    backgroundColor: 'rgba(17, 24, 39, 0.85)',
+    color: colors.textPrimary,
+    backgroundColor: colors.surfaceOverlay,
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 8,
     fontWeight: '700',
-    fontSize: 14,
+    fontSize: typeScale.body,
     overflow: 'hidden',
   },
   targetSublabel: {
-    color: '#d1fae5',
-    fontSize: 11,
+    color: colors.textSecondary,
+    fontSize: typeScale.caption,
     marginTop: 6,
     textAlign: 'center',
   },
   liveOcrPill: {
     marginTop: 10,
-    backgroundColor: 'rgba(6, 78, 59, 0.9)',
+    backgroundColor: colors.surfaceElevated,
+    borderWidth: 1,
+    borderColor: colors.primaryBorder,
     paddingHorizontal: 10,
     paddingVertical: 3,
     borderRadius: 6,
     maxWidth: '90%',
   },
   liveOcrText: {
-    color: '#a7f3d0',
-    fontSize: 11,
+    color: colors.textTaxonomic,
+    fontSize: typeScale.caption,
     fontWeight: '600',
   },
-  simContainer: {
-    marginHorizontal: 14,
-    marginBottom: 10,
-    padding: 12,
-    borderRadius: 14,
-    backgroundColor: 'rgba(17, 24, 39, 0.94)',
-    borderWidth: 1,
-    borderColor: '#374151',
+  bottomStack: {
+    zIndex: 10,
+  },
+  recentBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: spacing.md,
+    paddingBottom: spacing.xs,
     gap: 8,
   },
-  simTitle: {
-    color: '#9ca3af',
-    fontSize: 11,
+  recentLabel: {
+    color: colors.textSecondary,
+    fontSize: typeScale.caption,
     fontWeight: '700',
-    textTransform: 'uppercase',
-    letterSpacing: 0.4,
+  },
+  recentChipsRow: {
+    gap: 8,
+    alignItems: 'center',
+  },
+  recentChip: {
+    minHeight: 38,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    backgroundColor: colors.surfaceOverlay,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingHorizontal: 12,
+    borderRadius: 999,
+  },
+  recentChipActive: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primaryBorder,
+  },
+  recentChipText: {
+    color: colors.textPrimary,
+    fontSize: typeScale.caption,
+    fontWeight: '700',
+  },
+  simContainer: {
+    marginHorizontal: spacing.md,
+    marginBottom: spacing.sm,
+    padding: spacing.md,
+    borderRadius: 16,
+    backgroundColor: colors.surfaceOverlay,
+    borderWidth: 1,
+    borderColor: colors.border,
+    gap: 10,
+  },
+  simTitle: {
+    color: colors.textSecondary,
+    fontSize: typeScale.caption,
+    fontWeight: '700',
   },
   simChipsRow: {
-    gap: 6,
+    gap: 8,
     paddingVertical: 2,
   },
   simChip: {
-    backgroundColor: '#1f2937',
+    minHeight: 40,
+    justifyContent: 'center',
+    backgroundColor: colors.surfaceSubtle,
     borderWidth: 1,
-    borderColor: '#4b5563',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 8,
+    borderColor: colors.border,
+    paddingHorizontal: 12,
+    borderRadius: 10,
   },
   simChipText: {
-    color: '#e5e7eb',
-    fontSize: 12,
+    color: colors.textPrimary,
+    fontSize: typeScale.caption,
     fontWeight: '700',
   },
   simInputRow: {
@@ -421,28 +587,32 @@ const styles = StyleSheet.create({
   },
   simInput: {
     flex: 1,
-    backgroundColor: '#111827',
+    minHeight: MIN_TOUCH_TARGET,
+    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: '#374151',
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 7,
-    color: '#f9fafb',
-    fontSize: 13,
+    borderColor: colors.border,
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    color: colors.textPrimary,
+    fontSize: typeScale.body,
   },
   simSendBtn: {
-    backgroundColor: '#10b981',
-    paddingHorizontal: 14,
+    minHeight: MIN_TOUCH_TARGET,
+    backgroundColor: colors.primary,
+    borderWidth: 1,
+    borderColor: colors.primaryBorder,
+    paddingHorizontal: spacing.lg,
     justifyContent: 'center',
-    borderRadius: 8,
+    alignItems: 'center',
+    borderRadius: 10,
   },
   simSendBtnText: {
-    color: '#ffffff',
-    fontWeight: '700',
-    fontSize: 13,
+    color: colors.onPrimary,
+    fontWeight: '800',
+    fontSize: typeScale.label,
   },
   bottomCardWrapper: {
-    paddingHorizontal: 14,
-    paddingBottom: 14,
+    paddingHorizontal: spacing.md,
+    paddingBottom: spacing.sm,
   },
 });

@@ -1,16 +1,25 @@
-import React from 'react';
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {
+  colors,
+  EXPANSION_THEME,
+  MIN_TOUCH_TARGET,
+  spacing,
+  typeScale,
+} from '../theme/tokens';
 import { AppLanguage, ExpansionId } from '../types/bird';
 
-export const EXPANSION_META: {
-  id: ExpansionId;
-  label: string;
-  color: string;
-}[] = [
-  { id: 'base', label: 'Base', color: '#3b82f6' },
-  { id: 'europe', label: 'Europa', color: '#8b5cf6' },
-  { id: 'oceania', label: 'Oceania', color: '#f59e0b' },
-  { id: 'asia', label: 'Ásia', color: '#ef4444' },
+export const EXPANSION_META = [
+  EXPANSION_THEME.base,
+  EXPANSION_THEME.europe,
+  EXPANSION_THEME.oceania,
+  EXPANSION_THEME.asia,
 ];
 
 export const LANGUAGE_META: {
@@ -37,6 +46,26 @@ export function FilterBar({
   onChangeLanguage,
   compact = false,
 }: FilterBarProps) {
+  const [minExpansionHint, setMinExpansionHint] = useState(false);
+
+  useEffect(() => {
+    if (!minExpansionHint) return;
+    const timer = setTimeout(() => setMinExpansionHint(false), 2600);
+    return () => clearTimeout(timer);
+  }, [minExpansionHint]);
+
+  const handlePressExpansion = (expId: ExpansionId) => {
+    if (
+      selectedExpansions.length === 1 &&
+      selectedExpansions.includes(expId)
+    ) {
+      setMinExpansionHint(true);
+      return;
+    }
+    setMinExpansionHint(false);
+    onToggleExpansion(expId);
+  };
+
   return (
     <View style={[styles.container, compact && styles.containerCompact]}>
       <ScrollView
@@ -54,6 +83,9 @@ export function FilterBar({
                 onPress={() => onChangeLanguage(lang.id)}
                 style={[styles.langPill, active && styles.langPillActive]}
                 activeOpacity={0.75}
+                accessibilityRole="button"
+                accessibilityState={{ selected: active }}
+                accessibilityLabel={`Idioma de busca: ${lang.label}`}
               >
                 <Text style={[styles.langText, active && styles.langTextActive]}>
                   {lang.label}
@@ -72,23 +104,31 @@ export function FilterBar({
             return (
               <TouchableOpacity
                 key={exp.id}
-                onPress={() => onToggleExpansion(exp.id)}
+                onPress={() => handlePressExpansion(exp.id)}
                 style={[
                   styles.expPill,
                   active && {
-                    backgroundColor: exp.color + '33',
-                    borderColor: exp.color,
+                    backgroundColor: exp.bg,
+                    borderColor: exp.border,
                   },
                 ]}
                 activeOpacity={0.75}
+                accessibilityRole="button"
+                accessibilityState={{ selected: active }}
+                accessibilityLabel={`Expansão ${exp.label}`}
               >
                 <View
                   style={[
                     styles.dot,
-                    { backgroundColor: active ? exp.color : '#6b7280' },
+                    { backgroundColor: active ? exp.border : colors.textMuted },
                   ]}
                 />
-                <Text style={[styles.expText, active && styles.expTextActive]}>
+                <Text
+                  style={[
+                    styles.expText,
+                    active && { color: exp.text },
+                  ]}
+                >
                   {exp.label}
                 </Text>
               </TouchableOpacity>
@@ -96,82 +136,99 @@ export function FilterBar({
           })}
         </View>
       </ScrollView>
+
+      {minExpansionHint && (
+        <View style={styles.hintRow} accessibilityLiveRegion="polite">
+          <Text style={styles.hintText}>
+            Mantenha pelo menos 1 expansão ativa para buscar cartas.
+          </Text>
+        </View>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 8,
-    backgroundColor: '#111827',
+    paddingVertical: spacing.xs,
+    backgroundColor: colors.surface,
     borderBottomWidth: 1,
-    borderBottomColor: '#1f2937',
+    borderBottomColor: colors.border,
   },
   containerCompact: {
-    backgroundColor: 'rgba(17, 24, 39, 0.88)',
+    backgroundColor: colors.surfaceOverlay,
     borderRadius: 14,
-    borderBottomWidth: 0,
-    paddingVertical: 6,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingVertical: spacing.xs,
   },
   scrollRow: {
-    paddingHorizontal: 12,
+    paddingHorizontal: spacing.md,
     alignItems: 'center',
-    gap: 6,
+    gap: 8,
   },
   group: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 6,
+    gap: 8,
   },
   divider: {
     width: 1,
-    height: 20,
-    backgroundColor: '#374151',
-    marginHorizontal: 6,
+    height: 24,
+    backgroundColor: colors.border,
+    marginHorizontal: 4,
   },
   langPill: {
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 8,
-    backgroundColor: '#1f2937',
+    minHeight: 44,
+    paddingHorizontal: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    backgroundColor: colors.surfaceSubtle,
     borderWidth: 1,
-    borderColor: '#374151',
+    borderColor: colors.border,
   },
   langPillActive: {
-    backgroundColor: '#065f46',
-    borderColor: '#10b981',
+    backgroundColor: colors.primary,
+    borderColor: colors.primaryBorder,
   },
   langText: {
-    color: '#9ca3af',
-    fontSize: 12,
+    color: colors.textSecondary,
+    fontSize: typeScale.label,
     fontWeight: '600',
   },
   langTextActive: {
-    color: '#ecfdf5',
+    color: colors.onPrimary,
+    fontWeight: '700',
   },
   expPill: {
+    minHeight: 44,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    paddingHorizontal: 14,
     borderRadius: 999,
-    backgroundColor: '#1f2937',
+    backgroundColor: colors.surfaceSubtle,
     borderWidth: 1,
-    borderColor: '#374151',
-    gap: 5,
+    borderColor: colors.border,
+    gap: 6,
   },
   dot: {
-    width: 7,
-    height: 7,
+    width: 8,
+    height: 8,
     borderRadius: 4,
   },
   expText: {
-    color: '#9ca3af',
-    fontSize: 12,
+    color: colors.textSecondary,
+    fontSize: typeScale.label,
     fontWeight: '600',
   },
-  expTextActive: {
-    color: '#f9fafb',
+  hintRow: {
+    paddingHorizontal: spacing.md,
+    paddingTop: spacing.xs,
+  },
+  hintText: {
+    color: colors.onWarning,
+    fontSize: typeScale.caption,
+    fontWeight: '600',
   },
 });
-

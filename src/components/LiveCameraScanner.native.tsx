@@ -1,3 +1,4 @@
+import { Feather } from '@expo/vector-icons';
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import {
@@ -8,6 +9,7 @@ import {
 } from 'react-native-vision-camera';
 import { useTextRecognition } from 'react-native-vision-camera-text-recognition';
 import { useRunOnJS } from 'react-native-worklets-core';
+import { colors, MIN_TOUCH_TARGET, spacing, typeScale } from '../theme/tokens';
 import { extractLinesFromOcrPayload } from '../utils/boundingBoxFilter';
 import { LiveCameraScannerProps } from './LiveCameraScanner';
 
@@ -74,7 +76,10 @@ export function LiveCameraScanner({
           <TouchableOpacity
             onPress={() => requestPermission()}
             style={styles.permissionBtn}
+            accessibilityRole="button"
+            accessibilityLabel="Permitir acesso à câmera"
           >
+            <Feather name="camera" size={18} color={colors.onPrimary} />
             <Text style={styles.permissionBtnText}>Permitir Câmera</Text>
           </TouchableOpacity>
         </View>
@@ -88,7 +93,7 @@ export function LiveCameraScanner({
         <View style={styles.fallbackContent}>
           <Text style={styles.title}>Câmera Física Indisponível</Text>
           <Text style={styles.subtitle}>
-            Use o Simulador de OCR abaixo ou a aba Catálogo para testar as aves.
+            Use a opção Testar Cartas abaixo ou a aba Catálogo para ouvir os cantos das aves.
           </Text>
         </View>
       </View>
@@ -111,39 +116,44 @@ export function LiveCameraScanner({
 const styles = StyleSheet.create({
   fallbackBg: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: '#0b1320',
+    backgroundColor: colors.canvas,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 28,
+    paddingHorizontal: spacing.xl,
   },
   fallbackContent: {
     alignItems: 'center',
-    maxWidth: 340,
+    maxWidth: 360,
   },
   title: {
-    color: '#e5e7eb',
-    fontSize: 17,
+    color: colors.textPrimary,
+    fontSize: typeScale.display,
     fontWeight: '800',
     textAlign: 'center',
-    marginBottom: 6,
+    marginBottom: spacing.xs,
   },
   subtitle: {
-    color: '#9ca3af',
-    fontSize: 13,
+    color: colors.textSecondary,
+    fontSize: typeScale.body,
     textAlign: 'center',
-    lineHeight: 19,
+    lineHeight: 22,
   },
   permissionBtn: {
-    marginTop: 14,
-    backgroundColor: '#10b981',
-    paddingHorizontal: 18,
-    paddingVertical: 10,
-    borderRadius: 10,
+    marginTop: spacing.lg,
+    minHeight: MIN_TOUCH_TARGET,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: colors.primary,
+    borderWidth: 1,
+    borderColor: colors.primaryBorder,
+    paddingHorizontal: spacing.xl,
+    borderRadius: 12,
   },
   permissionBtnText: {
-    color: '#ffffff',
+    color: colors.onPrimary,
     fontWeight: '700',
-    fontSize: 14,
+    fontSize: typeScale.body,
   },
 });
-
