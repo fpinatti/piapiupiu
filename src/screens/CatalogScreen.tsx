@@ -10,7 +10,6 @@ import {
   View,
 } from 'react-native';
 import { BirdPhoto } from '../components/BirdPhoto';
-import { FilterBar } from '../components/FilterBar';
 import { BirdMatcher } from '../services/birdMatcher';
 import {
   colors,
@@ -20,14 +19,10 @@ import {
   spacing,
   typeScale,
 } from '../theme/tokens';
-import { AppLanguage, BirdCard, ExpansionId } from '../types/bird';
+import { BirdCard } from '../types/bird';
 
-interface CatalogScreenProps {
+export interface CatalogScreenProps {
   matcher: BirdMatcher;
-  selectedExpansions: ExpansionId[];
-  onToggleExpansion: (expansion: ExpansionId) => void;
-  language: AppLanguage;
-  onChangeLanguage: (language: AppLanguage) => void;
   isPlaying: boolean;
   playingBirdId: string | null;
   onTogglePlayBird: (bird: BirdCard) => void;
@@ -35,10 +30,6 @@ interface CatalogScreenProps {
 
 export function CatalogScreen({
   matcher,
-  selectedExpansions,
-  onToggleExpansion,
-  language,
-  onChangeLanguage,
   isPlaying,
   playingBirdId,
   onTogglePlayBird,
@@ -49,17 +40,10 @@ export function CatalogScreen({
 
   const results = useMemo(() => {
     return matcher.searchCatalog(searchQuery);
-  }, [matcher, searchQuery, selectedExpansions, language]);
+  }, [matcher, searchQuery]);
 
   return (
     <View style={styles.container}>
-      <FilterBar
-        selectedExpansions={selectedExpansions}
-        onToggleExpansion={onToggleExpansion}
-        language={language}
-        onChangeLanguage={onChangeLanguage}
-      />
-
       <View style={styles.searchBarWrapper}>
         <View style={styles.searchInputContainer}>
           <Feather name="search" size={18} color={colors.textMuted} />
@@ -87,7 +71,7 @@ export function CatalogScreen({
       <View style={styles.countRow}>
         <Text style={styles.countText}>
           {results.length}{' '}
-          {results.length === 1 ? 'ave disponível' : 'aves disponíveis'} (100% offline)
+          {results.length === 1 ? 'ave disponível' : 'aves disponíveis'}
         </Text>
       </View>
 
@@ -105,10 +89,8 @@ export function CatalogScreen({
         renderItem={({ item }) => {
           const active = isPlaying && playingBirdId === item.id;
           const expMeta = EXPANSION_THEME[item.expansion];
-          const primaryTitle =
-            language === 'en' ? item.name_en : item.name_pt;
-          const secondaryTitle =
-            language === 'en' ? item.name_pt : item.name_en;
+          const primaryTitle = item.name_pt;
+          const secondaryTitle = item.name_en;
 
           return (
             <TouchableOpacity
@@ -202,7 +184,7 @@ export function CatalogScreen({
             <Feather name="feather" size={28} color={colors.textMuted} />
             <Text style={styles.emptyTitle}>Nenhuma ave encontrada</Text>
             <Text style={styles.emptySubtitle}>
-              Tente outro nome ou ative mais expansões no filtro acima.
+              Tente outro nome em Português, Inglês ou Latim.
             </Text>
           </View>
         }

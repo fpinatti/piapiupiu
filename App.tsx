@@ -11,8 +11,8 @@ import {
   SafeAreaProvider,
   SafeAreaView,
 } from 'react-native-safe-area-context';
-import birdsCatalogJson from './src/data/birds.json';
 import { BirdPhoto } from './src/components/BirdPhoto';
+import birdsCatalogJson from './src/data/birds.json';
 import { CatalogScreen } from './src/screens/CatalogScreen';
 import { ScannerScreen } from './src/screens/ScannerScreen';
 import { audioService } from './src/services/audioService';
@@ -24,7 +24,6 @@ import {
   typeScale,
 } from './src/theme/tokens';
 import {
-  AppLanguage,
   BirdCard,
   ExpansionId,
   ScanMatchResult,
@@ -43,9 +42,6 @@ const CATALOG_BIRDS = birdsCatalogJson as BirdCard[];
 
 export default function App() {
   const [activeTab, setActiveTab] = useState<ActiveTab>('scanner');
-  const [selectedExpansions, setSelectedExpansions] =
-    useState<ExpansionId[]>(ALL_EXPANSIONS);
-  const [language, setLanguage] = useState<AppLanguage>('all');
   const [activeMatch, setActiveMatch] = useState<ScanMatchResult | null>(null);
   const [recentBirds, setRecentBirds] = useState<BirdCard[]>([]);
   const [playbackState, setPlaybackState] = useState<{
@@ -56,17 +52,10 @@ export default function App() {
   const matcher = useMemo(() => {
     return new BirdMatcher(CATALOG_BIRDS, {
       threshold: 0.35,
-      expansions: selectedExpansions,
-      language,
+      expansions: ALL_EXPANSIONS,
+      language: 'all',
     });
   }, []);
-
-  useEffect(() => {
-    matcher.setFilters({
-      expansions: selectedExpansions,
-      language,
-    });
-  }, [matcher, selectedExpansions, language]);
 
   useEffect(() => {
     const unsubscribe = audioService.subscribe((state) => {
@@ -76,16 +65,6 @@ export default function App() {
       unsubscribe();
       audioService.stop();
     };
-  }, []);
-
-  const handleToggleExpansion = useCallback((expansion: ExpansionId) => {
-    setSelectedExpansions((prev) => {
-      if (prev.includes(expansion)) {
-        if (prev.length === 1) return prev;
-        return prev.filter((item) => item !== expansion);
-      }
-      return [...prev, expansion];
-    });
   }, []);
 
   const handleRecordRecentBird = useCallback((bird: BirdCard) => {
@@ -139,10 +118,6 @@ export default function App() {
           {activeTab === 'scanner' ? (
             <ScannerScreen
               matcher={matcher}
-              selectedExpansions={selectedExpansions}
-              onToggleExpansion={handleToggleExpansion}
-              language={language}
-              onChangeLanguage={setLanguage}
               activeMatch={activeMatch}
               onSelectMatch={setActiveMatch}
               recentBirds={recentBirds}
@@ -155,10 +130,6 @@ export default function App() {
           ) : (
             <CatalogScreen
               matcher={matcher}
-              selectedExpansions={selectedExpansions}
-              onToggleExpansion={handleToggleExpansion}
-              language={language}
-              onChangeLanguage={setLanguage}
               isPlaying={playbackState.isPlaying}
               playingBirdId={playbackState.birdId}
               onTogglePlayBird={handleTogglePlayBird}
