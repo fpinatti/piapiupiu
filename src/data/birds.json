@@ -1,0 +1,508 @@
+[
+  {
+    "id": "blue_jay",
+    "name_pt": "Gaio-azul",
+    "name_en": "Blue Jay",
+    "scientific": "Cyanocitta cristata",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ],
+    "audio": "blue_jay.mp3",
+    "source": "inaturalist:411236373"
+  },
+  {
+    "id": "barn_owl",
+    "name_pt": "Coruja-das-torres",
+    "name_en": "Barn Owl",
+    "scientific": "Tyto alba",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ],
+    "audio": "barn_owl.mp3",
+    "source": "inaturalist:411267092"
+  },
+  {
+    "id": "american_robin",
+    "name_pt": "Tordo-americano",
+    "name_en": "American Robin",
+    "scientific": "Turdus migratorius",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland"
+    ],
+    "audio": "american_robin.mp3",
+    "source": "inaturalist:411051883"
+  },
+  {
+    "id": "northern_cardinal",
+    "name_pt": "Cardeal-do-norte",
+    "name_en": "Northern Cardinal",
+    "scientific": "Cardinalis cardinalis",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ],
+    "audio": "northern_cardinal.mp3",
+    "source": "inaturalist:411029931"
+  },
+  {
+    "id": "bald_eagle",
+    "name_pt": "Águia-careca",
+    "name_en": "Bald Eagle",
+    "scientific": "Haliaeetus leucocephalus",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ],
+    "audio": "bald_eagle.mp3",
+    "source": "inaturalist:411090333"
+  },
+  {
+    "id": "peregrine_falcon",
+    "name_pt": "Falcão-peregrino",
+    "name_en": "Peregrine Falcon",
+    "scientific": "Falco peregrinus",
+    "expansion": "base",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ],
+    "audio": "peregrine_falcon.mp3",
+    "source": "inaturalist:411005054"
+  },
+  {
+    "id": "ruby_throated_hummingbird",
+    "name_pt": "Beija-flor-de-garganta-rubi",
+    "name_en": "Ruby-throated Hummingbird",
+    "scientific": "Archilochus colubris",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland"
+    ],
+    "audio": "ruby_throated_hummingbird.mp3",
+    "source": "inaturalist:406985325"
+  },
+  {
+    "id": "great_horned_owl",
+    "name_pt": "Corujão-orelhudo",
+    "name_en": "Great Horned Owl",
+    "scientific": "Bubo virginianus",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ],
+    "audio": "great_horned_owl.mp3",
+    "source": "inaturalist:411280472"
+  },
+  {
+    "id": "mallard",
+    "name_pt": "Pato-real",
+    "name_en": "Mallard",
+    "scientific": "Anas platyrhynchos",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ],
+    "audio": "mallard.mp3",
+    "source": "inaturalist:411065543"
+  },
+  {
+    "id": "atlantic_puffin",
+    "name_pt": "Papagaio-do-mar",
+    "name_en": "Atlantic Puffin",
+    "scientific": "Fratercula arctica",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ],
+    "audio": "atlantic_puffin.mp3",
+    "source": "inaturalist:305028812"
+  },
+  {
+    "id": "red_tailed_hawk",
+    "name_pt": "Buteo-de-cauda-vermelha",
+    "name_en": "Red-tailed Hawk",
+    "scientific": "Buteo jamaicensis",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland"
+    ],
+    "audio": "red_tailed_hawk.mp3",
+    "source": "inaturalist:411155765"
+  },
+  {
+    "id": "common_raven",
+    "name_pt": "Corvo-comum",
+    "name_en": "Common Raven",
+    "scientific": "Corvus corax",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ],
+    "audio": "common_raven.mp3",
+    "source": "inaturalist:411277414"
+  },
+  {
+    "id": "painted_bunting",
+    "name_pt": "azulão-pintado",
+    "name_en": "Painted Bunting",
+    "scientific": "Passerina ciris",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ],
+    "audio": "painted_bunting.mp3",
+    "source": "inaturalist:402009321"
+  },
+  {
+    "id": "wood_duck",
+    "name_pt": "Pato-carolino",
+    "name_en": "Wood Duck",
+    "scientific": "Aix sponsa",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "wetland"
+    ],
+    "audio": "wood_duck.mp3",
+    "source": "inaturalist:409589825"
+  },
+  {
+    "id": "scissortailed_flycatcher",
+    "name_pt": "Tesourinha-do-campo",
+    "name_en": "Scissor-tailed Flycatcher",
+    "scientific": "Tyrannus forficatus",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ],
+    "audio": "scissortailed_flycatcher.mp3",
+    "source": "inaturalist:407334616"
+  },
+  {
+    "id": "eurasian_jay",
+    "name_pt": "Gaio-comum",
+    "name_en": "Eurasian Jay",
+    "scientific": "Garrulus glandarius",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ],
+    "audio": "eurasian_jay.mp3",
+    "source": "inaturalist:411203259"
+  },
+  {
+    "id": "common_kingfisher",
+    "name_pt": "Guarda-rios-comum",
+    "name_en": "Common Kingfisher",
+    "scientific": "Alcedo atthis",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ],
+    "audio": "common_kingfisher.mp3",
+    "source": "inaturalist:411137005"
+  },
+  {
+    "id": "european_robin",
+    "name_pt": "Pisco-de-peito-ruivo",
+    "name_en": "European Robin",
+    "scientific": "Erithacus rubecula",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland"
+    ],
+    "audio": "european_robin.mp3",
+    "source": "inaturalist:411330818"
+  },
+  {
+    "id": "common_nightingale",
+    "name_pt": "Rouxinol-comum",
+    "name_en": "Common Nightingale",
+    "scientific": "Luscinia megarhynchos",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland"
+    ],
+    "audio": "common_nightingale.mp3",
+    "source": "inaturalist:411131284"
+  },
+  {
+    "id": "snowy_owl",
+    "name_pt": "Coruja-das-neves",
+    "name_en": "Snowy Owl",
+    "scientific": "Bubo scandiacus",
+    "expansion": "europe",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ],
+    "audio": "snowy_owl.mp3",
+    "source": "inaturalist:223480476"
+  },
+  {
+    "id": "european_goldfinch",
+    "name_pt": "Pintassilgo-europeu",
+    "name_en": "European Goldfinch",
+    "scientific": "Carduelis carduelis",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland"
+    ],
+    "audio": "european_goldfinch.mp3",
+    "source": "inaturalist:411308186"
+  },
+  {
+    "id": "white_stork",
+    "name_pt": "Cegonha-branca",
+    "name_en": "White Stork",
+    "scientific": "Ciconia ciconia",
+    "expansion": "europe",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ],
+    "audio": "white_stork.mp3",
+    "source": "inaturalist:408051070"
+  },
+  {
+    "id": "greater_flamingo",
+    "name_pt": "Flamingo-comum",
+    "name_en": "Greater Flamingo",
+    "scientific": "Phoenicopterus roseus",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ],
+    "audio": "greater_flamingo.mp3",
+    "source": "inaturalist:409152284"
+  },
+  {
+    "id": "eurasian_magpie",
+    "name_pt": "Pega-rabuda",
+    "name_en": "Eurasian Magpie",
+    "scientific": "Pica pica",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland"
+    ],
+    "audio": "eurasian_magpie.mp3",
+    "source": "inaturalist:411325331"
+  },
+  {
+    "id": "common_blackbird",
+    "name_pt": "Melro-preto",
+    "name_en": "Common Blackbird",
+    "scientific": "Turdus merula",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland"
+    ],
+    "audio": "common_blackbird.mp3",
+    "source": "inaturalist:411237363"
+  },
+  {
+    "id": "tui",
+    "name_pt": "Tui",
+    "name_en": "Tui",
+    "scientific": "Prosthemadera novaeseelandiae",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ],
+    "audio": "tui.mp3",
+    "source": "inaturalist:410667677"
+  },
+  {
+    "id": "laughing_kookaburra",
+    "name_pt": "Kookaburra-risonha",
+    "name_en": "Laughing Kookaburra",
+    "scientific": "Dacelo novaeguineae",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland"
+    ],
+    "audio": "laughing_kookaburra.mp3",
+    "source": "inaturalist:410843593"
+  },
+  {
+    "id": "superb_lyrebird",
+    "name_pt": "Ave-lira-soberba",
+    "name_en": "Superb Lyrebird",
+    "scientific": "Menura novaehollandiae",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ],
+    "audio": "superb_lyrebird.mp3",
+    "source": "inaturalist:410611571"
+  },
+  {
+    "id": "sulfur_crested_cockatoo",
+    "name_pt": "Cacatua-de-crista-amarela",
+    "name_en": "Sulphur-crested Cockatoo",
+    "scientific": "Cacatua galerita",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland"
+    ],
+    "audio": "sulfur_crested_cockatoo.mp3",
+    "source": "inaturalist:410914589"
+  },
+  {
+    "id": "rainbow_lorikeet",
+    "name_pt": "Lóris-arco-íris",
+    "name_en": "Rainbow Lorikeet",
+    "scientific": "Trichoglossus moluccanus",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ],
+    "audio": "rainbow_lorikeet.mp3",
+    "source": "inaturalist:410611515"
+  },
+  {
+    "id": "little_penguin",
+    "name_pt": "Pinguim-azul",
+    "name_en": "Little Penguin",
+    "scientific": "Eudyptula minor",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ],
+    "audio": "little_penguin.mp3",
+    "source": "inaturalist:374394118"
+  },
+  {
+    "id": "north_island_brown_kiwi",
+    "name_pt": "Quivi-castanho-da-ilha-norte",
+    "name_en": "North Island Brown Kiwi",
+    "scientific": "Apteryx mantelli",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland"
+    ],
+    "audio": "north_island_brown_kiwi.mp3",
+    "source": "inaturalist:399206689"
+  },
+  {
+    "id": "australian_magpie",
+    "name_pt": "Pega-australiana",
+    "name_en": "Australian Magpie",
+    "scientific": "Gymnorhina tibicen",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland"
+    ],
+    "audio": "australian_magpie.mp3",
+    "source": "inaturalist:410899231"
+  },
+  {
+    "id": "red_crowned_crane",
+    "name_pt": "Grou-da-manchúria",
+    "name_en": "Red-crowned Crane",
+    "scientific": "Grus japonensis",
+    "expansion": "asia",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ],
+    "audio": "red_crowned_crane.mp3",
+    "source": "inaturalist:364185365"
+  },
+  {
+    "id": "indian_peafowl",
+    "name_pt": "Pavão-indiano",
+    "name_en": "Indian Peafowl",
+    "scientific": "Pavo cristatus",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland"
+    ],
+    "audio": "indian_peafowl.mp3",
+    "source": "inaturalist:406643774"
+  },
+  {
+    "id": "mandarin_duck",
+    "name_pt": "Pato-mandarim",
+    "name_en": "Mandarin Duck",
+    "scientific": "Aix galericulata",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "wetland"
+    ],
+    "audio": "mandarin_duck.mp3",
+    "source": "inaturalist:338606706"
+  },
+  {
+    "id": "japanese_tit",
+    "name_pt": "Chapim-oriental",
+    "name_en": "Japanese Tit",
+    "scientific": "Parus minor",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ],
+    "audio": "japanese_tit.mp3",
+    "source": "inaturalist:407484115"
+  },
+  {
+    "id": "red_whiskered_bulbul",
+    "name_pt": "Bulbul-de-bigode-vermelho",
+    "name_en": "Red-whiskered Bulbul",
+    "scientific": "Pycnonotus jocosus",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland"
+    ],
+    "audio": "red_whiskered_bulbul.mp3",
+    "source": "inaturalist:411048410"
+  },
+  {
+    "id": "great_hornbill",
+    "name_pt": "Calau-bicórnio",
+    "name_en": "Great Hornbill",
+    "scientific": "Buceros bicornis",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ],
+    "audio": "great_hornbill.mp3",
+    "source": "inaturalist:362188013"
+  },
+  {
+    "id": "azure_winged_magpie",
+    "name_pt": "Pega-azul-oriental",
+    "name_en": "Azure-winged Magpie",
+    "scientific": "Cyanopica cyanus",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ],
+    "audio": "azure_winged_magpie.mp3",
+    "source": "inaturalist:409350415"
+  }
+]

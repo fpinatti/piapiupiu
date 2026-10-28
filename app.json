@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "PiaPiuPiu - Wingsong",
+    "slug": "piapiupiu",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.piapiupiu.app",
+      "infoPlist": {
+        "NSCameraUsageDescription": "O PiaPiuPiu precisa da câmera para ler o nome da carta de ave do Wingspan via OCR e tocar o seu canto."
+      }
+    },
+    "android": {
+      "package": "com.piapiupiu.app",
+      "permissions": [
+        "android.permission.CAMERA"
+      ]
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      [
+        "react-native-vision-camera",
+        {
+          "cameraPermissionText": "O PiaPiuPiu precisa de acesso à câmera para identificar cartas do Wingspan via OCR."
+        }
+      ],
+      [
+        "expo-av",
+        {
+          "microphonePermission": false
+        }
+      ]
+    ]
+  }
+}
+

@@ -1,3 +1,43 @@
-# piapiupiu
-# piapiupiu
-# piapiupiu
+# PiaPiuPiu — Wingsong Companion App (React Native)
+
+Aplicativo companheiro **100% offline** para o jogo de tabuleiro **Wingspan**, recriando a experiência do *Wingsong* em React Native + TypeScript.
+
+Em vez de usar classificação visual da ilustração (suscetível a falsos-positivos por iluminação e sleeves), o **PiaPiuPiu** utiliza:
+1. **OCR On-Device em Tempo Real** (`react-native-vision-camera` v4 + `react-native-vision-camera-text-recognition` / Google ML Kit) focado em uma **Zona de Enquadramento (Bounding Box Virtual)** no terço superior da carta.
+2. **Normalização e Fuzzy Matching (`Fuse.js`)** tolerante a reflexos de sleeves e ruídos de OCR (ex: `"GA1O-AZUL"` → `"Gaio-azul"`), buscando simultaneamente em **Português (PT-BR)**, **Inglês (EN)** e **Nome Científico** nas expansões **Base**, **Europa**, **Oceania** e **Ásia**.
+3. **Debounce Anti-Spam (6 segundos)**: evita disparar o áudio repetidamente enquanto o jogador segura a mesma carta.
+4. **Banco de Áudios 100% Offline** (`expo-av`): gravações ornitológicas reais comprimidas via `ffmpeg` (Mono, 32kbps, máx. 6s com fade-out de 1s — ~24 KB por ave).
+
+---
+
+## Como Executar
+
+### 1. Instalar dependências
+```bash
+npm install --legacy-peer-deps
+```
+
+### 2. Sincronizar e comprimir cantos de aves (Pipeline Node.js + `ffmpeg`)
+Requer `ffmpeg` instalado no sistema:
+```bash
+# Processar todas as aves de src/data/birds-seed.json (formato padrão: mp3 mono 32kbps)
+npm run sync:birds
+
+# Opções avançadas:
+node scripts/sync-birds.mjs --expansion oceania --limit 10 --format opus --force
+```
+O script busca gravações pelo nome científico (Xeno-Canto / iNaturalist), converte com `ffmpeg` para `assets/audio/` e gera automaticamente `src/data/birds.json` e `src/data/audioMap.ts`.
+
+### 3. Rodar no Android / iOS (Development Build com VisionCamera + ML Kit)
+Como o Frame Processor de OCR utiliza código nativo (`react-native-vision-camera` + `react-native-worklets-core`), execute via Development Build do Expo:
+```bash
+npx expo run:android
+# ou
+npx expo run:ios
+```
+
+### 4. Testes Automatizados e Checagem de Tipos
+```bash
+npm test
+npm run typecheck
+```
