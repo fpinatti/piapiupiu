@@ -1,4 +1,4 @@
-export type ExpansionId = 'base' | 'europe' | 'oceania' | 'asia';
+export type ExpansionId = 'base' | 'europe' | 'oceania' | 'asia' | 'americas';
 
 export type AppLanguage = 'all' | 'pt' | 'en';
 

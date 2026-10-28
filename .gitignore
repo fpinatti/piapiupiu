@@ -16,5 +16,7 @@ yarn-debug.*
 yarn-error.*
 .DS_Store
 *.pem
+.env*
+*.log
 assets/audio/*_raw.*
 

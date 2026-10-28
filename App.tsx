@@ -28,7 +28,13 @@ import {
 
 type ActiveTab = 'scanner' | 'catalog';
 
-const ALL_EXPANSIONS: ExpansionId[] = ['base', 'europe', 'oceania', 'asia'];
+const ALL_EXPANSIONS: ExpansionId[] = [
+  'base',
+  'europe',
+  'oceania',
+  'asia',
+  'americas',
+];
 const CATALOG_BIRDS = birdsCatalogJson as BirdCard[];
 
 export default function App() {

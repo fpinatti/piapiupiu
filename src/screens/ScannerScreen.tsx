@@ -55,6 +55,8 @@ const SAMPLE_OCR_CARDS = [
   'GROU-DA-MANCHÚRIA',
   'PATO-MANDARIM',
   'TUI',
+  'ANDEAN CONDOR',
+  'RUBY-TOPAZ HUMMINGBIRD',
 ];
 
 export function ScannerScreen({

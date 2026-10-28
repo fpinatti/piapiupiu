@@ -95,6 +95,10 @@ export function CatalogScreen({
         data={results}
         numColumns={numColumns}
         keyExtractor={(item) => item.id}
+        initialNumToRender={12}
+        maxToRenderPerBatch={12}
+        windowSize={7}
+        removeClippedSubviews
         contentContainerStyle={styles.listContent}
         columnWrapperStyle={numColumns > 1 ? styles.columnWrapper : undefined}
         renderItem={({ item }) => {

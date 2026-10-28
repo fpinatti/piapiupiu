@@ -3,12 +3,11 @@
  * scripts/sync-birds.mjs
  *
  * Automated Data & Audio Pipeline for PiaPiuPiu (Wingsong Clone):
- * 1. Reads the Wingspan bird catalog from src/data/birds-seed.json
- * 2. Queries Xeno-Canto REST API by scientific name (prioritizing Grade A, 3-15s clips)
- * 3. Downloads and transcodes audio via ffmpeg (mono, 32kbps, max 6s, 1s fade-out)
- *    - If Xeno-Canto is unreachable or requires an API key not present, falls back to
- *      Wikimedia Commons open ornithological recordings, or generates a unique
- *      melodic bird-chirp audio file via ffmpeg lavfi so 100% offline bundling always succeeds.
+ * 1. Reads the Wingspan bird catalog from src/data/birds-seed.json (all 5 expansions)
+ * 2. Queries Xeno-Canto REST API / iNaturalist by scientific name (unless --fast-synth is set)
+ * 3. Downloads and transcodes audio via ffmpeg (mono, 24kbps, max 4s, 0.8s fade-out)
+ *    - Falls back to generating a unique melodic bird-chirp audio file via ffmpeg lavfi
+ *      so 100% offline bundling always succeeds within the <20 MB budget.
  * 4. Writes src/data/birds.json and src/data/audioMap.ts for offline React Native bundling.
  */
 
@@ -29,7 +28,7 @@ const AUDIO_MAP_PATH = path.resolve(ROOT_DIR, 'src', 'data', 'audioMap.ts');
 const AUDIO_OUTPUT_DIR = path.resolve(ROOT_DIR, 'assets', 'audio');
 
 const ALLOWED_FORMATS = new Set(['mp3', 'opus']);
-const ALLOWED_EXPANSIONS = new Set(['all', 'base', 'europe', 'oceania', 'asia']);
+const ALLOWED_EXPANSIONS = new Set(['all', 'base', 'europe', 'oceania', 'asia', 'americas']);
 const SAFE_ID_REGEX = /^[a-z0-9_]+$/;
 const FFMPEG_BIN = '/usr/bin/ffmpeg';
 
@@ -50,7 +49,9 @@ function parseCliArgs(argv) {
     format: 'mp3',
     expansion: 'all',
     limit: Infinity,
+    concurrency: 8,
     force: false,
+    fastSynth: false,
   };
 
   for (let i = 2; i < argv.length; i++) {
@@ -64,7 +65,9 @@ function parseCliArgs(argv) {
     } else if (arg === '--expansion' && argv[i + 1]) {
       const exp = argv[++i].toLowerCase();
       if (!ALLOWED_EXPANSIONS.has(exp)) {
-        throw new Error(`Invalid --expansion "${exp}". Allowed: all, base, europe, oceania, asia`);
+        throw new Error(
+          `Invalid --expansion "${exp}". Allowed: all, base, europe, oceania, asia, americas`
+        );
       }
       options.expansion = exp;
     } else if (arg === '--limit' && argv[i + 1]) {
@@ -73,8 +76,16 @@ function parseCliArgs(argv) {
         throw new Error('Invalid --limit value; must be a positive integer.');
       }
       options.limit = lim;
+    } else if (arg === '--concurrency' && argv[i + 1]) {
+      const conc = Number.parseInt(argv[++i], 10);
+      if (Number.isNaN(conc) || conc < 1 || conc > 16) {
+        throw new Error('Invalid --concurrency value; must be an integer between 1 and 16.');
+      }
+      options.concurrency = conc;
     } else if (arg === '--force') {
       options.force = true;
+    } else if (arg === '--fast-synth') {
+      options.fastSynth = true;
     }
   }
 
@@ -86,7 +97,11 @@ function parseCliArgs(argv) {
  */
 async function fetchXenoCantoAudioUrl(scientificName) {
   const apiKey = process.env.XENO_CANTO_API_KEY || '';
-  const keyParam = apiKey ? `&key=${encodeURIComponent(apiKey)}` : '';
+  if (!apiKey) {
+    // Xeno-Canto API v2 requires an API key in many regions; skip if unconfigured to avoid slow timeouts
+    return null;
+  }
+  const keyParam = `&key=${encodeURIComponent(apiKey)}`;
 
   const queries = [
     `"${scientificName}" q:A len:3-15`,
@@ -100,7 +115,7 @@ async function fetchXenoCantoAudioUrl(scientificName) {
       const url = `https://xeno-canto.org/api/2/recordings?query=${query}${keyParam}`;
       const res = await fetch(url, {
         headers: { 'User-Agent': 'PiaPiuPiu-Wingsong/1.0 (https://github.com/fpinatti/piapiupiu)' },
-        signal: AbortSignal.timeout(8000),
+        signal: AbortSignal.timeout(6000),
       });
       if (!res.ok) continue;
 
@@ -123,10 +138,10 @@ async function fetchXenoCantoAudioUrl(scientificName) {
 async function fetchINaturalistAudioUrl(scientificName) {
   try {
     const query = encodeURIComponent(scientificName);
-    const url = `https://api.inaturalist.org/v1/observations?taxon_name=${query}&sounds=true&per_page=3&quality_grade=research`;
+    const url = `https://api.inaturalist.org/v1/observations?taxon_name=${query}&sounds=true&per_page=2&quality_grade=research`;
     const res = await fetch(url, {
       headers: { 'User-Agent': 'PiaPiuPiu-Wingsong/1.0' },
-      signal: AbortSignal.timeout(8000),
+      signal: AbortSignal.timeout(6000),
     });
     if (!res.ok) return null;
     const data = await res.json();
@@ -144,22 +159,23 @@ async function fetchINaturalistAudioUrl(scientificName) {
 
 /**
  * Deterministically derive melodic chirp frequencies from a bird's scientific name
- * and synthesize a clean 4-second bird song clip via ffmpeg lavfi when offline.
+ * and synthesize a clean 3.2-second 24kbps bird song clip via ffmpeg lavfi (~9.5 KB per bird).
  */
 function synthesizeBirdChirpWithFfmpeg(birdId, scientificName, outputPath, format) {
   let hash = 0;
   for (let i = 0; i < scientificName.length; i++) {
     hash = (hash * 31 + scientificName.charCodeAt(i)) >>> 0;
   }
-  const baseFreq = 1400 + (hash % 1400); // 1400 Hz - 2800 Hz avian vocal range
-  const modFreq = 5 + (hash % 9);        // warble speed
+  const baseFreq = 1350 + (hash % 1550); // 1350 Hz - 2900 Hz avian vocal range
+  const modFreq = 4 + (hash % 10);       // warble speed
+  const pulsePeriod = (0.45 + ((hash >>> 8) % 35) / 100).toFixed(2);
 
-  const filterExpr = `aevalsrc='0.35*sin(2*PI*(${baseFreq}+220*sin(2*PI*${modFreq}*t))*t)*exp(-1.2*mod(t,0.65))':s=24000:d=4,afade=t=in:st=0:d=0.1,afade=t=out:st=3.2:d=0.8`;
+  const filterExpr = `aevalsrc='0.35*sin(2*PI*(${baseFreq}+220*sin(2*PI*${modFreq}*t))*t)*exp(-1.3*mod(t,${pulsePeriod}))':s=22050:d=3.2,afade=t=in:st=0:d=0.08,afade=t=out:st=2.5:d=0.7`;
 
   const codecArgs =
     format === 'opus'
-      ? ['-c:a', 'libopus', '-b:a', '32k']
-      : ['-c:a', 'libmp3lame', '-b:a', '32k'];
+      ? ['-c:a', 'libopus', '-b:a', '24k']
+      : ['-c:a', 'libmp3lame', '-b:a', '24k'];
 
   execFileSync(
     FFMPEG_BIN,
@@ -179,13 +195,13 @@ function synthesizeBirdChirpWithFfmpeg(birdId, scientificName, outputPath, forma
 }
 
 /**
- * Transcode a downloaded raw audio file to Mono 32kbps (max 6s with 1s fade-out).
+ * Transcode a downloaded raw audio file to Mono 24kbps (max 4.5s with 0.8s fade-out).
  */
 function transcodeAudioWithFfmpeg(rawInputPath, finalOutputPath, format) {
   const codecArgs =
     format === 'opus'
-      ? ['-c:a', 'libopus', '-b:a', '32k']
-      : ['-c:a', 'libmp3lame', '-b:a', '32k'];
+      ? ['-c:a', 'libopus', '-b:a', '24k']
+      : ['-c:a', 'libmp3lame', '-b:a', '24k'];
 
   execFileSync(
     FFMPEG_BIN,
@@ -194,19 +210,21 @@ function transcodeAudioWithFfmpeg(rawInputPath, finalOutputPath, format) {
       '-i',
       rawInputPath,
       '-t',
-      '6',
+      '4.5',
       '-ac',
       '1',
+      '-ar',
+      '22050',
       ...codecArgs,
       '-af',
-      'afade=t=out:st=5:d=1',
+      'afade=t=out:st=3.7:d=0.8',
       finalOutputPath,
     ],
     { stdio: 'ignore' }
   );
 }
 
-async function processBird(bird, options) {
+async function processBird(bird, options, stats) {
   if (!SAFE_ID_REGEX.test(bird.id)) {
     throw new Error(`Invalid bird id "${bird.id}". Only [a-z0-9_] allowed.`);
   }
@@ -216,7 +234,7 @@ async function processBird(bird, options) {
   const rawTempPath = resolveSafeAudioPath(`${bird.id}_raw.tmp`);
 
   if (!options.force && existsSync(finalOutputPath)) {
-    console.log(`[SKIP] ${bird.name_pt} / ${bird.name_en} (${finalFilename} already exists)`);
+    stats.cached++;
     return {
       ...bird,
       audio: finalFilename,
@@ -224,37 +242,39 @@ async function processBird(bird, options) {
     };
   }
 
-  let remoteSource = await fetchXenoCantoAudioUrl(bird.scientific);
-  if (!remoteSource) {
-    remoteSource = await fetchINaturalistAudioUrl(bird.scientific);
-  }
+  if (!options.fastSynth) {
+    let remoteSource = await fetchXenoCantoAudioUrl(bird.scientific);
+    if (!remoteSource) {
+      remoteSource = await fetchINaturalistAudioUrl(bird.scientific);
+    }
 
-  if (remoteSource) {
-    try {
-      const response = await fetch(remoteSource.url, {
-        headers: { 'User-Agent': 'PiaPiuPiu-Wingsong/1.0' },
-        signal: AbortSignal.timeout(15000),
-      });
+    if (remoteSource) {
+      try {
+        const response = await fetch(remoteSource.url, {
+          headers: { 'User-Agent': 'PiaPiuPiu-Wingsong/1.0' },
+          signal: AbortSignal.timeout(12000),
+        });
 
-      if (response.ok && response.body) {
-        await pipeline(response.body, createWriteStream(rawTempPath));
-        transcodeAudioWithFfmpeg(rawTempPath, finalOutputPath, options.format);
+        if (response.ok && response.body) {
+          await pipeline(response.body, createWriteStream(rawTempPath));
+          transcodeAudioWithFfmpeg(rawTempPath, finalOutputPath, options.format);
+          await fs.unlink(rawTempPath).catch(() => {});
+          stats.downloaded++;
+          return {
+            ...bird,
+            audio: finalFilename,
+            source: remoteSource.source,
+          };
+        }
+      } catch {
         await fs.unlink(rawTempPath).catch(() => {});
-        console.log(`[OK] Downloaded & compressed: ${bird.name_pt} (${remoteSource.source})`);
-        return {
-          ...bird,
-          audio: finalFilename,
-          source: remoteSource.source,
-        };
       }
-    } catch {
-      await fs.unlink(rawTempPath).catch(() => {});
     }
   }
 
   // Fallback: synthesize compressed avian chirp via ffmpeg so offline bundle is complete
   synthesizeBirdChirpWithFfmpeg(bird.id, bird.scientific, finalOutputPath, options.format);
-  console.log(`[SYNTH] Generated offline chirp for: ${bird.name_pt} (${bird.scientific})`);
+  stats.synthesized++;
   return {
     ...bird,
     audio: finalFilename,
@@ -297,18 +317,36 @@ async function run() {
     .slice(0, options.limit);
 
   console.log(
-    `Processing ${filteredSeed.length} birds (expansion=${options.expansion}, format=${options.format})...`
+    `Processing ${filteredSeed.length} birds (expansion=${options.expansion}, format=${options.format}, concurrency=${options.concurrency}, fastSynth=${options.fastSynth})...`
   );
 
+  const stats = {
+    downloaded: 0,
+    synthesized: 0,
+    cached: 0,
+  };
+
   const processedById = new Map();
-  for (const bird of filteredSeed) {
-    const entry = await processBird(bird, options);
-    if (entry) {
-      processedById.set(entry.id, entry);
+  let cursor = 0;
+
+  async function worker() {
+    while (cursor < filteredSeed.length) {
+      const idx = cursor++;
+      const bird = filteredSeed[idx];
+      const entry = await processBird(bird, options, stats);
+      if (entry) {
+        processedById.set(entry.id, entry);
+      }
+      if ((idx + 1) % 50 === 0 || idx + 1 === filteredSeed.length) {
+        console.log(
+          `Progress: ${idx + 1}/${filteredSeed.length} (cached=${stats.cached}, downloaded=${stats.downloaded}, synthesized=${stats.synthesized})`
+        );
+      }
     }
-    // 300ms pause between birds to respect API rate limits
-    await new Promise((resolve) => setTimeout(resolve, 300));
   }
+
+  const workerCount = Math.min(options.concurrency, Math.max(1, filteredSeed.length));
+  await Promise.all(Array.from({ length: workerCount }, () => worker()));
 
   // Merge with full seed list so src/data/birds.json always contains all catalog birds
   const finalCatalog = seedBirds.map((bird) => {
@@ -319,18 +357,19 @@ async function run() {
     return {
       ...bird,
       audio: defaultAudio,
-      source: existsSync(resolveSafeAudioPath(defaultAudio)) ? 'bundled' : 'pending',
+      source: existsSync(resolveSafeAudioPath(defaultAudio)) ? bird.source || 'bundled' : 'pending',
     };
   });
 
   await fs.writeFile(DB_OUTPUT_PATH, JSON.stringify(finalCatalog, null, 2) + '\n', 'utf-8');
   await generateAudioMapFile(finalCatalog);
 
-  console.log(`\nCompleted! Wrote ${finalCatalog.length} birds to src/data/birds.json`);
+  console.log(
+    `\nCompleted! Summary: total=${finalCatalog.length}, processed=${filteredSeed.length}, cached=${stats.cached}, downloaded=${stats.downloaded}, synthesized=${stats.synthesized}`
+  );
 }
 
 run().catch((err) => {
   console.error('Pipeline failed:', err.message);
   process.exit(1);
 });
-

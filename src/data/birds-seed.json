@@ -1,19 +1,158 @@
 [
   {
-    "id": "blue_jay",
-    "name_pt": "Gaio-azul",
-    "name_en": "Blue Jay",
-    "scientific": "Cyanocitta cristata",
-    "expansion": "base",
-    "habitats": ["forest"]
+    "id": "abbotts_booby",
+    "name_pt": "Alcatraz-de-abbott",
+    "name_en": "Abbott's Booby",
+    "scientific": "Papasula abbotti",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
   },
   {
-    "id": "barn_owl",
-    "name_pt": "Coruja-das-torres",
-    "name_en": "Barn Owl",
-    "scientific": "Tyto alba",
+    "id": "acorn_woodpecker",
+    "name_pt": "Pica-pau-das-bolotas",
+    "name_en": "Acorn Woodpecker",
+    "scientific": "Melanerpes formicivorus",
     "expansion": "base",
-    "habitats": ["forest", "grassland", "wetland"]
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "altamira_oriole",
+    "name_pt": "Corrupião-bicudo",
+    "name_en": "Altamira Oriole",
+    "scientific": "Icterus gularis",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "amazon_kingfisher",
+    "name_pt": "Guarda-rios-amazónico",
+    "name_en": "Amazon Kingfisher",
+    "scientific": "Chloroceryle amazona",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "amazonian_parrotlet",
+    "name_pt": "Periquito-da-amazónia",
+    "name_en": "Amazonian Parrotlet",
+    "scientific": "Nannopsittaca dachilleae",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "wetland"
+    ]
+  },
+  {
+    "id": "american_avocet",
+    "name_pt": "Alfaiate-americano",
+    "name_en": "American Avocet",
+    "scientific": "Recurvirostra americana",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "american_bittern",
+    "name_pt": "Abetouro-americano",
+    "name_en": "American Bittern",
+    "scientific": "Botaurus lentiginosus",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "american_coot",
+    "name_pt": "Galeirão-americano",
+    "name_en": "American Coot",
+    "scientific": "Fulica americana",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "american_crow",
+    "name_pt": "Corvo-americano",
+    "name_en": "American Crow",
+    "scientific": "Corvus brachyrhynchos",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "american_flamingo",
+    "name_pt": "Flamingo",
+    "name_en": "American Flamingo",
+    "scientific": "Phoenicopterus ruber",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "american_golden_plover",
+    "name_pt": "Batuiruçu",
+    "name_en": "American Golden-Plover",
+    "scientific": "Pluvialis dominica",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "american_goldfinch",
+    "name_pt": "Lugre-americano",
+    "name_en": "American Goldfinch",
+    "scientific": "Spinus tristis",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "american_kestrel",
+    "name_pt": "Peneireiro-americano",
+    "name_en": "American Kestrel",
+    "scientific": "Falco sparverius",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "american_oystercatcher",
+    "name_pt": "Ostraceiro-americano",
+    "name_en": "American Oystercatcher",
+    "scientific": "Haematopus palliatus",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "american_redstart",
+    "name_pt": "Mariquita-de-rabo-vermelho",
+    "name_en": "American Redstart",
+    "scientific": "Setophaga ruticilla",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
   },
   {
     "id": "american_robin",
@@ -21,55 +160,117 @@
     "name_en": "American Robin",
     "scientific": "Turdus migratorius",
     "expansion": "base",
-    "habitats": ["forest", "grassland"]
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
   },
   {
-    "id": "northern_cardinal",
-    "name_pt": "Cardeal-do-norte",
-    "name_en": "Northern Cardinal",
-    "scientific": "Cardinalis cardinalis",
+    "id": "american_white_pelican",
+    "name_pt": "Pelicano-americano",
+    "name_en": "American White Pelican",
+    "scientific": "Pelecanus erythrorhynchos",
     "expansion": "base",
-    "habitats": ["forest"]
+    "habitats": [
+      "wetland"
+    ]
   },
   {
-    "id": "bald_eagle",
-    "name_pt": "Águia-careca",
-    "name_en": "Bald Eagle",
-    "scientific": "Haliaeetus leucocephalus",
+    "id": "american_woodcock",
+    "name_pt": "Galinhola-americana",
+    "name_en": "American Woodcock",
+    "scientific": "Scolopax minor",
     "expansion": "base",
-    "habitats": ["wetland"]
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
   },
   {
-    "id": "peregrine_falcon",
-    "name_pt": "Falcão-peregrino",
-    "name_en": "Peregrine Falcon",
-    "scientific": "Falco peregrinus",
-    "expansion": "base",
-    "habitats": ["grassland", "wetland"]
+    "id": "andean_cock_of_the_rock",
+    "name_pt": "Galo-das-rochas",
+    "name_en": "Andean Cock-of-the-Rock",
+    "scientific": "Rupicola peruvianus",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
   },
   {
-    "id": "ruby_throated_hummingbird",
-    "name_pt": "Beija-flor-de-garganta-rubi",
-    "name_en": "Ruby-throated Hummingbird",
-    "scientific": "Archilochus colubris",
-    "expansion": "base",
-    "habitats": ["forest", "grassland"]
+    "id": "andean_condor",
+    "name_pt": "Condor",
+    "name_en": "Andean Condor",
+    "scientific": "Vultur gryphus",
+    "expansion": "americas",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
   },
   {
-    "id": "great_horned_owl",
-    "name_pt": "Corujão-orelhudo",
-    "name_en": "Great Horned Owl",
-    "scientific": "Bubo virginianus",
+    "id": "anhinga",
+    "name_pt": "Biguatinga",
+    "name_en": "Anhinga",
+    "scientific": "Anhinga anhinga",
     "expansion": "base",
-    "habitats": ["forest", "grassland", "wetland"]
+    "habitats": [
+      "wetland"
+    ]
   },
   {
-    "id": "mallard",
-    "name_pt": "Pato-real",
-    "name_en": "Mallard",
-    "scientific": "Anas platyrhynchos",
+    "id": "annas_hummingbird",
+    "name_pt": "Beija-flor-de-anna",
+    "name_en": "Anna's Hummingbird",
+    "scientific": "Calypte anna",
     "expansion": "base",
-    "habitats": ["wetland"]
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "antioquia_brushfinch",
+    "name_pt": "Tico-tico-de-antioquia",
+    "name_en": "Antioquia Brushfinch",
+    "scientific": "Atlapetes blancae",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "ash_throated_flycatcher",
+    "name_pt": "Caça-moscas-de-garganta-cinzenta",
+    "name_en": "Ash-Throated Flycatcher",
+    "scientific": "Myiarchus cinerascens",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "asian_emerald_dove",
+    "name_pt": "Rola-da-índia",
+    "name_en": "Asian Emerald Dove",
+    "scientific": "Chalcophaps indica",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "asian_koel",
+    "name_pt": "Coel-asiático",
+    "name_en": "Asian Koel",
+    "scientific": "Eudynamys scolopaceus",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
   },
   {
     "id": "atlantic_puffin",
@@ -77,183 +278,50 @@
     "name_en": "Atlantic Puffin",
     "scientific": "Fratercula arctica",
     "expansion": "base",
-    "habitats": ["wetland"]
+    "habitats": [
+      "wetland"
+    ]
   },
   {
-    "id": "red_tailed_hawk",
-    "name_pt": "Buteo-de-cauda-vermelha",
-    "name_en": "Red-tailed Hawk",
-    "scientific": "Buteo jamaicensis",
-    "expansion": "base",
-    "habitats": ["forest", "grassland"]
-  },
-  {
-    "id": "common_raven",
-    "name_pt": "Corvo-comum",
-    "name_en": "Common Raven",
-    "scientific": "Corvus corax",
-    "expansion": "base",
-    "habitats": ["forest", "grassland", "wetland"]
-  },
-  {
-    "id": "painted_bunting",
-    "name_pt": "azulão-pintado",
-    "name_en": "Painted Bunting",
-    "scientific": "Passerina ciris",
-    "expansion": "base",
-    "habitats": ["grassland"]
-  },
-  {
-    "id": "wood_duck",
-    "name_pt": "Pato-carolino",
-    "name_en": "Wood Duck",
-    "scientific": "Aix sponsa",
-    "expansion": "base",
-    "habitats": ["forest", "wetland"]
-  },
-  {
-    "id": "scissortailed_flycatcher",
-    "name_pt": "Tesourinha-do-campo",
-    "name_en": "Scissor-tailed Flycatcher",
-    "scientific": "Tyrannus forficatus",
-    "expansion": "base",
-    "habitats": ["grassland"]
-  },
-  {
-    "id": "eurasian_jay",
-    "name_pt": "Gaio-comum",
-    "name_en": "Eurasian Jay",
-    "scientific": "Garrulus glandarius",
+    "id": "audouins_gull",
+    "name_pt": "Gaivota-de-audouin",
+    "name_en": "Audouin's Gull",
+    "scientific": "Ichthyaetus audouinii",
     "expansion": "europe",
-    "habitats": ["forest"]
+    "habitats": [
+      "wetland"
+    ]
   },
   {
-    "id": "common_kingfisher",
-    "name_pt": "Guarda-rios-comum",
-    "name_en": "Common Kingfisher",
-    "scientific": "Alcedo atthis",
-    "expansion": "europe",
-    "habitats": ["wetland"]
-  },
-  {
-    "id": "european_robin",
-    "name_pt": "Pisco-de-peito-ruivo",
-    "name_en": "European Robin",
-    "scientific": "Erithacus rubecula",
-    "expansion": "europe",
-    "habitats": ["forest", "grassland"]
-  },
-  {
-    "id": "common_nightingale",
-    "name_pt": "Rouxinol-comum",
-    "name_en": "Common Nightingale",
-    "scientific": "Luscinia megarhynchos",
-    "expansion": "europe",
-    "habitats": ["forest", "grassland"]
-  },
-  {
-    "id": "snowy_owl",
-    "name_pt": "Coruja-das-neves",
-    "name_en": "Snowy Owl",
-    "scientific": "Bubo scandiacus",
-    "expansion": "europe",
-    "habitats": ["grassland", "wetland"]
-  },
-  {
-    "id": "european_goldfinch",
-    "name_pt": "Pintassilgo-europeu",
-    "name_en": "European Goldfinch",
-    "scientific": "Carduelis carduelis",
-    "expansion": "europe",
-    "habitats": ["forest", "grassland"]
-  },
-  {
-    "id": "white_stork",
-    "name_pt": "Cegonha-branca",
-    "name_en": "White Stork",
-    "scientific": "Ciconia ciconia",
-    "expansion": "europe",
-    "habitats": ["grassland", "wetland"]
-  },
-  {
-    "id": "greater_flamingo",
-    "name_pt": "Flamingo-comum",
-    "name_en": "Greater Flamingo",
-    "scientific": "Phoenicopterus roseus",
-    "expansion": "europe",
-    "habitats": ["wetland"]
-  },
-  {
-    "id": "eurasian_magpie",
-    "name_pt": "Pega-rabuda",
-    "name_en": "Eurasian Magpie",
-    "scientific": "Pica pica",
-    "expansion": "europe",
-    "habitats": ["forest", "grassland"]
-  },
-  {
-    "id": "common_blackbird",
-    "name_pt": "Melro-preto",
-    "name_en": "Common Blackbird",
-    "scientific": "Turdus merula",
-    "expansion": "europe",
-    "habitats": ["forest", "grassland"]
-  },
-  {
-    "id": "tui",
-    "name_pt": "Tui",
-    "name_en": "Tui",
-    "scientific": "Prosthemadera novaeseelandiae",
+    "id": "australasian_pipit",
+    "name_pt": "Petinha-neozelandesa",
+    "name_en": "Australasian Pipit",
+    "scientific": "Anthus novaeseelandiae",
     "expansion": "oceania",
-    "habitats": ["forest"]
+    "habitats": [
+      "grassland"
+    ]
   },
   {
-    "id": "laughing_kookaburra",
-    "name_pt": "Kookaburra-risonha",
-    "name_en": "Laughing Kookaburra",
-    "scientific": "Dacelo novaeguineae",
+    "id": "australasian_shoveler",
+    "name_pt": "Pato-trombeteiro-de-asas-azuis",
+    "name_en": "Australasian Shoveler",
+    "scientific": "Spatula rhynchotis",
     "expansion": "oceania",
-    "habitats": ["forest", "grassland"]
+    "habitats": [
+      "wetland"
+    ]
   },
   {
-    "id": "superb_lyrebird",
-    "name_pt": "Ave-lira-soberba",
-    "name_en": "Superb Lyrebird",
-    "scientific": "Menura novaehollandiae",
+    "id": "australian_ibis",
+    "name_pt": "Íbis-branco-australiano",
+    "name_en": "Australian Ibis",
+    "scientific": "Threskiornis moluccus",
     "expansion": "oceania",
-    "habitats": ["forest"]
-  },
-  {
-    "id": "sulfur_crested_cockatoo",
-    "name_pt": "Cacatua-de-crista-amarela",
-    "name_en": "Sulphur-crested Cockatoo",
-    "scientific": "Cacatua galerita",
-    "expansion": "oceania",
-    "habitats": ["forest", "grassland"]
-  },
-  {
-    "id": "rainbow_lorikeet",
-    "name_pt": "Lóris-arco-íris",
-    "name_en": "Rainbow Lorikeet",
-    "scientific": "Trichoglossus moluccanus",
-    "expansion": "oceania",
-    "habitats": ["forest"]
-  },
-  {
-    "id": "little_penguin",
-    "name_pt": "Pinguim-azul",
-    "name_en": "Little Penguin",
-    "scientific": "Eudyptula minor",
-    "expansion": "oceania",
-    "habitats": ["wetland"]
-  },
-  {
-    "id": "north_island_brown_kiwi",
-    "name_pt": "Quivi-castanho-da-ilha-norte",
-    "name_en": "North Island Brown Kiwi",
-    "scientific": "Apteryx mantelli",
-    "expansion": "oceania",
-    "habitats": ["forest", "grassland"]
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
   },
   {
     "id": "australian_magpie",
@@ -261,47 +329,2076 @@
     "name_en": "Australian Magpie",
     "scientific": "Gymnorhina tibicen",
     "expansion": "oceania",
-    "habitats": ["forest", "grassland"]
+    "habitats": [
+      "grassland"
+    ]
   },
   {
-    "id": "red_crowned_crane",
-    "name_pt": "Grou-da-manchúria",
-    "name_en": "Red-crowned Crane",
-    "scientific": "Grus japonensis",
-    "expansion": "asia",
-    "habitats": ["grassland", "wetland"]
+    "id": "australian_owlet_nightjar",
+    "name_pt": "Egotelo-australiano",
+    "name_en": "Australian Owlet-Nightjar",
+    "scientific": "Aegotheles cristatus",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
   },
   {
-    "id": "indian_peafowl",
-    "name_pt": "Pavão-indiano",
-    "name_en": "Indian Peafowl",
-    "scientific": "Pavo cristatus",
-    "expansion": "asia",
-    "habitats": ["forest", "grassland"]
+    "id": "australian_raven",
+    "name_pt": "Corvo-australiano",
+    "name_en": "Australian Raven",
+    "scientific": "Corvus coronoides",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
   },
   {
-    "id": "mandarin_duck",
-    "name_pt": "Pato-mandarim",
-    "name_en": "Mandarin Duck",
-    "scientific": "Aix galericulata",
-    "expansion": "asia",
-    "habitats": ["forest", "wetland"]
+    "id": "australian_reed_warbler",
+    "name_pt": "Felosa-australiana",
+    "name_en": "Australian Reed Warbler",
+    "scientific": "Acrocephalus australis",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
   },
   {
-    "id": "japanese_tit",
-    "name_pt": "Chapim-oriental",
-    "name_en": "Japanese Tit",
-    "scientific": "Parus minor",
-    "expansion": "asia",
-    "habitats": ["forest"]
+    "id": "australian_shelduck",
+    "name_pt": "Pato-australiano",
+    "name_en": "Australian Shelduck",
+    "scientific": "Tadorna tadornoides",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
   },
   {
-    "id": "red_whiskered_bulbul",
-    "name_pt": "Bulbul-de-bigode-vermelho",
-    "name_en": "Red-whiskered Bulbul",
-    "scientific": "Pycnonotus jocosus",
+    "id": "australian_zebra_finch",
+    "name_pt": "Mandarim-australiano",
+    "name_en": "Australian Zebra Finch",
+    "scientific": "Taeniopygia castanotis",
+    "expansion": "oceania",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "azure_tit",
+    "name_pt": "Chapim-de-cabeça-branca",
+    "name_en": "Azure Tit",
+    "scientific": "Cyanistes cyanus",
     "expansion": "asia",
-    "habitats": ["forest", "grassland"]
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "bairds_sparrow",
+    "name_pt": "Tico-tico-das-pradarias",
+    "name_en": "Baird's Sparrow",
+    "scientific": "Ammodramus bairdii",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "bald_eagle",
+    "name_pt": "Águia-careca",
+    "name_en": "Bald Eagle",
+    "scientific": "Haliaeetus leucocephalus",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "baltimore_oriole",
+    "name_pt": "Corrupião-de-baltimore",
+    "name_en": "Baltimore Oriole",
+    "scientific": "Icterus galbula",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "bananaquit",
+    "name_pt": "Bananeiro",
+    "name_en": "Bananaquit",
+    "scientific": "Coereba flaveola",
+    "expansion": "americas",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "barn_owl",
+    "name_pt": "Coruja-das-torres",
+    "name_en": "Barn Owl",
+    "scientific": "Tyto alba",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "barn_swallow",
+    "name_pt": "Andorinha-das-chaminés",
+    "name_en": "Barn Swallow",
+    "scientific": "Hirundo rustica",
+    "expansion": "base",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "barred_antshrike",
+    "name_pt": "Choca-barrada",
+    "name_en": "Barred Antshrike",
+    "scientific": "Thamnophilus doliatus",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "barred_owl",
+    "name_pt": "Coruja-barrada",
+    "name_en": "Barred Owl",
+    "scientific": "Strix varia",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "barrows_goldeneye",
+    "name_pt": "Olho-dourado-da-islândia",
+    "name_en": "Barrow's Goldeneye",
+    "scientific": "Bucephala islandica",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "bat_falcon",
+    "name_pt": "Cauré",
+    "name_en": "Bat Falcon",
+    "scientific": "Falco rufigularis",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "baya_weaver",
+    "name_pt": "Tecelão-baia",
+    "name_en": "Baya Weaver",
+    "scientific": "Ploceus philippinus",
+    "expansion": "asia",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "bearded_reedling",
+    "name_pt": "Chapim-de-bigodes",
+    "name_en": "Bearded Reedling",
+    "scientific": "Panurus biarmicus",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "bells_vireo",
+    "name_pt": "Juruviara-de-coroa-cinzenta",
+    "name_en": "Bell's Vireo",
+    "scientific": "Vireo bellii",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "belted_kingfisher",
+    "name_pt": "Guarda-rios-cintado",
+    "name_en": "Belted Kingfisher",
+    "scientific": "Megaceryle alcyon",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "bewicks_wren",
+    "name_pt": "Carriça-de-bewick",
+    "name_en": "Bewick's Wren",
+    "scientific": "Thryomanes bewickii",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "black_drongo",
+    "name_pt": "Drongo-real",
+    "name_en": "Black Drongo",
+    "scientific": "Dicrurus macrocercus",
+    "expansion": "asia",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "black_noddy",
+    "name_pt": "Nodi-preto",
+    "name_en": "Black Noddy",
+    "scientific": "Anous minutus",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "black_rail",
+    "name_pt": "Açanã-preta",
+    "name_en": "Black Rail",
+    "scientific": "Laterallus jamaicensis",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "black_redstart",
+    "name_pt": "Rabirruivo-preto",
+    "name_en": "Black Redstart",
+    "scientific": "Phoenicurus ochruros",
+    "expansion": "europe",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "black_skimmer",
+    "name_pt": "Talha-mar",
+    "name_en": "Black Skimmer",
+    "scientific": "Rynchops niger",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "black_stork",
+    "name_pt": "Cegonha-preta",
+    "name_en": "Black Stork",
+    "scientific": "Ciconia nigra",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "wetland"
+    ]
+  },
+  {
+    "id": "black_swan",
+    "name_pt": "Cisne-negro",
+    "name_en": "Black Swan",
+    "scientific": "Cygnus atratus",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "black_tern",
+    "name_pt": "Gaivina-preta",
+    "name_en": "Black Tern",
+    "scientific": "Chlidonias niger",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "black_vulture",
+    "name_pt": "Urubu-preto",
+    "name_en": "Black Vulture",
+    "scientific": "Coragyps atratus",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "black_woodpecker",
+    "name_pt": "Pica-pau-preto",
+    "name_en": "Black Woodpecker",
+    "scientific": "Dryocopus martius",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "black_bellied_whistling_duck",
+    "name_pt": "Dendrocisne-de-barriga-preta",
+    "name_en": "Black-Bellied Whistling-Duck",
+    "scientific": "Dendrocygna autumnalis",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "black_billed_magpie",
+    "name_pt": "Pega-americana",
+    "name_en": "Black-Billed Magpie",
+    "scientific": "Pica hudsonia",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "black_chinned_hummingbird",
+    "name_pt": "Beija-flor-de-garganta-preta",
+    "name_en": "Black-Chinned Hummingbird",
+    "scientific": "Archilochus alexandri",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "black_crowned_night_heron",
+    "name_pt": "Savacu",
+    "name_en": "Black-Crowned Night-Heron",
+    "scientific": "Nycticorax nycticorax",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "black_headed_gull",
+    "name_pt": "Garrincho-comum",
+    "name_en": "Black-Headed Gull",
+    "scientific": "Chroicocephalus ridibundus",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "black_naped_oriole",
+    "name_pt": "Papa-figos-de-nuca-preta",
+    "name_en": "Black-Naped Oriole",
+    "scientific": "Oriolus chinensis",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "black_necked_stilt",
+    "name_pt": "Pernilongo-americano",
+    "name_en": "Black-Necked Stilt",
+    "scientific": "Himantopus mexicanus",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "black_shouldered_kite",
+    "name_pt": "Peneireiro-cinzento-australiano",
+    "name_en": "Black-Shouldered Kite",
+    "scientific": "Elanus axillaris",
+    "expansion": "oceania",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "black_tailed_godwit",
+    "name_pt": "Maçarico-de-bico-direito",
+    "name_en": "Black-Tailed Godwit",
+    "scientific": "Limosa limosa",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "black_throated_diver",
+    "name_pt": "Mobelha-árctica",
+    "name_en": "Black-Throated Diver",
+    "scientific": "Gavia arctica",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "blue_grosbeak",
+    "name_pt": "Azulejo-real",
+    "name_en": "Blue Grosbeak",
+    "scientific": "Passerina caerulea",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "blue_jay",
+    "name_pt": "Gaio-azul",
+    "name_en": "Blue Jay",
+    "scientific": "Cyanocitta cristata",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "blue_rock_thrush",
+    "name_pt": "Melro-azul",
+    "name_en": "Blue Rock-Thrush",
+    "scientific": "Monticola solitarius",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "blue_black_grassquit",
+    "name_pt": "Sementeiro-preto-e-azul",
+    "name_en": "Blue-Black Grassquit",
+    "scientific": "Volatinia jacarina",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "blue_footed_booby",
+    "name_pt": "Alcatraz-de-pés-azuis",
+    "name_en": "Blue-Footed Booby",
+    "scientific": "Sula nebouxii",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "blue_gray_gnatcatcher",
+    "name_pt": "Balança-rabo-de-sobrancelhas",
+    "name_en": "Blue-Gray Gnatcatcher",
+    "scientific": "Polioptila caerulea",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "blue_grey_tanager",
+    "name_pt": "Sanhaço-da-amazónia",
+    "name_en": "Blue-Grey Tanager",
+    "scientific": "Thraupis episcopus",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "blue_headed_parrot",
+    "name_pt": "Papagaio-de-cabeça-azul",
+    "name_en": "Blue-Headed Parrot",
+    "scientific": "Pionus menstruus",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "blue_winged_warbler",
+    "name_pt": "Mariquita-d'asa-azul",
+    "name_en": "Blue-Winged Warbler",
+    "scientific": "Vermivora cyanoptera",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "blue_and_yellow_macaw",
+    "name_pt": "Arara-azul-e-amarela",
+    "name_en": "Blue-and-Yellow Macaw",
+    "scientific": "Ara ararauna",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "bluethroat",
+    "name_pt": "Pisco-de-peito-azul",
+    "name_en": "Bluethroat",
+    "scientific": "Luscinia svecica",
+    "expansion": "europe",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "blyths_hornbill",
+    "name_pt": "Calau-da-papua",
+    "name_en": "Blyth's Hornbill",
+    "scientific": "Rhyticeros plicatus",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "boat_billed_heron",
+    "name_pt": "Arapapá",
+    "name_en": "Boat-Billed Heron",
+    "scientific": "Cochlearius cochlearius",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "bobolink",
+    "name_pt": "Triste-pia",
+    "name_en": "Bobolink",
+    "scientific": "Dolichonyx oryzivorus",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "bonellis_eagle",
+    "name_pt": "Águia-de-bonelli",
+    "name_en": "Bonelli's Eagle",
+    "scientific": "Aquila fasciata",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "brahminy_kite",
+    "name_pt": "Milhafre-brâmane",
+    "name_en": "Brahminy Kite",
+    "scientific": "Haliastur indus",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "brambling",
+    "name_pt": "Tentilhão-montês",
+    "name_en": "Brambling",
+    "scientific": "Fringilla montifringilla",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "brant",
+    "name_pt": "Ganso-de-faces-pretas",
+    "name_en": "Brant",
+    "scientific": "Branta bernicla",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "brazilian_merganser",
+    "name_pt": "Merganso-brasileiro",
+    "name_en": "Brazilian Merganser",
+    "scientific": "Mergus octosetaceus",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "brazilian_teal",
+    "name_pt": "Ananaí",
+    "name_en": "Brazilian Teal",
+    "scientific": "Amazonetta brasiliensis",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "brewers_blackbird",
+    "name_pt": "Graúna-violácea",
+    "name_en": "Brewer's Blackbird",
+    "scientific": "Euphagus cyanocephalus",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "broad_winged_hawk",
+    "name_pt": "Gavião-de-asa-larga",
+    "name_en": "Broad-Winged Hawk",
+    "scientific": "Buteo platypterus",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "brolga",
+    "name_pt": "Grou-brolga",
+    "name_en": "Brolga",
+    "scientific": "Antigone rubicunda",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "bronzed_cowbird",
+    "name_pt": "Chupim-de-olho-vermelho",
+    "name_en": "Bronzed Cowbird",
+    "scientific": "Molothrus aeneus",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "brown_falcon",
+    "name_pt": "Falcão-berigora",
+    "name_en": "Brown Falcon",
+    "scientific": "Falco berigora",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "brown_pelican",
+    "name_pt": "Pelicano",
+    "name_en": "Brown Pelican",
+    "scientific": "Pelecanus occidentalis",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "brown_shrike",
+    "name_pt": "Picanço-castanho",
+    "name_en": "Brown Shrike",
+    "scientific": "Lanius cristatus",
+    "expansion": "asia",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "brown_headed_cowbird",
+    "name_pt": "Chopim-mulato",
+    "name_en": "Brown-Headed Cowbird",
+    "scientific": "Molothrus ater",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "budgerigar",
+    "name_pt": "Periquito-australiano",
+    "name_en": "Budgerigar",
+    "scientific": "Melopsittacus undulatus",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "bullfinch",
+    "name_pt": "Dom-fafe",
+    "name_en": "Bullfinch",
+    "scientific": "Pyrrhula pyrrhula",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "burrowing_owl",
+    "name_pt": "Coruja-buraqueira",
+    "name_en": "Burrowing Owl",
+    "scientific": "Athene cunicularia",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "bushtit",
+    "name_pt": "Chapim-americano",
+    "name_en": "Bushtit",
+    "scientific": "Psaltriparus minimus",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "california_condor",
+    "name_pt": "Condor-californiano",
+    "name_en": "California Condor",
+    "scientific": "Gymnogyps californianus",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "california_quail",
+    "name_pt": "Codorniz-da-califórnia",
+    "name_en": "California Quail",
+    "scientific": "Callipepla californica",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "canada_goose",
+    "name_pt": "Ganso-do-canadá",
+    "name_en": "Canada Goose",
+    "scientific": "Branta canadensis",
+    "expansion": "base",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "canvasback",
+    "name_pt": "Zarro-grande",
+    "name_en": "Canvasback",
+    "scientific": "Aythya valisineria",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "carolina_chickadee",
+    "name_pt": "Chapim-carolino",
+    "name_en": "Carolina Chickadee",
+    "scientific": "Poecile carolinensis",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "carolina_wren",
+    "name_pt": "Carriça-da-carolina",
+    "name_en": "Carolina Wren",
+    "scientific": "Thryothorus ludovicianus",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "carrion_crow",
+    "name_pt": "Gralha-preta",
+    "name_en": "Carrion Crow",
+    "scientific": "Corvus corone",
+    "expansion": "europe",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "cassins_finch",
+    "name_pt": "Pintarroxo-de-cassin",
+    "name_en": "Cassin's Finch",
+    "scientific": "Haemorhous cassinii",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "cassins_sparrow",
+    "name_pt": "Tico-tico-de-cassin",
+    "name_en": "Cassin's Sparrow",
+    "scientific": "Peucaea cassinii",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "cedar_waxwing",
+    "name_pt": "Picoteiro-americano",
+    "name_en": "Cedar Waxwing",
+    "scientific": "Bombycilla cedrorum",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "cerulean_warbler",
+    "name_pt": "Mariquita-azul",
+    "name_en": "Cerulean Warbler",
+    "scientific": "Setophaga cerulea",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "cettis_warbler",
+    "name_pt": "Rouxinol-bravo",
+    "name_en": "Cetti's Warbler",
+    "scientific": "Cettia cetti",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "chestnut_collared_longspur",
+    "name_pt": "Escrevedeira-de-nuca-ruiva",
+    "name_en": "Chestnut-Collared Longspur",
+    "scientific": "Calcarius ornatus",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "chihuahuan_raven",
+    "name_pt": "Corvo-da-planície",
+    "name_en": "Chihuahuan Raven",
+    "scientific": "Corvus cryptoleucus",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "chiloe_wigeon",
+    "name_pt": "Marreca-oveira",
+    "name_en": "Chiloé Wigeon",
+    "scientific": "Mareca sibilatrix",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "chimney_swift",
+    "name_pt": "Andorinhão-de-rabo-espinhoso",
+    "name_en": "Chimney Swift",
+    "scientific": "Chaetura pelagica",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "chipping_sparrow",
+    "name_pt": "Tico-tico-de-coroa-ferrugínea",
+    "name_en": "Chipping Sparrow",
+    "scientific": "Spizella passerina",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "clarks_grebe",
+    "name_pt": "Mergulhão-de-cara-branca",
+    "name_en": "Clark's Grebe",
+    "scientific": "Aechmophorus clarkii",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "clarks_nutcracker",
+    "name_pt": "Quebra-nozes-americano",
+    "name_en": "Clark's Nutcracker",
+    "scientific": "Nucifraga columbiana",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "clay_colored_thrush",
+    "name_pt": "Sabiá-pardo",
+    "name_en": "Clay-Colored Thrush",
+    "scientific": "Turdus grayi",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "coal_tit",
+    "name_pt": "Chapim-carvoeiro",
+    "name_en": "Coal Tit",
+    "scientific": "Periparus ater",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "cockatiel",
+    "name_pt": "Calopsita",
+    "name_en": "Cockatiel",
+    "scientific": "Nymphicus hollandicus",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "cocoi_heron",
+    "name_pt": "Garça-cocoi",
+    "name_en": "Cocoi Heron",
+    "scientific": "Ardea cocoi",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "common_blackbird",
+    "name_pt": "Melro-preto",
+    "name_en": "Common Blackbird",
+    "scientific": "Turdus merula",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "common_buzzard",
+    "name_pt": "Águia-de-asa-redonda",
+    "name_en": "Common Buzzard",
+    "scientific": "Buteo buteo",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "common_chaffinch",
+    "name_pt": "Tentilhão-comum",
+    "name_en": "Common Chaffinch",
+    "scientific": "Fringilla coelebs",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "common_chiffchaff",
+    "name_pt": "Felosa-comum",
+    "name_en": "Common Chiffchaff",
+    "scientific": "Phylloscopus collybita",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "wetland"
+    ]
+  },
+  {
+    "id": "common_cuckoo",
+    "name_pt": "Cuco-canoro",
+    "name_en": "Common Cuckoo",
+    "scientific": "Cuculus canorus",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "common_goldeneye",
+    "name_pt": "Olho-dourado",
+    "name_en": "Common Goldeneye",
+    "scientific": "Bucephala clangula",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "wetland"
+    ]
+  },
+  {
+    "id": "common_grackle",
+    "name_pt": "Rabo-de-quilha",
+    "name_en": "Common Grackle",
+    "scientific": "Quiscalus quiscula",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "common_green_magpie",
+    "name_pt": "Pega-verde-asiática",
+    "name_en": "Common Green Magpie",
+    "scientific": "Cissa chinensis",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "common_iora",
+    "name_pt": "Iora-d'asa-escura",
+    "name_en": "Common Iora",
+    "scientific": "Aegithina tiphia",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "common_kingfisher",
+    "name_pt": "Guarda-rios-comum",
+    "name_en": "Common Kingfisher",
+    "scientific": "Alcedo atthis",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "common_little_bittern",
+    "name_pt": "Garça-pequena",
+    "name_en": "Common Little Bittern",
+    "scientific": "Ixobrychus minutus",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "common_loon",
+    "name_pt": "Mobelha-grande",
+    "name_en": "Common Loon",
+    "scientific": "Gavia immer",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "common_merganser",
+    "name_pt": "Merganso-grande",
+    "name_en": "Common Merganser",
+    "scientific": "Mergus merganser",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "common_moorhen",
+    "name_pt": "Galinha-d'água-comum",
+    "name_en": "Common Moorhen",
+    "scientific": "Gallinula chloropus",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "common_myna",
+    "name_pt": "Mainato-de-mascarilha-amarela",
+    "name_en": "Common Myna",
+    "scientific": "Acridotheres tristis",
+    "expansion": "asia",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "common_nighthawk",
+    "name_pt": "Bacurau-norte-americano",
+    "name_en": "Common Nighthawk",
+    "scientific": "Chordeiles minor",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "common_nightingale",
+    "name_pt": "Rouxinol-comum",
+    "name_en": "Common Nightingale",
+    "scientific": "Luscinia megarhynchos",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "common_pauraque",
+    "name_pt": "Bacurau",
+    "name_en": "Common Pauraque",
+    "scientific": "Nyctidromus albicollis",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "common_raven",
+    "name_pt": "Corvo-comum",
+    "name_en": "Common Raven",
+    "scientific": "Corvus corax",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "common_sandpiper",
+    "name_pt": "Maçarico-das-rochas",
+    "name_en": "Common Sandpiper",
+    "scientific": "Actitis hypoleucos",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "common_starling",
+    "name_pt": "Estorninho-comum",
+    "name_en": "Common Starling",
+    "scientific": "Sturnus vulgaris",
+    "expansion": "europe",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "common_swift",
+    "name_pt": "Andorinhão-preto",
+    "name_en": "Common Swift",
+    "scientific": "Apus apus",
+    "expansion": "europe",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "common_tailorbird",
+    "name_pt": "Costureiro-rabilongo",
+    "name_en": "Common Tailorbird",
+    "scientific": "Orthotomus sutorius",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "common_teal",
+    "name_pt": "Marrequinha-comum",
+    "name_en": "Common Teal",
+    "scientific": "Anas crecca",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "common_yellowthroat",
+    "name_pt": "Mariquita-de-mascarilha",
+    "name_en": "Common Yellowthroat",
+    "scientific": "Geothlypis trichas",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "coopers_hawk",
+    "name_pt": "Gavião-de-cooper",
+    "name_en": "Cooper's Hawk",
+    "scientific": "Accipiter cooperii",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "coppersmith_barbet",
+    "name_pt": "Barbichas-ferreiro",
+    "name_en": "Coppersmith Barbet",
+    "scientific": "Psilopogon haemacephalus",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "correndera_pipit",
+    "name_pt": "Caminheiro-de-espora",
+    "name_en": "Correndera Pipit",
+    "scientific": "Anthus correndera",
+    "expansion": "americas",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "corsican_nuthatch",
+    "name_pt": "Trepadeira-corsa",
+    "name_en": "Corsican Nuthatch",
+    "scientific": "Sitta whiteheadi",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "count_raggis_bird_of_paradise",
+    "name_pt": "Ave-do-paraíso-de-raggi",
+    "name_en": "Count Raggi's Bird-of-Paradise",
+    "scientific": "Paradisaea raggiana",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "crested_ibis",
+    "name_pt": "Íbis-de-crista",
+    "name_en": "Crested Ibis",
+    "scientific": "Nipponia nippon",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "crested_lark",
+    "name_pt": "Cotovia-de-poupa",
+    "name_en": "Crested Lark",
+    "scientific": "Galerida cristata",
+    "expansion": "asia",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "crested_oropendola",
+    "name_pt": "Japu",
+    "name_en": "Crested Oropendola",
+    "scientific": "Psarocolius decumanus",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "crested_pigeon",
+    "name_pt": "Pomba-lofote",
+    "name_en": "Crested Pigeon",
+    "scientific": "Ocyphaps lophotes",
+    "expansion": "oceania",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "crimson_chat",
+    "name_pt": "Eptianuro-escarlate",
+    "name_en": "Crimson Chat",
+    "scientific": "Epthianura tricolor",
+    "expansion": "oceania",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "dark_eyed_junco",
+    "name_pt": "Junco",
+    "name_en": "Dark-Eyed Junco",
+    "scientific": "Junco hyemalis",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "desert_finch",
+    "name_pt": "Asa-rosada",
+    "name_en": "Desert Finch",
+    "scientific": "Rhodospiza obsoleta",
+    "expansion": "asia",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "desert_wheatear",
+    "name_pt": "Chasco-do-deserto",
+    "name_en": "Desert Wheatear",
+    "scientific": "Oenanthe deserti",
+    "expansion": "asia",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "dickcissel",
+    "name_pt": "Papa-capim-americano",
+    "name_en": "Dickcissel",
+    "scientific": "Spiza americana",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "double_crested_cormorant",
+    "name_pt": "Corvo-marinho-d'orelhas",
+    "name_en": "Double-Crested Cormorant",
+    "scientific": "Phalacrocorax auritus",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "downy_woodpecker",
+    "name_pt": "Pica-pau-felpudo",
+    "name_en": "Downy Woodpecker",
+    "scientific": "Picoides pubescens",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "dunnock",
+    "name_pt": "Ferreirinha-comum",
+    "name_en": "Dunnock",
+    "scientific": "Prunella modularis",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "eastern_bluebird",
+    "name_pt": "Azulejo-oriental",
+    "name_en": "Eastern Bluebird",
+    "scientific": "Sialia sialis",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "eastern_imperial_eagle",
+    "name_pt": "Águia-imperial-oriental",
+    "name_en": "Eastern Imperial Eagle",
+    "scientific": "Aquila heliaca",
+    "expansion": "europe",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "eastern_kingbird",
+    "name_pt": "Suiriri-valente",
+    "name_en": "Eastern Kingbird",
+    "scientific": "Tyrannus tyrannus",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "eastern_phoebe",
+    "name_pt": "Piuí",
+    "name_en": "Eastern Phoebe",
+    "scientific": "Sayornis phoebe",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "eastern_rosella",
+    "name_pt": "Periquito-omnicolor",
+    "name_en": "Eastern Rosella",
+    "scientific": "Platycercus eximius",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "eastern_screech_owl",
+    "name_pt": "Corujinha-do-leste",
+    "name_en": "Eastern Screech-Owl",
+    "scientific": "Megascops asio",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "eastern_whipbird",
+    "name_pt": "Chicoteador-oriental",
+    "name_en": "Eastern Whipbird",
+    "scientific": "Psophodes olivaceus",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "elegant_trogon",
+    "name_pt": "Surucuá-elegante",
+    "name_en": "Elegant Trogon",
+    "scientific": "Trogon elegans",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "eleonoras_falcon",
+    "name_pt": "Falcão-da-rainha",
+    "name_en": "Eleonora's Falcon",
+    "scientific": "Falco eleonorae",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "emu",
+    "name_pt": "Ema-australiana",
+    "name_en": "Emu",
+    "scientific": "Dromaius novaehollandiae",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "eurasian_collared_dove",
+    "name_pt": "Pomba-burguesa",
+    "name_en": "Eurasian Collared-Dove",
+    "scientific": "Streptopelia decaocto",
+    "expansion": "europe",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "eurasian_coot",
+    "name_pt": "Galeirão",
+    "name_en": "Eurasian Coot",
+    "scientific": "Fulica atra",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "eurasian_eagle_owl",
+    "name_pt": "Bufo-real",
+    "name_en": "Eurasian Eagle-Owl",
+    "scientific": "Bubo bubo",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "eurasian_golden_oriole",
+    "name_pt": "Papa-figos",
+    "name_en": "Eurasian Golden Oriole",
+    "scientific": "Oriolus oriolus",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "eurasian_green_woodpecker",
+    "name_pt": "Peto-real",
+    "name_en": "Eurasian Green Woodpecker",
+    "scientific": "Picus viridis",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "eurasian_hobby",
+    "name_pt": "Ógea",
+    "name_en": "Eurasian Hobby",
+    "scientific": "Falco subbuteo",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "eurasian_hoopoe",
+    "name_pt": "Poupa-eurasiática",
+    "name_en": "Eurasian Hoopoe",
+    "scientific": "Upupa epops",
+    "expansion": "asia",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "eurasian_jay",
+    "name_pt": "Gaio-comum",
+    "name_en": "Eurasian Jay",
+    "scientific": "Garrulus glandarius",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "eurasian_kestrel",
+    "name_pt": "Peneireiro-vulgar",
+    "name_en": "Eurasian Kestrel",
+    "scientific": "Falco tinnunculus",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "eurasian_magpie",
+    "name_pt": "Pega-rabuda",
+    "name_en": "Eurasian Magpie",
+    "scientific": "Pica pica",
+    "expansion": "europe",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "eurasian_marsh_harrier",
+    "name_pt": "Tartaranhão-ruivo-dos-pauis",
+    "name_en": "Eurasian Marsh-Harrier",
+    "scientific": "Circus aeruginosus",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "eurasian_nutcracker",
+    "name_pt": "Quebra-nozes",
+    "name_en": "Eurasian Nutcracker",
+    "scientific": "Nucifraga caryocatactes",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "eurasian_nuthatch",
+    "name_pt": "Trepadeira-azul",
+    "name_en": "Eurasian Nuthatch",
+    "scientific": "Sitta europaea",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "eurasian_sparrowhawk",
+    "name_pt": "Gavião-da-europa",
+    "name_en": "Eurasian Sparrowhawk",
+    "scientific": "Accipiter nisus",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "eurasian_tree_sparrow",
+    "name_pt": "Pardal-montês",
+    "name_en": "Eurasian Tree Sparrow",
+    "scientific": "Passer montanus",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "eurasian_treecreeper",
+    "name_pt": "Trepadeira-do-bosque",
+    "name_en": "Eurasian Treecreeper",
+    "scientific": "Certhia familiaris",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "european_bee_eater",
+    "name_pt": "Abelharuco-comum",
+    "name_en": "European Bee-Eater",
+    "scientific": "Merops apiaster",
+    "expansion": "europe",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "european_goldfinch",
+    "name_pt": "Pintassilgo-europeu",
+    "name_en": "European Goldfinch",
+    "scientific": "Carduelis carduelis",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "european_honey_buzzard",
+    "name_pt": "Bútio-vespeiro",
+    "name_en": "European Honey Buzzard",
+    "scientific": "Pernis apivorus",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "european_robin",
+    "name_pt": "Pisco-de-peito-ruivo",
+    "name_en": "European Robin",
+    "scientific": "Erithacus rubecula",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "european_roller",
+    "name_pt": "Rolieiro",
+    "name_en": "European Roller",
+    "scientific": "Coracias garrulus",
+    "expansion": "europe",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "european_turtle_dove",
+    "name_pt": "Rola-comum",
+    "name_en": "European Turtle Dove",
+    "scientific": "Streptopelia turtur",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "ferruginous_hawk",
+    "name_pt": "Bútio-ferrugíneo",
+    "name_en": "Ferruginous Hawk",
+    "scientific": "Buteo regalis",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "ferruginous_pygmy_owl",
+    "name_pt": "Caburé",
+    "name_en": "Ferruginous Pygmy-Owl",
+    "scientific": "Glaucidium brasilianum",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "fire_fronted_serin",
+    "name_pt": "Chamariz-de-testa-vermelha",
+    "name_en": "Fire-Fronted Serin",
+    "scientific": "Serinus pusillus",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "firewood_gatherer",
+    "name_pt": "Cochicho",
+    "name_en": "Firewood-Gatherer",
+    "scientific": "Anumbius annumbi",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "fish_crow",
+    "name_pt": "Gralha-pesqueira",
+    "name_en": "Fish Crow",
+    "scientific": "Corvus ossifragus",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "forest_owlet",
+    "name_pt": "Corujinha-da-floresta",
+    "name_en": "Forest Owlet",
+    "scientific": "Athene blewitti",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "forsters_tern",
+    "name_pt": "Andorinha-do-mar-de-forster",
+    "name_en": "Forster's Tern",
+    "scientific": "Sterna forsteri",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "franklins_gull",
+    "name_pt": "Gaivota-das-pradarias",
+    "name_en": "Franklin's Gull",
+    "scientific": "Leucophaeus pipixcan",
+    "expansion": "base",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "galah",
+    "name_pt": "Cacatua-galah",
+    "name_en": "Galah",
+    "scientific": "Eolophus roseicapilla",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "goldcrest",
+    "name_pt": "Estrelinha-de-poupa",
+    "name_en": "Goldcrest",
+    "scientific": "Regulus regulus",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "golden_eagle",
+    "name_pt": "Águia-real",
+    "name_en": "Golden Eagle",
+    "scientific": "Aquila chrysaetos",
+    "expansion": "base",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "golden_pheasant",
+    "name_pt": "Faisão-dourado",
+    "name_en": "Golden Pheasant",
+    "scientific": "Chrysolophus pictus",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "golden_headed_cisticola",
+    "name_pt": "Fuinha-de-cabeça-dourada",
+    "name_en": "Golden-Headed Cisticola",
+    "scientific": "Cisticola exilis",
+    "expansion": "oceania",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "golden_headed_manakin",
+    "name_pt": "Cabeça-de-ouro",
+    "name_en": "Golden-Headed Manakin",
+    "scientific": "Ceratopipra erythrocephala",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "goulds_finch",
+    "name_pt": "Diamante-de-gould",
+    "name_en": "Gould's Finch",
+    "scientific": "Erythrura gouldiae",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "graceful_prinia",
+    "name_pt": "Fuinha-elegante",
+    "name_en": "Graceful Prinia",
+    "scientific": "Prinia gracilis",
+    "expansion": "asia",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "grandala",
+    "name_pt": "Grandala",
+    "name_en": "Grandala",
+    "scientific": "Grandala coelicolor",
+    "expansion": "asia",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "grasshopper_sparrow",
+    "name_pt": "Escrevedeira-dos-gafanhotos",
+    "name_en": "Grasshopper Sparrow",
+    "scientific": "Ammodramus savannarum",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "grassland_sparrow",
+    "name_pt": "Tico-tico-campestre",
+    "name_en": "Grassland Sparrow",
+    "scientific": "Ammodramus humeralis",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "gray_catbird",
+    "name_pt": "Miador-cinzento",
+    "name_en": "Gray Catbird",
+    "scientific": "Dumetella carolinensis",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "gray_wagtail",
+    "name_pt": "Alvéola-cinzenta",
+    "name_en": "Gray Wagtail",
+    "scientific": "Motacilla cinerea",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "great_blue_heron",
+    "name_pt": "Garça-azul-grande",
+    "name_en": "Great Blue Heron",
+    "scientific": "Ardea herodias",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "great_cormorant",
+    "name_pt": "Corvo-marinho-de-faces-brancas",
+    "name_en": "Great Cormorant",
+    "scientific": "Phalacrocorax carbo",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "great_crested_flycatcher",
+    "name_pt": "Caça-moscas-grande-de-crista",
+    "name_en": "Great Crested Flycatcher",
+    "scientific": "Myiarchus crinitus",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "great_crested_grebe",
+    "name_pt": "Mergulhão-de-crista",
+    "name_en": "Great Crested Grebe",
+    "scientific": "Podiceps cristatus",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "great_curassow",
+    "name_pt": "Mutum-grande",
+    "name_en": "Great Curassow",
+    "scientific": "Crax rubra",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "great_egret",
+    "name_pt": "Garça-branca-grande",
+    "name_en": "Great Egret",
+    "scientific": "Ardea alba",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
   },
   {
     "id": "great_hornbill",
@@ -309,15 +2406,3898 @@
     "name_en": "Great Hornbill",
     "scientific": "Buceros bicornis",
     "expansion": "asia",
-    "habitats": ["forest"]
+    "habitats": [
+      "forest"
+    ]
   },
   {
-    "id": "azure_winged_magpie",
-    "name_pt": "Pega-azul-oriental",
-    "name_en": "Azure-winged Magpie",
-    "scientific": "Cyanopica cyanus",
+    "id": "great_horned_owl",
+    "name_pt": "Corujão-orelhudo",
+    "name_en": "Great Horned Owl",
+    "scientific": "Bubo virginianus",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "great_indian_bustard",
+    "name_pt": "Abetarda-indiana",
+    "name_en": "Great Indian Bustard",
+    "scientific": "Ardeotis nigriceps",
     "expansion": "asia",
-    "habitats": ["forest"]
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "great_kiskadee",
+    "name_pt": "Bem-te-vi",
+    "name_en": "Great Kiskadee",
+    "scientific": "Pitangus sulphuratus",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "great_potoo",
+    "name_pt": "Mãe-da-lua-gigante",
+    "name_en": "Great Potoo",
+    "scientific": "Nyctibius grandis",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "great_spotted_woodpecker",
+    "name_pt": "Pica-pau-malhado-grande",
+    "name_en": "Great Spotted Woodpecker",
+    "scientific": "Dendrocopos major",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "great_tit",
+    "name_pt": "Chapim-real",
+    "name_en": "Great Tit",
+    "scientific": "Parus major",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "great_tailed_grackle",
+    "name_pt": "Iraúna-mexicana",
+    "name_en": "Great-Tailed Grackle",
+    "scientific": "Quiscalus mexicanus",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "greater_adjutant",
+    "name_pt": "Marabu-grande",
+    "name_en": "Greater Adjutant",
+    "scientific": "Leptoptilos dubius",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "greater_flamingo",
+    "name_pt": "Flamingo-comum",
+    "name_en": "Greater Flamingo",
+    "scientific": "Phoenicopterus roseus",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "greater_prairie_chicken",
+    "name_pt": "Galo-das-pradarias-grande",
+    "name_en": "Greater Prairie-Chicken",
+    "scientific": "Tympanuchus cupido",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "greater_rhea",
+    "name_pt": "Ema",
+    "name_en": "Greater Rhea",
+    "scientific": "Rhea americana",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "greater_roadrunner",
+    "name_pt": "Papa-léguas-grande",
+    "name_en": "Greater Roadrunner",
+    "scientific": "Geococcyx californianus",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "green_bee_eater",
+    "name_pt": "Abelharuco-verde",
+    "name_en": "Green Bee-Eater",
+    "scientific": "Merops orientalis",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "green_heron",
+    "name_pt": "Garçote-verde",
+    "name_en": "Green Heron",
+    "scientific": "Butorides virescens",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "green_pheasant",
+    "name_pt": "Faisão-comum-japonês",
+    "name_en": "Green Pheasant",
+    "scientific": "Phasianus colchicus versicolor",
+    "expansion": "asia",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "green_pygmy_goose",
+    "name_pt": "Gansinho-australiano",
+    "name_en": "Green Pygmy-Goose",
+    "scientific": "Nettapus pulchellus",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "grey_butcherbird",
+    "name_pt": "Verdugo-cinzento",
+    "name_en": "Grey Butcherbird",
+    "scientific": "Cracticus torquatus",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "grey_heron",
+    "name_pt": "Garça-real",
+    "name_en": "Grey Heron",
+    "scientific": "Ardea cinerea",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "grey_shrikethrush",
+    "name_pt": "Sibilante-cinzento",
+    "name_en": "Grey Shrikethrush",
+    "scientific": "Colluricincla harmonica",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "grey_teal",
+    "name_pt": "Marreca-cinzenta",
+    "name_en": "Grey Teal",
+    "scientific": "Anas gracilis",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "grey_warbler",
+    "name_pt": "Gerígono-maori",
+    "name_en": "Grey Warbler",
+    "scientific": "Gerygone igata",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "grey_headed_mannikin",
+    "name_pt": "Capuchinho-de-cabeça-cinzenta",
+    "name_en": "Grey-Headed Mannikin",
+    "scientific": "Lonchura caniceps",
+    "expansion": "oceania",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "greylag_goose",
+    "name_pt": "Ganso-bravo",
+    "name_en": "Greylag Goose",
+    "scientific": "Anser anser",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "griffon_vulture",
+    "name_pt": "Abutre-fouveiro",
+    "name_en": "Griffon Vulture",
+    "scientific": "Gyps fulvus",
+    "expansion": "europe",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "harpy_eagle",
+    "name_pt": "Gavião-real",
+    "name_en": "Harpy Eagle",
+    "scientific": "Harpia harpyja",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "hawfinch",
+    "name_pt": "Bico-grossudo",
+    "name_en": "Hawfinch",
+    "scientific": "Coccothraustes coccothraustes",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "hermit_thrush",
+    "name_pt": "Tordo-eremita",
+    "name_en": "Hermit Thrush",
+    "scientific": "Catharus guttatus",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "himalayan_monal",
+    "name_pt": "Monal",
+    "name_en": "Himalayan Monal",
+    "scientific": "Lophophorus impejanus",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "hoatzin",
+    "name_pt": "Cigana",
+    "name_en": "Hoatzin",
+    "scientific": "Opisthocomus hoazin",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "wetland"
+    ]
+  },
+  {
+    "id": "hooded_crow",
+    "name_pt": "Gralha-cinzenta",
+    "name_en": "Hooded Crow",
+    "scientific": "Corvus cornix",
+    "expansion": "europe",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "hooded_merganser",
+    "name_pt": "Merganso-capuchinho",
+    "name_en": "Hooded Merganser",
+    "scientific": "Lophodytes cucullatus",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "hooded_siskin",
+    "name_pt": "Pintassilgo",
+    "name_en": "Hooded Siskin",
+    "scientific": "Spinus magellanicus",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "hooded_warbler",
+    "name_pt": "Mariquita-de-capuz",
+    "name_en": "Hooded Warbler",
+    "scientific": "Setophaga citrina",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "horned_guan",
+    "name_pt": "Guano-cornudo",
+    "name_en": "Horned Guan",
+    "scientific": "Oreophasis derbianus",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "horned_lark",
+    "name_pt": "Calhandra-cornuda",
+    "name_en": "Horned Lark",
+    "scientific": "Eremophila alpestris",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "horsfields_bronze_cuckoo",
+    "name_pt": "Cuco-bronzeado-de-horsfield",
+    "name_en": "Horsfield's Bronze-Cuckoo",
+    "scientific": "Chrysococcyx basalis",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "horsfields_bushlark",
+    "name_pt": "Cotovia-australasiática",
+    "name_en": "Horsfield's Bushlark",
+    "scientific": "Mirafra javanica",
+    "expansion": "oceania",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "house_crow",
+    "name_pt": "Gralha-indiana",
+    "name_en": "House Crow",
+    "scientific": "Corvus splendens",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "house_finch",
+    "name_pt": "Pintarroxo-caseiro",
+    "name_en": "House Finch",
+    "scientific": "Haemorhous mexicanus",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "house_sparrow",
+    "name_pt": "Pardal",
+    "name_en": "House Sparrow",
+    "scientific": "Passer domesticus",
+    "expansion": "europe",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "house_wren",
+    "name_pt": "Curruíra",
+    "name_en": "House Wren",
+    "scientific": "Troglodytes aedon",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "ibisbill",
+    "name_pt": "Bico-de-íbis",
+    "name_en": "Ibisbill",
+    "scientific": "Ibidorhyncha struthersii",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "inca_dove",
+    "name_pt": "Rolinha-inca",
+    "name_en": "Inca Dove",
+    "scientific": "Columbina inca",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "inca_tern",
+    "name_pt": "Gaivina-inca",
+    "name_en": "Inca Tern",
+    "scientific": "Larosterna inca",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "indian_peafowl",
+    "name_pt": "Pavão-indiano",
+    "name_en": "Indian Peafowl",
+    "scientific": "Pavo cristatus",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "indian_vulture",
+    "name_pt": "Grifo-indiano",
+    "name_en": "Indian Vulture",
+    "scientific": "Gyps indicus",
+    "expansion": "asia",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "indigo_bunting",
+    "name_pt": "Mariposa-azul",
+    "name_en": "Indigo Bunting",
+    "scientific": "Passerina cyanea",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "jabiru",
+    "name_pt": "Jaburu",
+    "name_en": "Jabiru",
+    "scientific": "Jabiru mycteria",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "juniper_titmouse",
+    "name_pt": "Chapim-dos-zimbros",
+    "name_en": "Juniper Titmouse",
+    "scientific": "Baeolophus ridgwayi",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "kea",
+    "name_pt": "Kea",
+    "name_en": "Kea",
+    "scientific": "Nestor notabilis",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "keel_billed_toucan",
+    "name_pt": "Tucano-de-bico-verde",
+    "name_en": "Keel-Billed Toucan",
+    "scientific": "Ramphastos sulfuratus",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "kelp_gull",
+    "name_pt": "Gaivota-dominicana",
+    "name_en": "Kelp Gull",
+    "scientific": "Larus dominicanus",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "kereru",
+    "name_pt": "Pombo-maori",
+    "name_en": "Kererū",
+    "scientific": "Hemiphaga novaeseelandiae",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "killdeer",
+    "name_pt": "Borrelho-de-coleira-dupla",
+    "name_en": "Killdeer",
+    "scientific": "Charadrius vociferus",
+    "expansion": "base",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "king_rail",
+    "name_pt": "Saracura-real",
+    "name_en": "King Rail",
+    "scientific": "Rallus elegans",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "king_vulture",
+    "name_pt": "Urubu-rei",
+    "name_en": "King Vulture",
+    "scientific": "Sarcoramphus papa",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "korimako",
+    "name_pt": "Melifago-maori",
+    "name_en": "Korimako",
+    "scientific": "Anthornis melanura",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "kakapo",
+    "name_pt": "Cácapo",
+    "name_en": "Kākāpō",
+    "scientific": "Strigops habroptila",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "large_billed_crow",
+    "name_pt": "Corvo-bicudo",
+    "name_en": "Large-Billed Crow",
+    "scientific": "Corvus macrorhynchos",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "laughing_kookaburra",
+    "name_pt": "Kookaburra-risonha",
+    "name_en": "Laughing Kookaburra",
+    "scientific": "Dacelo novaeguineae",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "lazuli_bunting",
+    "name_pt": "Cardeal-lazúli",
+    "name_en": "Lazuli Bunting",
+    "scientific": "Passerina amoena",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "least_seedsnipe",
+    "name_pt": "Agachadeira-mirim",
+    "name_en": "Least Seedsnipe",
+    "scientific": "Thinocorus rumicivorus",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "lesser_frigatebird",
+    "name_pt": "Fragata-pequena",
+    "name_en": "Lesser Frigatebird",
+    "scientific": "Fregata ariel",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "lesser_whitethroat",
+    "name_pt": "Papa-amoras-cinzento",
+    "name_en": "Lesser Whitethroat",
+    "scientific": "Sylvia curruca",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "lewins_honeyeater",
+    "name_pt": "Papa-mel-de-lewin",
+    "name_en": "Lewin's Honeyeater",
+    "scientific": "Meliphaga lewinii",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "limpkin",
+    "name_pt": "Carão",
+    "name_en": "Limpkin",
+    "scientific": "Aramus guarauna",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "lincolns_sparrow",
+    "name_pt": "Tico-tico-de-lincoln",
+    "name_en": "Lincoln's Sparrow",
+    "scientific": "Melospiza lincolnii",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "lineated_woodpecker",
+    "name_pt": "Pica-pau-de-banda-branca",
+    "name_en": "Lineated Woodpecker",
+    "scientific": "Dryocopus lineatus",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "little_blue_heron",
+    "name_pt": "Garça-azul",
+    "name_en": "Little Blue Heron",
+    "scientific": "Egretta caerulea",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "little_bustard",
+    "name_pt": "Sisão",
+    "name_en": "Little Bustard",
+    "scientific": "Tetrax tetrax",
+    "expansion": "europe",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "little_egret",
+    "name_pt": "Garcinha-branca",
+    "name_en": "Little Egret",
+    "scientific": "Egretta garzetta",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "little_grebe",
+    "name_pt": "Mergulhão-pequeno",
+    "name_en": "Little Grebe",
+    "scientific": "Tachybaptus ruficollis",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "little_owl",
+    "name_pt": "Mocho-galego",
+    "name_en": "Little Owl",
+    "scientific": "Athene noctua",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "little_penguin",
+    "name_pt": "Pinguim-azul",
+    "name_en": "Little Penguin",
+    "scientific": "Eudyptula minor",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "little_pied_cormorant",
+    "name_pt": "Biguá-alvinegro-pequeno",
+    "name_en": "Little Pied Cormorant",
+    "scientific": "Microcarbo melanoleucos",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "little_ringed_plover",
+    "name_pt": "Borrelho-pequeno-de-coleira",
+    "name_en": "Little Ringed Plover",
+    "scientific": "Charadrius dubius",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "little_tinamou",
+    "name_pt": "Tinamu-pequeno",
+    "name_en": "Little Tinamou",
+    "scientific": "Crypturellus soui",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "loggerhead_shrike",
+    "name_pt": "Picanço-americano",
+    "name_en": "Loggerhead Shrike",
+    "scientific": "Lanius ludovicianus",
+    "expansion": "base",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "long_tailed_tit",
+    "name_pt": "Chapim-rabilongo",
+    "name_en": "Long-Tailed Tit",
+    "scientific": "Aegithalos caudatus",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "long_wattled_umbrellabird",
+    "name_pt": "Anambé-engravatado",
+    "name_en": "Long-Wattled Umbrellabird",
+    "scientific": "Cephalopterus penduliger",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "magnificent_frigatebird",
+    "name_pt": "Fragata-magnífica",
+    "name_en": "Magnificent Frigatebird",
+    "scientific": "Fregata magnificens",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "magpie_lark",
+    "name_pt": "Cotovia-bicolor",
+    "name_en": "Magpie-Lark",
+    "scientific": "Grallina cyanoleuca",
+    "expansion": "oceania",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "major_mitchells_cockatoo",
+    "name_pt": "Cacatua-rosa",
+    "name_en": "Major Mitchell's Cockatoo",
+    "scientific": "Lophochroa leadbeateri",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "mallard",
+    "name_pt": "Pato-real",
+    "name_en": "Mallard",
+    "scientific": "Anas platyrhynchos",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "malleefowl",
+    "name_pt": "Frango-do-méli",
+    "name_en": "Malleefowl",
+    "scientific": "Leipoa ocellata",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "mandarin_duck",
+    "name_pt": "Pato-mandarim",
+    "name_en": "Mandarin Duck",
+    "scientific": "Aix galericulata",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "wetland"
+    ]
+  },
+  {
+    "id": "maned_duck",
+    "name_pt": "Pato-de-crina",
+    "name_en": "Maned Duck",
+    "scientific": "Chenonetta jubata",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "many_colored_fruit_dove",
+    "name_pt": "Pombo-da-fruta-multicolor",
+    "name_en": "Many-Colored Fruit-Dove",
+    "scientific": "Ptilinopus perousii",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "marsh_seedeater",
+    "name_pt": "Caboclinho-de-papo-branco",
+    "name_en": "Marsh Seedeater",
+    "scientific": "Sporophila palustris",
+    "expansion": "americas",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "masked_lapwing",
+    "name_pt": "Abibe-mascarado",
+    "name_en": "Masked Lapwing",
+    "scientific": "Vanellus miles",
+    "expansion": "oceania",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "mississippi_kite",
+    "name_pt": "Milhafre-do-mississípi",
+    "name_en": "Mississippi Kite",
+    "scientific": "Ictinia mississippiensis",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "mistletoebird",
+    "name_pt": "Pica-flor-andorinha",
+    "name_en": "Mistletoebird",
+    "scientific": "Dicaeum hirundinaceum",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "moltonis_warbler",
+    "name_pt": "Toutinegra-de-moltoni",
+    "name_en": "Moltoni's Warbler",
+    "scientific": "Sylvia subalpina",
+    "expansion": "europe",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "monk_parakeet",
+    "name_pt": "Caturrita",
+    "name_en": "Monk Parakeet",
+    "scientific": "Myiopsitta monachus",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "montagus_harrier",
+    "name_pt": "Tartaranhão-caçador",
+    "name_en": "Montagu's Harrier",
+    "scientific": "Circus pygargus",
+    "expansion": "europe",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "mountain_bluebird",
+    "name_pt": "Azulejo-montês",
+    "name_en": "Mountain Bluebird",
+    "scientific": "Sialia currucoides",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "mountain_chickadee",
+    "name_pt": "Chapim-da-montanha",
+    "name_en": "Mountain Chickadee",
+    "scientific": "Poecile gambeli",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "mourning_dove",
+    "name_pt": "Rola-carpideira",
+    "name_en": "Mourning Dove",
+    "scientific": "Zenaida macroura",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "muscovy_duck",
+    "name_pt": "Pato-do-mato",
+    "name_en": "Muscovy Duck",
+    "scientific": "Cairina moschata",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "musk_duck",
+    "name_pt": "Pato-de-papada",
+    "name_en": "Musk Duck",
+    "scientific": "Biziura lobata",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "mute_swan",
+    "name_pt": "Cisne-branco",
+    "name_en": "Mute Swan",
+    "scientific": "Cygnus olor",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "nanday_parakeet",
+    "name_pt": "Periquitão-de-cabeça-preta",
+    "name_en": "Nanday Parakeet",
+    "scientific": "Aratinga nenday",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "neotropic_cormorant",
+    "name_pt": "Pata-d'água",
+    "name_en": "Neotropic Cormorant",
+    "scientific": "Nannopterum brasilianum",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "new_holland_honeyeater",
+    "name_pt": "Melífago-de-olho-branco",
+    "name_en": "New Holland Honeyeater",
+    "scientific": "Phylidonyris novaehollandiae",
+    "expansion": "oceania",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "noisy_miner",
+    "name_pt": "Melífago-barulhento",
+    "name_en": "Noisy Miner",
+    "scientific": "Manorina melanocephala",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "north_island_brown_kiwi",
+    "name_pt": "Quivi-castanho-da-ilha-norte",
+    "name_en": "North Island Brown Kiwi",
+    "scientific": "Apteryx mantelli",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "northern_bobwhite",
+    "name_pt": "Codorniz da Virgínia",
+    "name_en": "Northern Bobwhite",
+    "scientific": "Colinus virginianus",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "northern_cardinal",
+    "name_pt": "Cardeal-do-norte",
+    "name_en": "Northern Cardinal",
+    "scientific": "Cardinalis cardinalis",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "northern_flicker",
+    "name_pt": "Pica-pau-mosqueado",
+    "name_en": "Northern Flicker",
+    "scientific": "Colaptes auratus",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "northern_gannet",
+    "name_pt": "Alcatraz",
+    "name_en": "Northern Gannet",
+    "scientific": "Morus bassanus",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "northern_goshawk",
+    "name_pt": "Açor",
+    "name_en": "Northern Goshawk",
+    "scientific": "Accipiter gentilis",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "northern_harrier",
+    "name_pt": "Tartaranhão-cinzento-americano",
+    "name_en": "Northern Harrier",
+    "scientific": "Circus hudsonius",
+    "expansion": "base",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "northern_mockingbird",
+    "name_pt": "Tordo-imitador",
+    "name_en": "Northern Mockingbird",
+    "scientific": "Mimus polyglottos",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "northern_shoveler",
+    "name_pt": "Pato-colhereiro",
+    "name_en": "Northern Shoveler",
+    "scientific": "Spatula clypeata",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "ocellated_turkey",
+    "name_pt": "Peru-ocelado",
+    "name_en": "Ocellated Turkey",
+    "scientific": "Meleagris ocellata",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "oilbird",
+    "name_pt": "Guácharo",
+    "name_en": "Oilbird",
+    "scientific": "Steatornis caripensis",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "olive_backed_sunbird",
+    "name_pt": "Beija-flor-de-dorso-verde",
+    "name_en": "Olive-Backed Sunbird",
+    "scientific": "Cinnyris jugularis",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "orange_breasted_bunting",
+    "name_pt": "Cardeal-de-peito-laranja",
+    "name_en": "Orange-Breasted Bunting",
+    "scientific": "Passerina leclancherii",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "orange_footed_scrubfowl",
+    "name_pt": "Frango-do-mato-de-pés-laranja",
+    "name_en": "Orange-Footed Scrubfowl",
+    "scientific": "Megapodius reinwardt",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "oriental_bay_owl",
+    "name_pt": "Coruja-baia",
+    "name_en": "Oriental Bay-Owl",
+    "scientific": "Phodilus badius",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "oriental_magpie_robin",
+    "name_pt": "Dominico",
+    "name_en": "Oriental Magpie-Robin",
+    "scientific": "Copsychus saularis",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "orinoco_goose",
+    "name_pt": "Ganso-do-orinoco",
+    "name_en": "Orinoco Goose",
+    "scientific": "Neochen jubata",
+    "expansion": "americas",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "osprey",
+    "name_pt": "Águia pescadora",
+    "name_en": "Osprey",
+    "scientific": "Pandion haliaetus",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "pacific_black_duck",
+    "name_pt": "Pato-de-sobrancelhas",
+    "name_en": "Pacific Black Duck",
+    "scientific": "Anas superciliosa",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "painted_bunting",
+    "name_pt": "Azulão-pintado",
+    "name_en": "Painted Bunting",
+    "scientific": "Passerina ciris",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "painted_whitestart",
+    "name_pt": "Mariquita-pintada",
+    "name_en": "Painted Whitestart",
+    "scientific": "Myioborus pictus",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "paradise_tanager",
+    "name_pt": "Sete-cores",
+    "name_en": "Paradise Tanager",
+    "scientific": "Tangara chilensis",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "parrot_crossbill",
+    "name_pt": "Cruza-bico-papagaio",
+    "name_en": "Parrot Crossbill",
+    "scientific": "Loxia pytyopsittacus",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "peaceful_dove",
+    "name_pt": "Rola-plácida",
+    "name_en": "Peaceful Dove",
+    "scientific": "Geopelia placida",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "peregrine_falcon",
+    "name_pt": "Falcão-peregrino",
+    "name_en": "Peregrine Falcon",
+    "scientific": "Falco peregrinus",
+    "expansion": "base",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "peruvian_sierra_finch",
+    "name_pt": "Canário-montês-peruano",
+    "name_en": "Peruvian Sierra-Finch",
+    "scientific": "Phrygilus punensis",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "pesquets_parrot",
+    "name_pt": "Papagaio-de-pesquet",
+    "name_en": "Pesquet's Parrot",
+    "scientific": "Psittrichas fulgidus",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "pheasant_coucal",
+    "name_pt": "Cucal-faisão",
+    "name_en": "Pheasant Coucal",
+    "scientific": "Centropus phasianinus",
+    "expansion": "oceania",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "philippine_eagle",
+    "name_pt": "Águia-das-filipinas",
+    "name_en": "Philippine Eagle",
+    "scientific": "Pithecophaga jefferyi",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "pied_billed_grebe",
+    "name_pt": "Mergulhão-caçador",
+    "name_en": "Pied-Billed Grebe",
+    "scientific": "Podilymbus podiceps",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "pileated_woodpecker",
+    "name_pt": "Pica-pau-grande",
+    "name_en": "Pileated Woodpecker",
+    "scientific": "Dryocopus pileatus",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "pine_siskin",
+    "name_pt": "Lugre-dos-pinheiros",
+    "name_en": "Pine Siskin",
+    "scientific": "Spinus pinus",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "pink_eared_duck",
+    "name_pt": "Pato-d'orelhas-rosadas",
+    "name_en": "Pink-Eared Duck",
+    "scientific": "Malacorhynchus membranaceus",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "plain_chachalaca",
+    "name_pt": "Aracuã-de-asas-azuis",
+    "name_en": "Plain Chachalaca",
+    "scientific": "Ortalis vetula",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "plains_wanderer",
+    "name_pt": "Errante-das-planícies",
+    "name_en": "Plains-Wanderer",
+    "scientific": "Pedionomus torquatus",
+    "expansion": "oceania",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "plumbeous_redstart",
+    "name_pt": "Rabirruivo-plúmbeo",
+    "name_en": "Plumbeous Redstart",
+    "scientific": "Phoenicurus fuliginosus",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "princess_stephanies_astrapia",
+    "name_pt": "Astrápia-princesa",
+    "name_en": "Princess Stephanie's Astrapia",
+    "scientific": "Astrapia stephaniae",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "prothonotary_warbler",
+    "name_pt": "Mariquita-protonotária",
+    "name_en": "Prothonotary Warbler",
+    "scientific": "Protonotaria citrea",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "wetland"
+    ]
+  },
+  {
+    "id": "purple_gallinule",
+    "name_pt": "Frango-d'Água-Azul",
+    "name_en": "Purple Gallinule",
+    "scientific": "Porphyrio martinicus",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "purple_heron",
+    "name_pt": "Garça-roxa",
+    "name_en": "Purple Heron",
+    "scientific": "Ardea purpurea",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "purple_martin",
+    "name_pt": "Andorinha-azul",
+    "name_en": "Purple Martin",
+    "scientific": "Progne subis",
+    "expansion": "base",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "pygmy_nuthatch",
+    "name_pt": "Trepadeira-pigmeia",
+    "name_en": "Pygmy Nuthatch",
+    "scientific": "Sitta pygmaea",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "pukeko",
+    "name_pt": "Caimão-australasiano",
+    "name_en": "Pūkeko",
+    "scientific": "Porphyrio melanotus",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "rainbow_lorikeet",
+    "name_pt": "Lóris-arco-íris",
+    "name_en": "Rainbow Lorikeet",
+    "scientific": "Trichoglossus moluccanus",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "red_avadavat",
+    "name_pt": "Bengali",
+    "name_en": "Red Avadavat",
+    "scientific": "Amandava amandava",
+    "expansion": "asia",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "red_crossbill",
+    "name_pt": "Cruza-bico",
+    "name_en": "Red Crossbill",
+    "scientific": "Loxia curvirostra",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "red_junglefowl",
+    "name_pt": "Galo-bravo-vermelho",
+    "name_en": "Red Junglefowl",
+    "scientific": "Gallus gallus",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "red_kite",
+    "name_pt": "Milhafre-real",
+    "name_en": "Red Kite",
+    "scientific": "Milvus milvus",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "red_knot",
+    "name_pt": "Seixoeira",
+    "name_en": "Red Knot",
+    "scientific": "Calidris canutus",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "red_wattlebird",
+    "name_pt": "Papa-mel-carunculado",
+    "name_en": "Red Wattlebird",
+    "scientific": "Anthochaera carunculata",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "red_backed_fairywren",
+    "name_pt": "Fadinha-de-dorso-vermelho",
+    "name_en": "Red-Backed Fairywren",
+    "scientific": "Malurus melanocephalus",
+    "expansion": "oceania",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "red_backed_shrike",
+    "name_pt": "Picanço-de-dorso-ruivo",
+    "name_en": "Red-Backed Shrike",
+    "scientific": "Lanius collurio",
+    "expansion": "europe",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "red_bellied_woodpecker",
+    "name_pt": "Pica-pau-de-ventre-vermelho",
+    "name_en": "Red-Bellied Woodpecker",
+    "scientific": "Melanerpes carolinus",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "red_billed_scythebill",
+    "name_pt": "Arapaçu-beija-flor",
+    "name_en": "Red-Billed Scythebill",
+    "scientific": "Campylorhamphus trochilirostris",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "red_breasted_meadowlark",
+    "name_pt": "Polícia-inglesa-do-norte",
+    "name_en": "Red-Breasted Meadowlark",
+    "scientific": "Leistes militaris",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "red_breasted_merganser",
+    "name_pt": "Merganso-de-poupa",
+    "name_en": "Red-Breasted Merganser",
+    "scientific": "Mergus serrator",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "red_breasted_nuthatch",
+    "name_pt": "Trepadeira-azul-do-canadá",
+    "name_en": "Red-Breasted Nuthatch",
+    "scientific": "Sitta canadensis",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "red_capped_robin",
+    "name_pt": "Papinho-de-testa-vermelha",
+    "name_en": "Red-Capped Robin",
+    "scientific": "Petroica goodenovii",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "red_cockaded_woodpecker",
+    "name_pt": "Pica-pau-de-faces-brancas",
+    "name_en": "Red-Cockaded Woodpecker",
+    "scientific": "Picoides borealis",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "red_crested_cardinal",
+    "name_pt": "Cardeal",
+    "name_en": "Red-Crested Cardinal",
+    "scientific": "Paroaria coronata",
+    "expansion": "americas",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "red_crowned_crane",
+    "name_pt": "Grou-da-manchúria",
+    "name_en": "Red-Crowned Crane",
+    "scientific": "Grus japonensis",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "red_eyed_vireo",
+    "name_pt": "Juruviara-boreal",
+    "name_en": "Red-Eyed Vireo",
+    "scientific": "Vireo olivaceus",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "red_headed_barbet",
+    "name_pt": "Capitão-de-cabeça-vermelha",
+    "name_en": "Red-Headed Barbet",
+    "scientific": "Eubucco bourcierii",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "red_headed_woodpecker",
+    "name_pt": "Pica-pau-de-cabeça-vermelha",
+    "name_en": "Red-Headed Woodpecker",
+    "scientific": "Melanerpes erythrocephalus",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "red_legged_partridge",
+    "name_pt": "Perdiz-vermelha",
+    "name_en": "Red-Legged Partridge",
+    "scientific": "Alectoris rufa",
+    "expansion": "europe",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "red_legged_seriema",
+    "name_pt": "Seriema",
+    "name_en": "Red-Legged Seriema",
+    "scientific": "Cariama cristata",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "red_necked_avocet",
+    "name_pt": "Alfaiate-australiano",
+    "name_en": "Red-Necked Avocet",
+    "scientific": "Recurvirostra novaehollandiae",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "red_shouldered_hawk",
+    "name_pt": "Bútio-d'ombros-ruivos",
+    "name_en": "Red-Shouldered Hawk",
+    "scientific": "Buteo lineatus",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "red_tailed_hawk",
+    "name_pt": "Buteo-de-cauda-vermelha",
+    "name_en": "Red-Tailed Hawk",
+    "scientific": "Buteo jamaicensis",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "red_vented_bulbul",
+    "name_pt": "Bulbul-cafre",
+    "name_en": "Red-Vented Bulbul",
+    "scientific": "Pycnonotus cafer",
+    "expansion": "asia",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "red_wattled_lapwing",
+    "name_pt": "Abibe-do-índico",
+    "name_en": "Red-Wattled Lapwing",
+    "scientific": "Vanellus indicus",
+    "expansion": "asia",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "red_winged_blackbird",
+    "name_pt": "Graúna-d'asa-vermelha",
+    "name_en": "Red-Winged Blackbird",
+    "scientific": "Agelaius phoeniceus",
+    "expansion": "base",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "red_winged_parrot",
+    "name_pt": "Papagaio-d'asa-vermelha",
+    "name_en": "Red-Winged Parrot",
+    "scientific": "Aprosmictus erythropterus",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "regent_bowerbird",
+    "name_pt": "Jardineiro-governador",
+    "name_en": "Regent Bowerbird",
+    "scientific": "Sericulus chrysocephalus",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "resplendent_quetzal",
+    "name_pt": "Quetzal-resplandecente",
+    "name_en": "Resplendent Quetzal",
+    "scientific": "Pharomachrus mocinno",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "rhinoceros_auklet",
+    "name_pt": "Mérgulo-cornudo",
+    "name_en": "Rhinoceros Auklet",
+    "scientific": "Cerorhinca monocerata",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "ring_billed_gull",
+    "name_pt": "Gaivota-de-delaware",
+    "name_en": "Ring-Billed Gull",
+    "scientific": "Larus delawarensis",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "roadside_hawk",
+    "name_pt": "Bútio-dos-caminhos",
+    "name_en": "Roadside Hawk",
+    "scientific": "Rupornis magnirostris",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "rock_pigeon",
+    "name_pt": "Pombo-comum",
+    "name_en": "Rock Pigeon",
+    "scientific": "Columba livia",
+    "expansion": "asia",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "rook",
+    "name_pt": "Gralha-calva",
+    "name_en": "Rook",
+    "scientific": "Corvus frugilegus",
+    "expansion": "asia",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "rose_breasted_grosbeak",
+    "name_pt": "Realejo",
+    "name_en": "Rose-Breasted Grosbeak",
+    "scientific": "Pheucticus ludovicianus",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "rose_ringed_parakeet",
+    "name_pt": "Periquito-de-colar",
+    "name_en": "Rose-Ringed Parakeet",
+    "scientific": "Psittacula krameri",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "roseate_spoonbill",
+    "name_pt": "Colhereiro-rosado",
+    "name_en": "Roseate Spoonbill",
+    "scientific": "Platalea ajaja",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "rosy_starling",
+    "name_pt": "Estorninho-rosado",
+    "name_en": "Rosy Starling",
+    "scientific": "Pastor roseus",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "royal_spoonbill",
+    "name_pt": "Colhereiro-real",
+    "name_en": "Royal Spoonbill",
+    "scientific": "Platalea regia",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "ruby_crowned_kinglet",
+    "name_pt": "Estrelinha-de-fogo",
+    "name_en": "Ruby-Crowned Kinglet",
+    "scientific": "Regulus calendula",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "ruby_throated_hummingbird",
+    "name_pt": "Beija-flor-de-garganta-rubi",
+    "name_en": "Ruby-Throated Hummingbird",
+    "scientific": "Archilochus colubris",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "ruddy_duck",
+    "name_pt": "Pato-de-rabo-alçado-americano",
+    "name_en": "Ruddy Duck",
+    "scientific": "Oxyura jamaicensis",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "ruddy_ground_dove",
+    "name_pt": "Rolinha-roxa",
+    "name_en": "Ruddy Ground Dove",
+    "scientific": "Columbina talpacoti",
+    "expansion": "americas",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "ruddy_shelduck",
+    "name_pt": "Pato-ferrugíneo",
+    "name_en": "Ruddy Shelduck",
+    "scientific": "Tadorna ferruginea",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "rufescent_tiger_heron",
+    "name_pt": "Socó-boi",
+    "name_en": "Rufescent Tiger-Heron",
+    "scientific": "Tigrisoma lineatum",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "ruff",
+    "name_pt": "Combatente",
+    "name_en": "Ruff",
+    "scientific": "Calidris pugnax",
+    "expansion": "europe",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "rufous_hornero",
+    "name_pt": "João-de-barro",
+    "name_en": "Rufous Hornero",
+    "scientific": "Furnarius rufus",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "rufous_night_heron",
+    "name_pt": "Savacu-canela",
+    "name_en": "Rufous Night-Heron",
+    "scientific": "Nycticorax caledonicus",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "rufous_owl",
+    "name_pt": "Coruja-gavião-ruiva",
+    "name_en": "Rufous Owl",
+    "scientific": "Ninox rufa",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "rufous_banded_honeyeater",
+    "name_pt": "Papa-mel-de-peito-ruivo",
+    "name_en": "Rufous-Banded Honeyeater",
+    "scientific": "Conopophila albogularis",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "wetland"
+    ]
+  },
+  {
+    "id": "rufous_collared_sparrow",
+    "name_pt": "Tico-tico",
+    "name_en": "Rufous-Collared Sparrow",
+    "scientific": "Zonotrichia capensis",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "rufous_naped_wren",
+    "name_pt": "Carriça-de-dorso-castanho",
+    "name_en": "Rufous-Naped Wren",
+    "scientific": "Campylorhynchus rufinucha",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "sacred_kingfisher",
+    "name_pt": "Guarda-rios-sagrado",
+    "name_en": "Sacred Kingfisher",
+    "scientific": "Todiramphus sanctus",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "sandhill_crane",
+    "name_pt": "Grou-americano",
+    "name_en": "Sandhill Crane",
+    "scientific": "Antigone canadensis",
+    "expansion": "base",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "sarus_crane",
+    "name_pt": "Grou-antígona",
+    "name_en": "Sarus Crane",
+    "scientific": "Antigone antigone",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "satyr_tragopan",
+    "name_pt": "Tragopã-sátiro",
+    "name_en": "Satyr Tragopan",
+    "scientific": "Tragopan satyra",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "savanna_hawk",
+    "name_pt": "Bútio-da-savana",
+    "name_en": "Savanna Hawk",
+    "scientific": "Buteogallus meridionalis",
+    "expansion": "americas",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "savannah_sparrow",
+    "name_pt": "Tico-tico-dos-prados",
+    "name_en": "Savannah Sparrow",
+    "scientific": "Passerculus sandwichensis",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "savis_warbler",
+    "name_pt": "Cigarrinha-ruiva",
+    "name_en": "Savi's Warbler",
+    "scientific": "Locustella luscinioides",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "says_phoebe",
+    "name_pt": "Caça-moscas-de-say",
+    "name_en": "Say's Phoebe",
+    "scientific": "Sayornis saya",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "scaled_quail",
+    "name_pt": "Codorniz-escamosa",
+    "name_en": "Scaled Quail",
+    "scientific": "Callipepla squamata",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "scaly_breasted_munia",
+    "name_pt": "Capuchinho-dominó",
+    "name_en": "Scaly-Breasted Munia",
+    "scientific": "Lonchura punctulata",
+    "expansion": "asia",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "scarlet_ibis",
+    "name_pt": "Guará",
+    "name_en": "Scarlet Ibis",
+    "scientific": "Eudocimus ruber",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "scarlet_macaw",
+    "name_pt": "Arara-escarlate",
+    "name_en": "Scarlet Macaw",
+    "scientific": "Ara macao",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "scissor_tailed_flycatcher",
+    "name_pt": "Tesourinha-do-campo",
+    "name_en": "Scissor-Tailed Flycatcher",
+    "scientific": "Tyrannus forficatus",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "screaming_piha",
+    "name_pt": "Cricrió",
+    "name_en": "Screaming Piha",
+    "scientific": "Lipaugus vociferans",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "shiny_cowbird",
+    "name_pt": "Vira-bosta",
+    "name_en": "Shiny Cowbird",
+    "scientific": "Molothrus bonariensis",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "short_toed_treecreeper",
+    "name_pt": "Trepadeira",
+    "name_en": "Short-Toed Treecreeper",
+    "scientific": "Certhia brachydactyla",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "silvereye",
+    "name_pt": "Olho-branco-de-dorso-cinzento",
+    "name_en": "Silvereye",
+    "scientific": "Zosterops lateralis",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "small_minivet",
+    "name_pt": "Minivete-acanelado",
+    "name_en": "Small Minivet",
+    "scientific": "Pericrocotus cinnamomeus",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "smew",
+    "name_pt": "Merganso-pequeno",
+    "name_en": "Smew",
+    "scientific": "Mergellus albellus",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "wetland"
+    ]
+  },
+  {
+    "id": "smooth_billed_ani",
+    "name_pt": "Ani-de-bico-liso",
+    "name_en": "Smooth-Billed Ani",
+    "scientific": "Crotophaga ani",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "snow_bunting",
+    "name_pt": "Escrevedeira-das-neves",
+    "name_en": "Snow Bunting",
+    "scientific": "Plectrophenax nivalis",
+    "expansion": "europe",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "snowy_albatross",
+    "name_pt": "Albatroz-errante",
+    "name_en": "Snowy Albatross",
+    "scientific": "Diomedea exulans",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "snowy_egret",
+    "name_pt": "Garça-branca-pequena",
+    "name_en": "Snowy Egret",
+    "scientific": "Egretta thula",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "snowy_owl",
+    "name_pt": "Coruja-das-neves",
+    "name_en": "Snowy Owl",
+    "scientific": "Bubo scandiacus",
+    "expansion": "europe",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "song_sparrow",
+    "name_pt": "Tico-tico-musical",
+    "name_en": "Song Sparrow",
+    "scientific": "Melospiza melodia",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "south_island_robin",
+    "name_pt": "Papinho-do-sul",
+    "name_en": "South Island Robin",
+    "scientific": "Petroica australis",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "southern_cassowary",
+    "name_pt": "Casuar-de-capacete",
+    "name_en": "Southern Cassowary",
+    "scientific": "Casuarius casuarius",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "southern_lapwing",
+    "name_pt": "Abibe-sul-americano",
+    "name_en": "Southern Lapwing",
+    "scientific": "Vanellus chilensis",
+    "expansion": "americas",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "southern_rough_winged_swallow",
+    "name_pt": "Andorinha-serrada-meridional",
+    "name_en": "Southern Rough-Winged Swallow",
+    "scientific": "Stelgidopteryx ruficollis",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "southern_screamer",
+    "name_pt": "Anhuma-do-sul",
+    "name_en": "Southern Screamer",
+    "scientific": "Chauna torquata",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "spangled_drongo",
+    "name_pt": "Drongo-de-lantejoulas",
+    "name_en": "Spangled Drongo",
+    "scientific": "Dicrurus bracteatus",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "spectacled_owl",
+    "name_pt": "Coruja-d'óculos",
+    "name_en": "Spectacled Owl",
+    "scientific": "Pulsatrix perspicillata",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "splendid_fairywren",
+    "name_pt": "Fadinha-esplêndida",
+    "name_en": "Splendid Fairywren",
+    "scientific": "Malurus splendens",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "spoon_billed_sandpiper",
+    "name_pt": "Pilrito-colhereiro",
+    "name_en": "Spoon-Billed Sandpiper",
+    "scientific": "Calidris pygmaea",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "spotless_crake",
+    "name_pt": "Franga-d'água-imaculada",
+    "name_en": "Spotless Crake",
+    "scientific": "Zapornia tabuensis",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "spotted_dove",
+    "name_pt": "Rola-pintada",
+    "name_en": "Spotted Dove",
+    "scientific": "Streptopelia chinensis",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "spotted_nothura",
+    "name_pt": "Codorna-amarela",
+    "name_en": "Spotted Nothura",
+    "scientific": "Nothura maculosa",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "spotted_owl",
+    "name_pt": "Coruja-pintada",
+    "name_en": "Spotted Owl",
+    "scientific": "Strix occidentalis",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "spotted_puffbird",
+    "name_pt": "Barbudo-pintalgado",
+    "name_en": "Spotted Puffbird",
+    "scientific": "Bucco tamatia",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "spotted_sandpiper",
+    "name_pt": "Maçarico-maculado",
+    "name_en": "Spotted Sandpiper",
+    "scientific": "Actitis macularius",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "spotted_towhee",
+    "name_pt": "Pipilo-manchado",
+    "name_en": "Spotted Towhee",
+    "scientific": "Pipilo maculatus",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "spragues_pipit",
+    "name_pt": "Petinha-das-pradarias",
+    "name_en": "Sprague's Pipit",
+    "scientific": "Anthus spragueii",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "squacco_heron",
+    "name_pt": "Garça-caranguejeira",
+    "name_en": "Squacco Heron",
+    "scientific": "Ardeola ralloides",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "squirrel_cuckoo",
+    "name_pt": "Alma-de-gato",
+    "name_en": "Squirrel Cuckoo",
+    "scientific": "Piaya cayana",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "sri_lanka_blue_magpie",
+    "name_pt": "Pega-azul-cingalesa",
+    "name_en": "Sri Lanka Blue-Magpie",
+    "scientific": "Urocissa ornata",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "sri_lanka_frogmouth",
+    "name_pt": "Boca-de-sapo-cingalês",
+    "name_en": "Sri Lanka Frogmouth",
+    "scientific": "Batrachostomus moniliger",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "stellers_jay",
+    "name_pt": "Gaio-de-mitra",
+    "name_en": "Steller's Jay",
+    "scientific": "Cyanocitta stelleri",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "stork_billed_kingfisher",
+    "name_pt": "Guarda-rios-bico-de-cegonha",
+    "name_en": "Stork-Billed Kingfisher",
+    "scientific": "Pelargopsis capensis",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "strange_tailed_tyrant",
+    "name_pt": "Caça-moscas-de-plumas",
+    "name_en": "Strange-Tailed Tyrant",
+    "scientific": "Alectrurus risora",
+    "expansion": "americas",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "stubble_quail",
+    "name_pt": "Codorna-dos-restolhos",
+    "name_en": "Stubble Quail",
+    "scientific": "Coturnix pectoralis",
+    "expansion": "oceania",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "sulphur_crested_cockatoo",
+    "name_pt": "Cacatua-de-crista-amarela",
+    "name_en": "Sulphur-Crested Cockatoo",
+    "scientific": "Cacatua galerita",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "sun_parakeet",
+    "name_pt": "Jandaia-amarela",
+    "name_en": "Sun Parakeet",
+    "scientific": "Aratinga solstitialis",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "sunbittern",
+    "name_pt": "Garça-sol",
+    "name_en": "Sunbittern",
+    "scientific": "Eurypyga helias",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "wetland"
+    ]
+  },
+  {
+    "id": "sungrebe",
+    "name_pt": "Pequi",
+    "name_en": "Sungrebe",
+    "scientific": "Heliornis fulica",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "superb_lyrebird",
+    "name_pt": "Ave-lira-soberba",
+    "name_en": "Superb Lyrebird",
+    "scientific": "Menura novaehollandiae",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "swainsons_hawk",
+    "name_pt": "Bútio-das-pradarias",
+    "name_en": "Swainson's Hawk",
+    "scientific": "Buteo swainsoni",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "tawny_frogmouth",
+    "name_pt": "Boca-de-sapo-australiano",
+    "name_en": "Tawny Frogmouth",
+    "scientific": "Podargus strigoides",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "theklas_lark",
+    "name_pt": "Cotovia-montesina",
+    "name_en": "Thekla's Lark",
+    "scientific": "Galerida theklae",
+    "expansion": "europe",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "titicaca_grebe",
+    "name_pt": "Mergulhão-do-titicaca",
+    "name_en": "Titicaca Grebe",
+    "scientific": "Rollandia microptera",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "toco_toucan",
+    "name_pt": "Tucano-gigante",
+    "name_en": "Toco Toucan",
+    "scientific": "Ramphastos toco",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "tree_swallow",
+    "name_pt": "Andorinha-das-árvores",
+    "name_en": "Tree Swallow",
+    "scientific": "Tachycineta bicolor",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "tropical_kingbird",
+    "name_pt": "Suiriri",
+    "name_en": "Tropical Kingbird",
+    "scientific": "Tyrannus melancholicus",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "tropical_parula",
+    "name_pt": "Mariquita",
+    "name_en": "Tropical Parula",
+    "scientific": "Setophaga pitiayumi",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "tropical_royal_flycatcher",
+    "name_pt": "Maria-leque",
+    "name_en": "Tropical Royal Flycatcher",
+    "scientific": "Onychorhynchus coronatus",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "trumpeter_finch",
+    "name_pt": "Pintarroxo-trombeteiro",
+    "name_en": "Trumpeter Finch",
+    "scientific": "Bucanetes githagineus",
+    "expansion": "asia",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "trumpeter_swan",
+    "name_pt": "Cisne-trombeteiro",
+    "name_en": "Trumpeter Swan",
+    "scientific": "Cygnus buccinator",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "tufted_titmouse",
+    "name_pt": "Chapim-de-penacho-cinzento",
+    "name_en": "Tufted Titmouse",
+    "scientific": "Baeolophus bicolor",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "turkey_vulture",
+    "name_pt": "Urubu-de-cabeça-vermelha",
+    "name_en": "Turkey Vulture",
+    "scientific": "Cathartes aura",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "turquoise_browed_motmot",
+    "name_pt": "Momoto-de-sobrancelha-azul",
+    "name_en": "Turquoise-Browed Motmot",
+    "scientific": "Eumomota superciliosa",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "twite",
+    "name_pt": "Pintarroxo-de-bico-amarelo",
+    "name_en": "Twite",
+    "scientific": "Linaria flavirostris",
+    "expansion": "asia",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "tui",
+    "name_pt": "Tui",
+    "name_en": "Tūī",
+    "scientific": "Prosthemadera novaeseelandiae",
+    "expansion": "oceania",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "ultramarine_grosbeak",
+    "name_pt": "Azulão-do-nordeste",
+    "name_en": "Ultramarine Grosbeak",
+    "scientific": "Cyanoloxia brissonii",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "vampire_ground_finch",
+    "name_pt": "Galapaguito-vampiro",
+    "name_en": "Vampire Ground-Finch",
+    "scientific": "Geospiza septentrionalis",
+    "expansion": "americas",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "variable_seedeater",
+    "name_pt": "Papa-capim-corvino",
+    "name_en": "Variable Seedeater",
+    "scientific": "Sporophila corvina",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "vauxs_swift",
+    "name_pt": "Andorinhão-de-vaux",
+    "name_en": "Vaux's Swift",
+    "scientific": "Chaetura vauxi",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "verdin",
+    "name_pt": "Chapim-de-face-dourada",
+    "name_en": "Verdin",
+    "scientific": "Auriparus flaviceps",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "verditer_flycatcher",
+    "name_pt": "Papa-moscas-verde-mar",
+    "name_en": "Verditer Flycatcher",
+    "scientific": "Eumyias thalassinus",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "vermilion_flycatcher",
+    "name_pt": "Príncipe",
+    "name_en": "Vermilion Flycatcher",
+    "scientific": "Pyrocephalus rubinus",
+    "expansion": "americas",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "violet_cuckoo",
+    "name_pt": "Cuco-violeta",
+    "name_en": "Violet Cuckoo",
+    "scientific": "Chrysococcyx xanthorhynchus",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "violet_green_swallow",
+    "name_pt": "Andorinha-lustrosa",
+    "name_en": "Violet-Green Swallow",
+    "scientific": "Tachycineta thalassina",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "wattled_jacana",
+    "name_pt": "Jaçanã",
+    "name_en": "Wattled Jacana",
+    "scientific": "Jacana jacana",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "wedge_tailed_eagle",
+    "name_pt": "Águia-audaz",
+    "name_en": "Wedge-Tailed Eagle",
+    "scientific": "Aquila audax",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "welcome_swallow",
+    "name_pt": "Andorinha-australiana",
+    "name_en": "Welcome Swallow",
+    "scientific": "Hirundo neoxena",
+    "expansion": "oceania",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "western_meadowlark",
+    "name_pt": "Estornela-ocidental",
+    "name_en": "Western Meadowlark",
+    "scientific": "Sturnella neglecta",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "western_rockhopper_penguin",
+    "name_pt": "Pinguim-de-penacho-amarelo",
+    "name_en": "Western Rockhopper Penguin",
+    "scientific": "Eudyptes chrysocome",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "western_tanager",
+    "name_pt": "Piranga-ocidental",
+    "name_en": "Western Tanager",
+    "scientific": "Piranga ludoviciana",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "white_stork",
+    "name_pt": "Cegonha-branca",
+    "name_en": "White Stork",
+    "scientific": "Ciconia ciconia",
+    "expansion": "europe",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "white_wagtail",
+    "name_pt": "Alvéola-branca",
+    "name_en": "White Wagtail",
+    "scientific": "Motacilla alba",
+    "expansion": "europe",
+    "habitats": [
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "white_backed_woodpecker",
+    "name_pt": "Pica-pau-de-dorso-branco",
+    "name_en": "White-Backed Woodpecker",
+    "scientific": "Dendrocopos leucotos",
+    "expansion": "europe",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "white_bellied_sea_eagle",
+    "name_pt": "Águia-marinha-de-barriga-branca",
+    "name_en": "White-Bellied Sea-Eagle",
+    "scientific": "Haliaeetus leucogaster",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "wetland"
+    ]
+  },
+  {
+    "id": "white_breasted_nuthatch",
+    "name_pt": "Trepadeira-branca",
+    "name_en": "White-Breasted Nuthatch",
+    "scientific": "Sitta carolinensis",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "white_breasted_woodswallow",
+    "name_pt": "Andorinha-do-mato-de-ventre-branco",
+    "name_en": "White-Breasted Woodswallow",
+    "scientific": "Artamus leucoryn",
+    "expansion": "oceania",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "white_browed_tit_spinetail",
+    "name_pt": "Rabudinho-de-sobrancelha-branca",
+    "name_en": "White-Browed Tit-Spinetail",
+    "scientific": "Leptasthenura xenothorax",
+    "expansion": "americas",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "white_browed_tit_warbler",
+    "name_pt": "Chapim-de-sofia",
+    "name_en": "White-Browed Tit-Warbler",
+    "scientific": "Leptopoecile sophiae",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "white_crested_laughingthrush",
+    "name_pt": "Charlatão-de-crista-branca",
+    "name_en": "White-Crested Laughingthrush",
+    "scientific": "Garrulax leucolophus",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "white_crowned_sparrow",
+    "name_pt": "Tico-tico-de-coroa-branca",
+    "name_en": "White-Crowned Sparrow",
+    "scientific": "Zonotrichia leucophrys",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "white_faced_heron",
+    "name_pt": "Garça-de-cara-branca",
+    "name_en": "White-Faced Heron",
+    "scientific": "Egretta novaehollandiae",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "white_faced_ibis",
+    "name_pt": "Caraúna",
+    "name_en": "White-Faced Ibis",
+    "scientific": "Plegadis chihi",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "white_headed_duck",
+    "name_pt": "Pato-de-rabo-alçado-europeu",
+    "name_en": "White-Headed Duck",
+    "scientific": "Oxyura leucocephala",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "white_throated_dipper",
+    "name_pt": "Melro-d'água",
+    "name_en": "White-Throated Dipper",
+    "scientific": "Cinclus cinclus",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "white_throated_kingfisher",
+    "name_pt": "Guarda-rios-de-papo-branco",
+    "name_en": "White-Throated Kingfisher",
+    "scientific": "Halcyon smyrnensis",
+    "expansion": "asia",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "white_throated_magpie_jay",
+    "name_pt": "Gaio-de-garganta-branca",
+    "name_en": "White-Throated Magpie-Jay",
+    "scientific": "Cyanocorax formosus",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "white_throated_swift",
+    "name_pt": "Andorinhão-de-garganta-branca",
+    "name_en": "White-Throated Swift",
+    "scientific": "Aeronautes saxatalis",
+    "expansion": "base",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "white_tipped_dove",
+    "name_pt": "Juriti-pupu",
+    "name_en": "White-Tipped Dove",
+    "scientific": "Leptotila verreauxi",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "whooping_crane",
+    "name_pt": "Grou-americano",
+    "name_en": "Whooping Crane",
+    "scientific": "Grus americana",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "wild_turkey",
+    "name_pt": "Peru-selvagem",
+    "name_en": "Wild Turkey",
+    "scientific": "Meleagris gallopavo",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "willet",
+    "name_pt": "Maçarico-d'asa-branca",
+    "name_en": "Willet",
+    "scientific": "Tringa semipalmata",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "willie_wagtail",
+    "name_pt": "Abanico-de-garganta-preta",
+    "name_en": "Willie-Wagtail",
+    "scientific": "Rhipidura leucophrys",
+    "expansion": "oceania",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "willow_tit",
+    "name_pt": "Chapim-montês",
+    "name_en": "Willow Tit",
+    "scientific": "Poecile montanus",
+    "expansion": "asia",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "wilsons_snipe",
+    "name_pt": "Narceja-de-wilson",
+    "name_en": "Wilson's Snipe",
+    "scientific": "Gallinago delicata",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "wilsons_storm_petrel",
+    "name_pt": "Alma-de-mestre",
+    "name_en": "Wilson's Storm Petrel",
+    "scientific": "Oceanites oceanicus",
+    "expansion": "europe",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "wood_duck",
+    "name_pt": "Pato-carolino",
+    "name_en": "Wood Duck",
+    "scientific": "Aix sponsa",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "wetland"
+    ]
+  },
+  {
+    "id": "wood_stork",
+    "name_pt": "Cabeça-seca",
+    "name_en": "Wood Stork",
+    "scientific": "Mycteria americana",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "wrybill",
+    "name_pt": "Batuíra-de-bico-torto",
+    "name_en": "Wrybill",
+    "scientific": "Anarhynchus frontalis",
+    "expansion": "oceania",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "yellow_bittern",
+    "name_pt": "Garçote-amarelo",
+    "name_en": "Yellow Bittern",
+    "scientific": "Ixobrychus sinensis",
+    "expansion": "asia",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "yellow_warbler",
+    "name_pt": "Mariquita-do-mangue",
+    "name_en": "Yellow Warbler",
+    "scientific": "Setophaga petechia",
+    "expansion": "americas",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "yellow_bellied_sapsucker",
+    "name_pt": "Pica-pau-de-barriga-amarela",
+    "name_en": "Yellow-Bellied Sapsucker",
+    "scientific": "Sphyrapicus varius",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "yellow_billed_cuckoo",
+    "name_pt": "Cuco-d'asa-vermelha",
+    "name_en": "Yellow-Billed Cuckoo",
+    "scientific": "Coccyzus americanus",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "yellow_breasted_chat",
+    "name_pt": "Ictéria",
+    "name_en": "Yellow-Breasted Chat",
+    "scientific": "Icteria virens",
+    "expansion": "base",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "yellow_headed_blackbird",
+    "name_pt": "Graúna-de-cabeça-amarela",
+    "name_en": "Yellow-Headed Blackbird",
+    "scientific": "Xanthocephalus xanthocephalus",
+    "expansion": "base",
+    "habitats": [
+      "wetland"
+    ]
+  },
+  {
+    "id": "yellow_headed_caracara",
+    "name_pt": "Gavião-carrapateiro",
+    "name_en": "Yellow-Headed Caracara",
+    "scientific": "Daptrius chimachima",
+    "expansion": "americas",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "yellow_rumped_warbler",
+    "name_pt": "Mariquita-coroada",
+    "name_en": "Yellow-Rumped Warbler",
+    "scientific": "Setophaga coronata",
+    "expansion": "base",
+    "habitats": [
+      "forest"
+    ]
+  },
+  {
+    "id": "yellowhammer",
+    "name_pt": "Escrevedeira-amarela",
+    "name_en": "Yellowhammer",
+    "scientific": "Emberiza citrinella",
+    "expansion": "europe",
+    "habitats": [
+      "forest",
+      "grassland"
+    ]
+  },
+  {
+    "id": "zebra_dove",
+    "name_pt": "Rola-zebra-comum",
+    "name_en": "Zebra Dove",
+    "scientific": "Geopelia striata",
+    "expansion": "asia",
+    "habitats": [
+      "grassland"
+    ]
+  },
+  {
+    "id": "amethyst_woodstar",
+    "name_pt": "Colibri-ametista",
+    "name_en": "Amethyst Woodstar",
+    "scientific": "Calliphlox amethystina",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "bee_hummingbird",
+    "name_pt": "Beija-flor-abelha",
+    "name_en": "Bee Hummingbird",
+    "scientific": "Mellisuga helenae",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "black_eared_fairy",
+    "name_pt": "Beija-flor-de-bochecha-azul",
+    "name_en": "Black-Eared Fairy",
+    "scientific": "Heliothryx auritus",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "black_throated_mango",
+    "name_pt": "Beija-flor-de-veste-preta",
+    "name_en": "Black-Throated Mango",
+    "scientific": "Anthracothorax nigricollis",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "blue_tufted_starthroat",
+    "name_pt": "Bico-reto-azul",
+    "name_en": "Blue-Tufted Starthroat",
+    "scientific": "Heliomaster furcifer",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "cinnamon_hummingbird",
+    "name_pt": "Beija-flor-canela",
+    "name_en": "Cinnamon Hummingbird",
+    "scientific": "Amazilia rutila",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "crimson_topaz",
+    "name_pt": "Beija-flor-brilho-de-fogo",
+    "name_en": "Crimson Topaz",
+    "scientific": "Topaza pella",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "crowned_woodnymph",
+    "name_pt": "Beija-flor-coroado",
+    "name_en": "Crowned Woodnymph",
+    "scientific": "Thalurania colombica",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "fiery_throated_hummingbird",
+    "name_pt": "Beija-flor-garganta-de-fogo",
+    "name_en": "Fiery-Throated Hummingbird",
+    "scientific": "Panterpe insignis",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "gilded_hummingbird",
+    "name_pt": "Beija-flor-dourado",
+    "name_en": "Gilded Hummingbird",
+    "scientific": "Hylocharis chrysura",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "horned_sungem",
+    "name_pt": "Chifre-de-ouro",
+    "name_en": "Horned Sungem",
+    "scientific": "Heliactin bilophus",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "hyacinth_visorbearer",
+    "name_pt": "Beija-flor-de-gravata-verde",
+    "name_en": "Hyacinth Visorbearer",
+    "scientific": "Augastes scutatus",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "jamaican_mango",
+    "name_pt": "Beija-flor-jamaicano",
+    "name_en": "Jamaican Mango",
+    "scientific": "Anthracothorax mango",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "long_billed_hermit",
+    "name_pt": "Besourão-de-rabo-branco",
+    "name_en": "Long-Billed Hermit",
+    "scientific": "Phaethornis longirostris",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "long_tailed_sylph",
+    "name_pt": "Silfo-de-cauda-azul",
+    "name_en": "Long-Tailed Sylph",
+    "scientific": "Aglaiocercus kingii",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "marvelous_spatuletail",
+    "name_pt": "Beija-flor-sílfide",
+    "name_en": "Marvelous Spatuletail",
+    "scientific": "Loddigesia mirabilis",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "minute_hermit",
+    "name_pt": "Besourinho",
+    "name_en": "Minute Hermit",
+    "scientific": "Phaethornis idaliae",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "oasis_hummingbird",
+    "name_pt": "Beija-flor-dos-oásis",
+    "name_en": "Oasis Hummingbird",
+    "scientific": "Rhodopis vesper",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "purple_crowned_plovercrest",
+    "name_pt": "Beija-flor-de-topete-azul",
+    "name_en": "Purple-Crowned Plovercrest",
+    "scientific": "Stephanoxis loddigesii",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "purple_throated_carib",
+    "name_pt": "Beija-flor-caribenho-roxo",
+    "name_en": "Purple-Throated Carib",
+    "scientific": "Eulampis jugularis",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "red_tailed_comet",
+    "name_pt": "Beija-flor-da-cauda-vermelha",
+    "name_en": "Red-Tailed Comet",
+    "scientific": "Sappho sparganurus",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "ruby_topaz_hummingbird",
+    "name_pt": "Beija-flor-vermelho",
+    "name_en": "Ruby-Topaz Hummingbird",
+    "scientific": "Chrysolampis mosquitus",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "rufous_breasted_hermit",
+    "name_pt": "Balança-rabo-de-bico-torto",
+    "name_en": "Rufous-Breasted Hermit",
+    "scientific": "Glaucis hirsutus",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "rufous_crested_coquette",
+    "name_pt": "Colibri-de-crista-ruiva",
+    "name_en": "Rufous-Crested Coquette",
+    "scientific": "Lophornis delattrei",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "rufous_tailed_hummingbird",
+    "name_pt": "Beija-flor-de-barriga-cinza",
+    "name_en": "Rufous-Tailed Hummingbird",
+    "scientific": "Amazilia tzacatl",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "saw_billed_hermit",
+    "name_pt": "Beija-flor-rajado",
+    "name_en": "Saw-Billed Hermit",
+    "scientific": "Ramphodon naevius",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "shining_sunbeam",
+    "name_pt": "Beija-flor-resplandecente",
+    "name_en": "Shining Sunbeam",
+    "scientific": "Aglaeactis cupripennis",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "short_tailed_woodstar",
+    "name_pt": "Colibri-de-cauda-curta",
+    "name_en": "Short-Tailed Woodstar",
+    "scientific": "Myrmia micrura",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "snowcap",
+    "name_pt": "Beija-flor-de-cabeça-branca",
+    "name_en": "Snowcap",
+    "scientific": "Microchera albocoronata",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "sparkling_violetear",
+    "name_pt": "Beija-flor-violeta",
+    "name_en": "Sparkling Violetear",
+    "scientific": "Colibri coruscans",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "speckled_hummingbird",
+    "name_pt": "Beija-flor-mosqueado",
+    "name_en": "Speckled Hummingbird",
+    "scientific": "Adelomyia melanogenys",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "stripe_breasted_starthroat",
+    "name_pt": "Bico-reto-de-banda-branca",
+    "name_en": "Stripe-Breasted Starthroat",
+    "scientific": "Heliomaster squamosus",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "stripe_throated_hermit",
+    "name_pt": "Eremita-de-garganta-riscada",
+    "name_en": "Stripe-Throated Hermit",
+    "scientific": "Phaethornis striigularis",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "swallow_tailed_hummingbird",
+    "name_pt": "Beija-flor-tesoura",
+    "name_en": "Swallow-Tailed Hummingbird",
+    "scientific": "Eupetomena macroura",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "sword_billed_hummingbird",
+    "name_pt": "Beija-flor-bico-de-espada",
+    "name_en": "Sword-Billed Hummingbird",
+    "scientific": "Ensifera ensifera",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "violet_sabrewing",
+    "name_pt": "Asa-de-sabre-violeta",
+    "name_en": "Violet Sabrewing",
+    "scientific": "Campylopterus hemileucurus",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "white_bellied_woodstar",
+    "name_pt": "Colibri-de-mulsant",
+    "name_en": "White-Bellied Woodstar",
+    "scientific": "Chaetocercus mulsant",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "white_booted_racket_tail",
+    "name_pt": "Beija-flor-de-raquetes-setentrional",
+    "name_en": "White-Booted Racket-Tail",
+    "scientific": "Ocreatus underwoodii",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "white_necked_jacobin",
+    "name_pt": "Beija-flor-azul-de-rabo-branco",
+    "name_en": "White-Necked Jacobin",
+    "scientific": "Florisuga mellivora",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
+  },
+  {
+    "id": "white_tipped_sicklebill",
+    "name_pt": "Beija-flor-de-bico-de-foice",
+    "name_en": "White-Tipped Sicklebill",
+    "scientific": "Eutoxeres aquila",
+    "expansion": "americas",
+    "habitats": [
+      "forest",
+      "grassland",
+      "wetland"
+    ]
   }
 ]
-

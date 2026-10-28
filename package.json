@@ -8,6 +8,7 @@
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",
+    "build:seed": "node scripts/build-full-seed.mjs",
     "sync:birds": "node scripts/sync-birds.mjs",
     "test": "jest --runInBand",
     "typecheck": "tsc --noEmit"

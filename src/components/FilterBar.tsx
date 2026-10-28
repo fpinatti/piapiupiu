@@ -20,6 +20,7 @@ export const EXPANSION_META = [
   EXPANSION_THEME.europe,
   EXPANSION_THEME.oceania,
   EXPANSION_THEME.asia,
+  EXPANSION_THEME.americas,
 ];
 
 export const LANGUAGE_META: {

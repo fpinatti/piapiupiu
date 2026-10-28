@@ -64,7 +64,7 @@ export class BirdMatcher {
   constructor(birds: BirdCard[], options: MatcherOptions = {}) {
     this.threshold = options.threshold ?? 0.35;
     this.expansions = new Set<ExpansionId>(
-      options.expansions ?? ['base', 'europe', 'oceania', 'asia']
+      options.expansions ?? ['base', 'europe', 'oceania', 'asia', 'americas']
     );
     this.language = options.language ?? 'all';
 
@@ -199,6 +199,8 @@ export class BirdMatcher {
 
   /**
    * Searches the bird catalog for the manual browse/search UI.
+   * Prioritizes direct substring matches across PT-BR, EN, and Latin names,
+   * followed by Fuse.js fuzzy matches for typo tolerance.
    */
   public searchCatalog(query: string): BirdCard[] {
     const normalized = normalizeBirdText(query);
@@ -206,8 +208,33 @@ export class BirdMatcher {
       return this.activeBirds;
     }
 
-    const results = this.fuse.search(normalized);
-    return results.map((r) => r.item);
+    const seenIds = new Set<string>();
+    const combined: BirdCard[] = [];
+
+    for (const bird of this.activeBirds) {
+      const matchesPt =
+        (this.language === 'all' || this.language === 'pt') &&
+        bird.norm_pt.includes(normalized);
+      const matchesEn =
+        (this.language === 'all' || this.language === 'en') &&
+        bird.norm_en.includes(normalized);
+      const matchesSci = bird.norm_scientific.includes(normalized);
+
+      if (matchesPt || matchesEn || matchesSci) {
+        seenIds.add(bird.id);
+        combined.push(bird);
+      }
+    }
+
+    const fuseResults = this.fuse.search(normalized);
+    for (const res of fuseResults) {
+      if (!seenIds.has(res.item.id)) {
+        seenIds.add(res.item.id);
+        combined.push(res.item);
+      }
+    }
+
+    return combined;
   }
 }
 

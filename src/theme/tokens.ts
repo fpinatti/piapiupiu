@@ -116,5 +116,12 @@ export const EXPANSION_THEME: Record<
     border: '#E76F51',
     text: '#FCC2B6',
   },
+  americas: {
+    id: 'americas',
+    label: 'Américas',
+    bg: '#13332C',
+    border: '#2EC4B6',
+    text: '#A8F0E8',
+  },
 };
 
