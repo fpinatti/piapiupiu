@@ -338,11 +338,6 @@ export function LiveCameraScanner({
       ) : (
         <View style={styles.fallbackBg}>
           <View style={styles.fallbackContent}>
-            <Text style={styles.title}>Leitor de Cartas Wingspan</Text>
-            <Text style={styles.subtitle}>
-              Toque abaixo para abrir a câmera ou fotografar uma carta de ave e ouvir o seu canto.
-            </Text>
-
             {isProcessingPhoto ? (
               <Text style={styles.processingText}>{ocrStatus}</Text>
             ) : null}
@@ -357,11 +352,11 @@ export function LiveCameraScanner({
                 style={styles.webcamBtn}
                 activeOpacity={0.8}
                 accessibilityRole="button"
-                accessibilityLabel="Ativar câmera para fotografar cartas"
+                accessibilityLabel="Fotografar carta"
               >
-                <Feather name="camera" size={18} color={colors.onPrimary} />
+                <Feather name="camera" size={20} color={colors.onPrimary} />
                 <Text style={styles.webcamBtnText}>
-                  {isProcessingPhoto ? 'Lendo Carta...' : 'Abrir Câmera / Fotografar Carta'}
+                  {isProcessingPhoto ? 'Lendo carta...' : 'Fotografar carta'}
                 </Text>
               </TouchableOpacity>
 
@@ -371,10 +366,10 @@ export function LiveCameraScanner({
                   style={styles.secondaryPhotoBtn}
                   activeOpacity={0.8}
                   accessibilityRole="button"
-                  accessibilityLabel="Tirar outra foto de carta"
+                  accessibilityLabel="Fotografar outra carta"
                 >
                   <Feather name="refresh-cw" size={16} color={colors.textPrimary} />
-                  <Text style={styles.secondaryPhotoBtnText}>Fotografar Outra Carta</Text>
+                  <Text style={styles.secondaryPhotoBtnText}>Fotografar outra carta</Text>
                 </TouchableOpacity>
               ) : null}
             </View>
@@ -388,11 +383,11 @@ export function LiveCameraScanner({
 const styles = StyleSheet.create({
   container: {
     ...StyleSheet.absoluteFill,
-    backgroundColor: colors.canvas,
+    backgroundColor: 'transparent',
   },
   fallbackBg: {
     ...StyleSheet.absoluteFill,
-    backgroundColor: colors.canvas,
+    backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: spacing.xl,
@@ -400,58 +395,50 @@ const styles = StyleSheet.create({
   fallbackContent: {
     alignItems: 'center',
     maxWidth: 400,
-    marginBottom: 90,
     zIndex: 5,
   },
-  title: {
-    color: colors.textPrimary,
-  fontSize: typeScale.display,
-  fontWeight: '800',
-  fontFamily: fonts.serif,
-  textAlign: 'center',
-  marginBottom: spacing.xs,
-},
-  subtitle: {
-  color: colors.textSecondary,
-  fontSize: typeScale.body,
-  textAlign: 'center',
-  lineHeight: 22,
-},
   processingText: {
-  color: colors.textTaxonomic,
-  fontSize: typeScale.label,
-  fontWeight: '700',
-  marginTop: spacing.sm,
-  textAlign: 'center',
-},
+    color: colors.textTaxonomic,
+    fontSize: typeScale.label,
+    fontWeight: '700',
+    marginTop: spacing.sm,
+    textAlign: 'center',
+  },
   errorText: {
-  color: colors.onDanger,
-  fontSize: typeScale.label,
-  marginTop: spacing.sm,
-  textAlign: 'center',
-},
+    color: colors.onDanger,
+    fontSize: typeScale.label,
+    marginTop: spacing.sm,
+    textAlign: 'center',
+  },
   btnGroup: {
-  marginTop: spacing.lg,
-  alignItems: 'center',
-  gap: spacing.sm,
-},
+    marginTop: spacing.lg,
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
   webcamBtn: {
-  minHeight: MIN_TOUCH_TARGET,
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'center',
-  gap: 8,
-  backgroundColor: colors.primary,
-  borderWidth: 1,
-  borderColor: colors.primaryBorder,
-  paddingHorizontal: spacing.xl,
-  borderRadius: 12,
-},
+    minHeight: MIN_TOUCH_TARGET,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 10,
+    backgroundColor: colors.primary,
+    borderWidth: 1.5,
+    borderColor: colors.primaryBorder,
+    paddingHorizontal: 28,
+    paddingVertical: 14,
+    borderRadius: 999,
+    shadowColor: '#2B1E12',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.16,
+    shadowRadius: 10,
+    elevation: 4,
+  },
   webcamBtnText: {
-  color: colors.onPrimary,
-  fontWeight: '700',
-  fontSize: typeScale.body,
-},
+    color: colors.onPrimary,
+    fontWeight: '700',
+    fontSize: typeScale.body,
+    letterSpacing: 0.3,
+  },
   secondaryPhotoBtn: {
   minHeight: 42,
   flexDirection: 'row',

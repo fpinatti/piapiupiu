@@ -18,6 +18,7 @@ import { WebView, WebViewMessageEvent } from 'react-native-webview';
 import { colors, fonts, MIN_TOUCH_TARGET, spacing, typeScale } from '../theme/tokens';
 import { DEFAULT_TARGET_BOX } from '../utils/boundingBoxFilter';
 import { LiveCameraScannerProps } from './LiveCameraScanner.types';
+import { WatercolorIcon } from './WatercolorIcon';
 
 const ZOOM_PRESETS = [
   { id: '1x', label: '1x', zoom: 0 },
@@ -327,6 +328,7 @@ export function LiveCameraScanner({
     return (
       <View style={styles.fallbackBg}>
         <View style={styles.fallbackContent}>
+          <WatercolorIcon type="camera" size="lg" style={{ marginBottom: spacing.md }} />
           <Text style={styles.title}>Permissão de Câmera Necessária</Text>
           <Text style={styles.subtitle}>
             Conceda acesso à câmera para fotografar o topo das cartas de Wingspan e ouvir o canto da ave.
@@ -476,7 +478,7 @@ export function LiveCameraScanner({
 const styles = StyleSheet.create({
   fallbackBg: {
     ...StyleSheet.absoluteFill,
-    backgroundColor: colors.canvas,
+    backgroundColor: 'transparent',
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: spacing.xl,
@@ -484,6 +486,7 @@ const styles = StyleSheet.create({
   fallbackContent: {
     alignItems: 'center',
     maxWidth: 360,
+    zIndex: 5,
   },
   title: {
     color: colors.textPrimary,
@@ -505,12 +508,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 8,
+    gap: 10,
     backgroundColor: colors.primary,
-    borderWidth: 1,
+    borderWidth: 1.5,
     borderColor: colors.primaryBorder,
-    paddingHorizontal: spacing.xl,
-    borderRadius: 12,
+    paddingHorizontal: 28,
+    paddingVertical: 14,
+    borderRadius: 999,
+    shadowColor: '#2B1E12',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.16,
+    shadowRadius: 10,
+    elevation: 4,
   },
   permissionBtnText: {
     color: colors.onPrimary,

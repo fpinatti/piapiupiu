@@ -91,3 +91,20 @@ Como não existem bibliotecas prontas de ícones com renderização de aquarela 
    - **Pântano (`wetland`)**: Ondulações e gotas de água doce sobre lavagem azul cerúleo.
 5. **Pulso de Dispersão "Wet-on-Wet"**: Quando o canto da ave está tocando, o selo pulsa suavemente (escala sinusoidal 1.0 -> 1.10), dando a impressão viva de tinta fresca se espalhando no linho.
 
+---
+
+## 7. Paisagem de Fundo Aquarelada de Wingspan (`WatercolorBackground`)
+
+Para trazer a atmosfera visual do tabuleiro físico de *Wingspan* para a tela inicial do aplicativo sem poluir nem prejudicar a legibilidade (respeitando WCAG AA com folga):
+
+1. **Três Zonas de Habitat Naturais**:
+   - **Topo-Esquerda (Floresta)**: Manchas aquareladas em verde sálvia/musgo (`rgba(62, 107, 79, 0.08)`) com silhueta botânica sutil de pinheiro em marca d'água (`opacity: 0.045`).
+   - **Centro-Direita (Campo)**: Manchas aquareladas em ocre trigo/âmbar (`rgba(201, 151, 56, 0.075)`) com marca d'água de ramo de cevada/trigo (`opacity: 0.045`).
+   - **Fundo-Esquerda (Pântano/Água)**: Manchas aquareladas em cerúleo de água doce (`rgba(44, 123, 158, 0.08)`) com marca d'água de ondulações lacustres (`opacity: 0.045`).
+2. **Marca d'Água Central de Pena**:
+   - Uma pena de guia botânico desenhada com traço nanquim ultraleve (`opacity: 0.035`) no papel de linho.
+3. **Placa de Cartonagem de Boas-Vindas**:
+   - No estado inicial da câmera, o card de orientação surge em placa de linho prensado (`rgba(252, 250, 247, 0.92)`) com cantos de 22px, borda artesanal e selo aquarelado de câmera.
+4. **Isolamento de Toque**:
+   - `pointerEvents="none"` absoluto, garantindo zero interferência nas interações de toque e gestos.
+

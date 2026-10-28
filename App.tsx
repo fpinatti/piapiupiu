@@ -12,6 +12,7 @@ import {
   SafeAreaView,
 } from 'react-native-safe-area-context';
 import { BirdPhoto } from './src/components/BirdPhoto';
+import { WatercolorBackground } from './src/components/WatercolorBackground';
 import { WatercolorIcon } from './src/components/WatercolorIcon';
 import birdsCatalogJson from './src/data/birds.json';
 import { CatalogScreen } from './src/screens/CatalogScreen';
@@ -121,6 +122,7 @@ export default function App() {
 
         {/* Main Content */}
         <View style={styles.content}>
+          <WatercolorBackground />
           {activeTab === 'scanner' ? (
             <ScannerScreen
               matcher={matcher}

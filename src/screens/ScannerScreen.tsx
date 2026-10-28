@@ -281,7 +281,7 @@ export function ScannerScreen({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.canvas,
+    backgroundColor: 'transparent',
   },
   topOverlay: {
     paddingTop: spacing.sm,
