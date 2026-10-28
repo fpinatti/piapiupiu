@@ -12,8 +12,8 @@ export type PlaybackListener = (state: {
   birdId: string | null;
 }) => void;
 
-  const BASE64_CHARS =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+const BASE64_CHARS =
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 
 function uint8ToBase64(bytes: Uint8Array): string {
   let result = '';
@@ -91,7 +91,9 @@ function buildFallbackChirpDataUri(scientificName: string): string {
 }
 
 class BirdAudioService {
-  private currentPlayer: AudioPlayer | null = null;
+  private activePlayers: Set<AudioPlayer> = new Set();
+  private activeFallbackTimer: ReturnType<typeof setTimeout> | null = null;
+  private requestSeq: number = 0;
   private currentBirdId: string | null = null;
   private isPlaying: boolean = false;
   private isConfigured: boolean = false;
@@ -127,100 +129,147 @@ class BirdAudioService {
     }
   }
 
-  public async stop(): Promise<void> {
-    if (this.currentPlayer) {
-      const playerToRemove = this.currentPlayer;
-      this.currentPlayer = null;
-      this.isPlaying = false;
-      this.currentBirdId = null;
-      this.notify();
-      try {
-        playerToRemove.pause();
-        playerToRemove.remove();
-      } catch {
-        // Ignore cleanup errors if player was already disposed
-      }
-    } else if (this.isPlaying || this.currentBirdId) {
-      this.isPlaying = false;
-      this.currentBirdId = null;
-      this.notify();
+  private disposePlayer(player: AudioPlayer): void {
+    this.activePlayers.delete(player);
+    try {
+      player.volume = 0;
+    } catch {
+      // Ignore
+    }
+    try {
+      player.pause();
+    } catch {
+      // Ignore
+    }
+    try {
+      player.remove();
+    } catch {
+      // Ignore
     }
   }
 
-  private startPlayerWithSource(sourceUri: string, fallbackUri?: string): void {
+  private disposeAllPlayers(): void {
+    if (this.activeFallbackTimer) {
+      clearTimeout(this.activeFallbackTimer);
+      this.activeFallbackTimer = null;
+    }
+    for (const player of Array.from(this.activePlayers)) {
+      this.disposePlayer(player);
+    }
+    this.activePlayers.clear();
+  }
+
+  public async stop(): Promise<void> {
+      this.requestSeq++;
+      this.disposeAllPlayers();
+      if (this.isPlaying || this.currentBirdId) {
+        this.isPlaying = false;
+        this.currentBirdId = null;
+        this.notify();
+      }
+    }
+
+  private startPlayerWithSource(
+      sourceUri: string,
+      reqId: number,
+      fallbackUri?: string
+    ): void {
+    if (reqId !== this.requestSeq) {
+      return;
+    }
+
+    // Ensure no previous player is still alive before creating a new one
+    this.disposeAllPlayers();
+
     const player = createAudioPlayer({ uri: sourceUri });
-    this.currentPlayer = player;
+    this.activePlayers.add(player);
     let settled = false;
 
-    const fallbackTimer = fallbackUri
-      ? setTimeout(() => {
-        if (!settled && this.currentPlayer === player && !player.isLoaded) {
-          settled = true;
-          try {
-            player.remove();
-          } catch {
-            // Ignore
-          }
-          this.startPlayerWithSource(fallbackUri);
-        }
-      }, 1800)
-      : null;
+          if (fallbackUri) {
+            this.activeFallbackTimer = setTimeout(() => {
+              if (reqId !== this.requestSeq) {
+                this.disposePlayer(player);
+                return;
+              }
+              if (!settled && !player.isLoaded) {
+                settled = true;
+                this.disposePlayer(player);
+                this.startPlayerWithSource(fallbackUri, reqId);
+              }
+  }, 1800);
+}
 
-    player.addListener('playbackStatusUpdate', (status: AudioStatus) => {
-      if (status.isLoaded || status.playing) {
-        settled = true;
-        if (fallbackTimer) clearTimeout(fallbackTimer);
+player.addListener('playbackStatusUpdate', (status: AudioStatus) => {
+  if (reqId !== this.requestSeq) {
+    this.disposePlayer(player);
+    return;
+  }
+
+  if (status.isLoaded || status.playing) {
+    settled = true;
+    if (this.activeFallbackTimer) {
+      clearTimeout(this.activeFallbackTimer);
+      this.activeFallbackTimer = null;
+    }
+  }
+
+  if (status.didJustFinish) {
+      if (this.activeFallbackTimer) {
+        clearTimeout(this.activeFallbackTimer);
+        this.activeFallbackTimer = null;
       }
-      if (status.didJustFinish) {
-        if (fallbackTimer) clearTimeout(fallbackTimer);
-        this.isPlaying = false;
-        this.notify();
-        try {
-          player.remove();
-        } catch {
-          // Ignore remove errors
-        }
-        if (this.currentPlayer === player) {
-          this.currentPlayer = null;
+        this.disposePlayer(player);
+        if (reqId === this.requestSeq) {
+          this.isPlaying = false;
+          this.notify();
         }
       }
     });
 
-    player.play();
+player.play();
   }
 
-  public async playBird(bird: BirdCard): Promise<boolean> {
-    await this.ensureAudioConfigured();
-    await this.stop();
+  public async playBird(bird: BirdCard): Promise < boolean > {
+  const reqId = ++this.requestSeq;
+  this.disposeAllPlayers();
 
-    const remoteUri = getBirdAudioUri(bird.id);
-    const fallbackDataUri = buildFallbackChirpDataUri(bird.scientific);
+  this.currentBirdId = bird.id;
+  this.isPlaying = true;
+  this.notify();
 
-    try {
-      this.currentBirdId = bird.id;
-      this.isPlaying = true;
-      this.notify();
+  await this.ensureAudioConfigured();
 
-      if (remoteUri) {
-        this.startPlayerWithSource(remoteUri, fallbackDataUri);
-      } else {
-        this.startPlayerWithSource(fallbackDataUri);
-      }
-      return true;
-    } catch {
-      this.isPlaying = false;
-      this.currentBirdId = null;
-      this.notify();
-      return false;
-    }
+  // If another playBird() or stop() happened while awaiting audio mode configuration, abort
+  if(reqId !== this.requestSeq) {
+  return false;
+}
+
+const remoteUri = getBirdAudioUri(bird.id);
+const fallbackDataUri = buildFallbackChirpDataUri(bird.scientific);
+
+try {
+  if (remoteUri) {
+    this.startPlayerWithSource(remoteUri, reqId, fallbackDataUri);
+  } else {
+    this.startPlayerWithSource(fallbackDataUri, reqId);
+  }
+  return true;
+} catch {
+  if (reqId === this.requestSeq) {
+    this.isPlaying = false;
+    this.currentBirdId = null;
+    this.notify();
+  }
+  return false;
+}
   }
 
-  public async toggleBird(bird: BirdCard): Promise<void> {
-    if (this.isPlaying && this.currentBirdId === bird.id) {
-      await this.stop();
-    } else {
-      await this.playBird(bird);
-    }
+  public async toggleBird(bird: BirdCard): Promise < void> {
+  if(this.isPlaying && this.currentBirdId === bird.id) {
+  await this.stop();
+} else {
+  await this.playBird(bird);
+}
   }
 }
 

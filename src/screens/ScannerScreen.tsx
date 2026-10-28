@@ -131,7 +131,8 @@ export function ScannerScreen({
 
   const handleLiveOcrLines = useCallback(
     (lines: string[]) => {
-      evaluateCandidateLines(lines, false);
+      // Since OCR is now triggered deliberately per captured photo, always play the matched bird's sound
+      evaluateCandidateLines(lines, true);
     },
     [evaluateCandidateLines]
   );

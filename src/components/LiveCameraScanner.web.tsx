@@ -7,13 +7,14 @@ import { DEFAULT_TARGET_BOX } from '../utils/boundingBoxFilter';
 import { LiveCameraScannerProps } from './LiveCameraScanner.types';
 
 export function LiveCameraScanner({
-  scannerPaused,
   onOcrLinesDetected,
   onCameraCapabilitiesChange,
 }: LiveCameraScannerProps) {
   const [webcamActive, setWebcamActive] = useState(false);
   const [webcamError, setWebcamError] = useState<string | null>(null);
-  const [ocrStatus, setOcrStatus] = useState<string>('Inicializando leitor óptico...');
+  const [ocrStatus, setOcrStatus] = useState<string>(
+    'Posicione a carta e clique em Fotografar e Ler Carta'
+  );
   const [capturedPreviewUrl, setCapturedPreviewUrl] = useState<string | null>(null);
   const [isProcessingPhoto, setIsProcessingPhoto] = useState(false);
 
@@ -21,7 +22,6 @@ export function LiveCameraScanner({
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
   const workerRef = useRef<Worker | null>(null);
-  const isRecognizingRef = useRef(false);
 
   useEffect(() => {
     onCameraCapabilitiesChange?.({
@@ -47,7 +47,7 @@ export function LiveCameraScanner({
     videoRef.current = node;
     if (node && streamRef.current && node.srcObject !== streamRef.current) {
       node.srcObject = streamRef.current;
-      node.play().catch(() => {});
+      node.play().catch(() => { });
     }
   }, []);
 
@@ -59,7 +59,7 @@ export function LiveCameraScanner({
       videoRef.current.srcObject !== streamRef.current
     ) {
       videoRef.current.srcObject = streamRef.current;
-      videoRef.current.play().catch(() => {});
+      videoRef.current.play().catch(() => { });
     }
   }, [webcamActive]);
 
@@ -69,6 +69,93 @@ export function LiveCameraScanner({
       fileInputRef.current.click();
     }
   }, []);
+
+  const captureFromWebcamAndRecognize = useCallback(async () => {
+    if (isProcessingPhoto || !videoRef.current || typeof document === 'undefined') {
+      return;
+    }
+
+    const video = videoRef.current;
+    const vw = video.videoWidth;
+    const vh = video.videoHeight;
+    if (!vw || !vh || video.readyState < 2) {
+      return;
+    }
+
+    setIsProcessingPhoto(true);
+    setOcrStatus('Analisando foto da carta...');
+
+    try {
+      if (!workerRef.current) {
+        workerRef.current = await createWorker('por+eng');
+      }
+
+      const rect = video.getBoundingClientRect();
+      const containerRatio =
+        rect.width > 0 && rect.height > 0 ? rect.width / rect.height : vw / vh;
+      const videoRatio = vw / vh;
+
+      let visibleWidth = vw;
+      let visibleHeight = vh;
+      let offsetX = 0;
+      let offsetY = 0;
+
+      if (videoRatio > containerRatio) {
+        visibleWidth = vh * containerRatio;
+        offsetX = (vw - visibleWidth) / 2;
+      } else {
+        visibleHeight = vw / containerRatio;
+        offsetY = (vh - visibleHeight) / 2;
+      }
+
+      const sx = Math.max(
+        0,
+        Math.floor(offsetX + visibleWidth * DEFAULT_TARGET_BOX.xMin)
+      );
+      const sy = Math.max(
+        0,
+        Math.floor(offsetY + visibleHeight * DEFAULT_TARGET_BOX.yMin)
+      );
+      const sw = Math.max(
+        80,
+        Math.floor(
+          visibleWidth * (DEFAULT_TARGET_BOX.xMax - DEFAULT_TARGET_BOX.xMin)
+        )
+      );
+      const sh = Math.max(
+        60,
+        Math.floor(
+          visibleHeight * (DEFAULT_TARGET_BOX.yMax - DEFAULT_TARGET_BOX.yMin)
+        )
+      );
+
+      const offscreenCanvas = document.createElement('canvas');
+      offscreenCanvas.width = sw;
+      offscreenCanvas.height = sh;
+      const ctx = offscreenCanvas.getContext('2d');
+      if (!ctx) return;
+
+      ctx.filter = 'grayscale(100%) contrast(165%)';
+      ctx.drawImage(video, sx, sy, sw, sh, 0, 0, sw, sh);
+
+      const { data } = await workerRef.current.recognize(offscreenCanvas);
+      const rawLines = (data?.text || '')
+        .split(/\r?\n/)
+        .map((line) => line.trim())
+        .filter((line) => line.length >= 3);
+
+      if (rawLines.length > 0) {
+        setOcrStatus(`Lido: "${rawLines[0].slice(0, 26)}"`);
+        onOcrLinesDetected(rawLines);
+      } else {
+        setOcrStatus('Nenhum título lido. Enquadre o topo da carta e tente novamente.');
+      }
+    } catch {
+      setOcrStatus('Erro ao analisar a foto. Tente novamente.');
+    } finally {
+      setIsProcessingPhoto(false);
+    }
+  }, [isProcessingPhoto, onOcrLinesDetected]);
 
   const handlePhotoFileSelected = useCallback(
     async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,7 +187,6 @@ export function LiveCameraScanner({
         });
 
         const canvas = document.createElement('canvas');
-        // Crop top 45% of the captured photo where the Wingspan card title sits
         const cropWidth = Math.max(120, img.naturalWidth);
         const cropHeight = Math.max(80, Math.floor(img.naturalHeight * 0.45));
         canvas.width = cropWidth;
@@ -108,7 +194,7 @@ export function LiveCameraScanner({
 
         const ctx = canvas.getContext('2d');
         if (ctx) {
-          ctx.filter = 'grayscale(100%) contrast(145%)';
+          ctx.filter = 'grayscale(100%) contrast(155%)';
           ctx.drawImage(img, 0, 0, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
         }
 
@@ -118,7 +204,6 @@ export function LiveCameraScanner({
           .map((l) => l.trim())
           .filter((l) => l.length >= 3);
 
-        // Also run on the full image in case the card was held lower in frame
         const fullResult = await workerRef.current.recognize(img);
         const fullLines = (fullResult?.data?.text || '')
           .split(/\r?\n/)
@@ -150,8 +235,6 @@ export function LiveCameraScanner({
       !navigator.mediaDevices ||
       !navigator.mediaDevices.getUserMedia
     ) {
-      // On mobile HTTP (non-HTTPS LAN IP), getUserMedia is restricted by the browser,
-      // so open the native mobile camera capture sheet directly!
       openPhotoCaptureFallback();
       return;
     }
@@ -182,141 +265,10 @@ export function LiveCameraScanner({
   };
 
   useEffect(() => {
-    if (videoRef.current && streamRef.current) {
-      if (scannerPaused) {
-        videoRef.current.pause();
-      } else {
-        videoRef.current.play().catch(() => {});
-      }
-    }
-  }, [scannerPaused]);
-
-  useEffect(() => {
-    if (!webcamActive) {
-      return;
-    }
-
-    let cancelled = false;
-    let intervalId: ReturnType<typeof setInterval> | null = null;
-    const offscreenCanvas =
-      typeof document !== 'undefined' ? document.createElement('canvas') : null;
-
-    async function initWorkerAndLoop() {
-      try {
-        setOcrStatus('Preparando leitor óptico...');
-        if (!workerRef.current) {
-          workerRef.current = await createWorker('por+eng');
-        }
-        if (cancelled) return;
-        setOcrStatus('Câmera ativa • Enquadre o topo da carta');
-
-        intervalId = setInterval(async () => {
-          if (
-            cancelled ||
-            scannerPaused ||
-            isRecognizingRef.current ||
-            !videoRef.current ||
-            !offscreenCanvas ||
-            !workerRef.current
-          ) {
-            return;
-          }
-
-          const video = videoRef.current;
-          const vw = video.videoWidth;
-          const vh = video.videoHeight;
-          if (!vw || !vh || video.readyState < 2) {
-            return;
-          }
-
-          isRecognizingRef.current = true;
-          try {
-            const rect = video.getBoundingClientRect();
-            const containerRatio =
-              rect.width > 0 && rect.height > 0 ? rect.width / rect.height : vw / vh;
-            const videoRatio = vw / vh;
-
-            let visibleWidth = vw;
-            let visibleHeight = vh;
-            let offsetX = 0;
-            let offsetY = 0;
-
-            if (videoRatio > containerRatio) {
-              visibleWidth = vh * containerRatio;
-              offsetX = (vw - visibleWidth) / 2;
-            } else {
-              visibleHeight = vw / containerRatio;
-              offsetY = (vh - visibleHeight) / 2;
-            }
-
-            const sx = Math.max(
-              0,
-              Math.floor(offsetX + visibleWidth * DEFAULT_TARGET_BOX.xMin)
-            );
-            const sy = Math.max(
-              0,
-              Math.floor(offsetY + visibleHeight * DEFAULT_TARGET_BOX.yMin)
-            );
-            const sw = Math.max(
-              64,
-              Math.floor(
-                visibleWidth * (DEFAULT_TARGET_BOX.xMax - DEFAULT_TARGET_BOX.xMin)
-              )
-            );
-            const sh = Math.max(
-              48,
-              Math.floor(
-                visibleHeight * (DEFAULT_TARGET_BOX.yMax - DEFAULT_TARGET_BOX.yMin)
-              )
-            );
-
-            offscreenCanvas.width = sw;
-            offscreenCanvas.height = sh;
-            const ctx = offscreenCanvas.getContext('2d');
-            if (!ctx) return;
-
-            ctx.filter = 'grayscale(100%) contrast(145%)';
-            ctx.drawImage(video, sx, sy, sw, sh, 0, 0, sw, sh);
-
-            const { data } = await workerRef.current.recognize(offscreenCanvas);
-            if (cancelled) return;
-
-            const rawLines = (data?.text || '')
-              .split(/\r?\n/)
-              .map((line) => line.trim())
-              .filter((line) => line.length >= 3);
-
-            if (rawLines.length > 0) {
-              onOcrLinesDetected(rawLines);
-            }
-          } catch {
-            // Ignore transient frame recognition errors
-          } finally {
-            isRecognizingRef.current = false;
-          }
-        }, 700);
-      } catch {
-        if (!cancelled) {
-          setOcrStatus('Leitor óptico indisponível; use Testar Cartas');
-        }
-      }
-    }
-
-    initWorkerAndLoop();
-
-    return () => {
-      cancelled = true;
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
-    };
-  }, [webcamActive, scannerPaused, onOcrLinesDetected]);
-
-  useEffect(() => {
     return () => {
       stopWebcam();
       if (workerRef.current) {
-        workerRef.current.terminate().catch(() => {});
+        workerRef.current.terminate().catch(() => { });
         workerRef.current = null;
       }
     };
@@ -324,7 +276,6 @@ export function LiveCameraScanner({
 
   return (
     <View style={styles.container}>
-      {/* Hidden native camera file input that works on mobile browsers even over plain HTTP */}
       {/* @ts-ignore - Standard DOM input rendered via react-native-web */}
       <input
         ref={fileInputRef}
@@ -350,6 +301,22 @@ export function LiveCameraScanner({
               backgroundColor: colors.canvas,
             }}
           />
+          <View style={styles.topCaptureBar}>
+            <TouchableOpacity
+              onPress={captureFromWebcamAndRecognize}
+              disabled={isProcessingPhoto}
+              style={styles.captureNowBtn}
+              activeOpacity={0.85}
+              accessibilityRole="button"
+              accessibilityLabel="Fotografar e ler carta"
+            >
+              <Feather name="camera" size={18} color={colors.onPrimary} />
+              <Text style={styles.captureNowBtnText}>
+                {isProcessingPhoto ? 'Analisando Foto...' : 'Fotografar e Ler Carta'}
+              </Text>
+            </TouchableOpacity>
+          </View>
+
           <View style={styles.statusBanner}>
             <Feather name="eye" size={15} color={colors.textTaxonomic} />
             <Text style={styles.statusBannerText}>{ocrStatus}</Text>
@@ -369,7 +336,7 @@ export function LiveCameraScanner({
           <View style={styles.fallbackContent}>
             <Text style={styles.title}>Leitor de Cartas Wingspan</Text>
             <Text style={styles.subtitle}>
-              Toque abaixo para abrir a câmera do celular (ou fotografar a carta) e ouvir o canto da ave, ou use Testar Cartas.
+              Toque abaixo para abrir a câmera ou fotografar uma carta de ave e ouvir o seu canto.
             </Text>
 
             {isProcessingPhoto ? (
@@ -386,11 +353,11 @@ export function LiveCameraScanner({
                 style={styles.webcamBtn}
                 activeOpacity={0.8}
                 accessibilityRole="button"
-                accessibilityLabel="Ativar câmera para ler cartas"
+                accessibilityLabel="Ativar câmera para fotografar cartas"
               >
                 <Feather name="camera" size={18} color={colors.onPrimary} />
                 <Text style={styles.webcamBtnText}>
-                  {isProcessingPhoto ? 'Lendo Carta...' : 'Ativar Câmera / Fotografar Carta'}
+                  {isProcessingPhoto ? 'Lendo Carta...' : 'Abrir Câmera / Fotografar Carta'}
                 </Text>
               </TouchableOpacity>
 
@@ -496,6 +463,28 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     fontWeight: '600',
     fontSize: typeScale.label,
+  },
+  topCaptureBar: {
+    position: 'absolute',
+    top: 72,
+    alignSelf: 'center',
+  },
+  captureNowBtn: {
+    minHeight: MIN_TOUCH_TARGET,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    backgroundColor: colors.primary,
+    borderWidth: 1.5,
+    borderColor: colors.primaryBorder,
+    paddingHorizontal: spacing.xl,
+    paddingVertical: 10,
+    borderRadius: 999,
+  },
+  captureNowBtnText: {
+    color: colors.onPrimary,
+    fontSize: typeScale.body,
+    fontWeight: '800',
   },
   statusBanner: {
     position: 'absolute',
