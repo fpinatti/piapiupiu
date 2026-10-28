@@ -2,12 +2,15 @@ import { Feather } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {
+  SafeAreaProvider,
+  SafeAreaView,
+} from 'react-native-safe-area-context';
 import birdsCatalogJson from './src/data/birds.json';
 import { CatalogScreen } from './src/screens/CatalogScreen';
 import { ScannerScreen } from './src/screens/ScannerScreen';
@@ -113,149 +116,151 @@ export default function App() {
   }, [playbackState.birdId]);
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar style="light" />
+    <SafeAreaProvider>
+      <SafeAreaView style={styles.safeArea}>
+        <StatusBar style="light" />
 
-      {/* Compact Top App Header */}
-      <View style={styles.header}>
-        <View style={styles.brandRow}>
-          <Feather name="feather" size={20} color={colors.textTaxonomic} />
-          <View>
-            <Text style={styles.brandTitle}>PiaPiuPiu</Text>
-            <Text style={styles.brandSubtitle}>
-              Guia Sonoro Offline para Wingspan
-            </Text>
+        {/* Compact Top App Header */}
+        <View style={styles.header}>
+          <View style={styles.brandRow}>
+            <Feather name="feather" size={20} color={colors.textTaxonomic} />
+            <View>
+              <Text style={styles.brandTitle}>PiaPiuPiu</Text>
+              <Text style={styles.brandSubtitle}>
+                Guia Sonoro Offline para Wingspan
+              </Text>
+            </View>
           </View>
         </View>
-      </View>
 
-      {/* Main Content */}
-      <View style={styles.content}>
-        {activeTab === 'scanner' ? (
-          <ScannerScreen
-            matcher={matcher}
-            selectedExpansions={selectedExpansions}
-            onToggleExpansion={handleToggleExpansion}
-            language={language}
-            onChangeLanguage={setLanguage}
-            activeMatch={activeMatch}
-            onSelectMatch={setActiveMatch}
-            recentBirds={recentBirds}
-            onRecordRecentBird={handleRecordRecentBird}
-            isPlaying={playbackState.isPlaying}
-            playingBirdId={playbackState.birdId}
-            onPlayBird={handlePlayBird}
-            onTogglePlayBird={handleTogglePlayBird}
-          />
-        ) : (
-          <CatalogScreen
-            matcher={matcher}
-            selectedExpansions={selectedExpansions}
-            onToggleExpansion={handleToggleExpansion}
-            language={language}
-            onChangeLanguage={setLanguage}
-            isPlaying={playbackState.isPlaying}
-            playingBirdId={playbackState.birdId}
-            onTogglePlayBird={handleTogglePlayBird}
-          />
-        )}
-      </View>
+        {/* Main Content */}
+        <View style={styles.content}>
+          {activeTab === 'scanner' ? (
+            <ScannerScreen
+              matcher={matcher}
+              selectedExpansions={selectedExpansions}
+              onToggleExpansion={handleToggleExpansion}
+              language={language}
+              onChangeLanguage={setLanguage}
+              activeMatch={activeMatch}
+              onSelectMatch={setActiveMatch}
+              recentBirds={recentBirds}
+              onRecordRecentBird={handleRecordRecentBird}
+              isPlaying={playbackState.isPlaying}
+              playingBirdId={playbackState.birdId}
+              onPlayBird={handlePlayBird}
+              onTogglePlayBird={handleTogglePlayBird}
+            />
+          ) : (
+            <CatalogScreen
+              matcher={matcher}
+              selectedExpansions={selectedExpansions}
+              onToggleExpansion={handleToggleExpansion}
+              language={language}
+              onChangeLanguage={setLanguage}
+              isPlaying={playbackState.isPlaying}
+              playingBirdId={playbackState.birdId}
+              onTogglePlayBird={handleTogglePlayBird}
+            />
+          )}
+        </View>
 
-      {/* Persistent Mini-Player when audio is playing in Catalog */}
-      {activeTab === 'catalog' &&
-        playbackState.isPlaying &&
-        currentlyPlayingBird && (
-          <View style={styles.miniPlayer}>
-            <View style={styles.miniPlayerInfo}>
-              <Feather
-                name="volume-2"
-                size={18}
-                color={colors.textTaxonomic}
-              />
-              <View style={styles.miniPlayerTexts}>
-                <Text style={styles.miniPlayerTitle} numberOfLines={1}>
-                  Tocando: {currentlyPlayingBird.name_pt}
-                </Text>
-                <Text style={styles.miniPlayerSubtitle} numberOfLines={1}>
-                  {currentlyPlayingBird.name_en} •{' '}
-                  {currentlyPlayingBird.scientific}
-                </Text>
+        {/* Persistent Mini-Player when audio is playing in Catalog */}
+        {activeTab === 'catalog' &&
+          playbackState.isPlaying &&
+          currentlyPlayingBird && (
+            <View style={styles.miniPlayer}>
+              <View style={styles.miniPlayerInfo}>
+                <Feather
+                  name="volume-2"
+                  size={18}
+                  color={colors.textTaxonomic}
+                />
+                <View style={styles.miniPlayerTexts}>
+                  <Text style={styles.miniPlayerTitle} numberOfLines={1}>
+                    Tocando: {currentlyPlayingBird.name_pt}
+                  </Text>
+                  <Text style={styles.miniPlayerSubtitle} numberOfLines={1}>
+                    {currentlyPlayingBird.name_en} •{' '}
+                    {currentlyPlayingBird.scientific}
+                  </Text>
+                </View>
               </View>
+
+              <TouchableOpacity
+                onPress={() => audioService.stop()}
+                style={styles.miniPlayerStopBtn}
+                accessibilityRole="button"
+                accessibilityLabel={`Parar canto de ${currentlyPlayingBird.name_pt}`}
+              >
+                <Feather name="square" size={15} color={colors.onDanger} />
+                <Text style={styles.miniPlayerStopText}>Parar</Text>
+              </TouchableOpacity>
             </View>
+          )}
 
-            <TouchableOpacity
-              onPress={() => audioService.stop()}
-              style={styles.miniPlayerStopBtn}
-              accessibilityRole="button"
-              accessibilityLabel={`Parar canto de ${currentlyPlayingBird.name_pt}`}
+        {/* Thumb-Zone Bottom Navigation Bar */}
+        <View style={styles.bottomNav} accessibilityRole="tablist">
+          <TouchableOpacity
+            onPress={() => setActiveTab('scanner')}
+            style={[
+              styles.navTab,
+              activeTab === 'scanner' && styles.navTabActive,
+            ]}
+            accessibilityRole="tab"
+            accessibilityState={{ selected: activeTab === 'scanner' }}
+            accessibilityLabel="Scanner de Cartas"
+          >
+            <Feather
+              name="camera"
+              size={20}
+              color={
+                activeTab === 'scanner'
+                  ? colors.textTaxonomic
+                  : colors.textSecondary
+              }
+            />
+            <Text
+              style={[
+                styles.navTabText,
+                activeTab === 'scanner' && styles.navTabTextActive,
+              ]}
             >
-              <Feather name="square" size={15} color={colors.onDanger} />
-              <Text style={styles.miniPlayerStopText}>Parar</Text>
-            </TouchableOpacity>
-          </View>
-        )}
+              Scanner de Cartas
+            </Text>
+          </TouchableOpacity>
 
-      {/* Thumb-Zone Bottom Navigation Bar */}
-      <View style={styles.bottomNav} accessibilityRole="tablist">
-        <TouchableOpacity
-          onPress={() => setActiveTab('scanner')}
-          style={[
-            styles.navTab,
-            activeTab === 'scanner' && styles.navTabActive,
-          ]}
-          accessibilityRole="tab"
-          accessibilityState={{ selected: activeTab === 'scanner' }}
-          accessibilityLabel="Scanner de Cartas"
-        >
-          <Feather
-            name="camera"
-            size={20}
-            color={
-              activeTab === 'scanner'
-                ? colors.textTaxonomic
-                : colors.textSecondary
-            }
-          />
-          <Text
+          <TouchableOpacity
+            onPress={() => setActiveTab('catalog')}
             style={[
-              styles.navTabText,
-              activeTab === 'scanner' && styles.navTabTextActive,
+              styles.navTab,
+              activeTab === 'catalog' && styles.navTabActive,
             ]}
+            accessibilityRole="tab"
+            accessibilityState={{ selected: activeTab === 'catalog' }}
+            accessibilityLabel={`Catálogo de ${CATALOG_BIRDS.length} aves`}
           >
-            Scanner de Cartas
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={() => setActiveTab('catalog')}
-          style={[
-            styles.navTab,
-            activeTab === 'catalog' && styles.navTabActive,
-          ]}
-          accessibilityRole="tab"
-          accessibilityState={{ selected: activeTab === 'catalog' }}
-          accessibilityLabel={`Catálogo de ${CATALOG_BIRDS.length} aves`}
-        >
-          <Feather
-            name="book-open"
-            size={20}
-            color={
-              activeTab === 'catalog'
-                ? colors.textTaxonomic
-                : colors.textSecondary
-            }
-          />
-          <Text
-            style={[
-              styles.navTabText,
-              activeTab === 'catalog' && styles.navTabTextActive,
-            ]}
-          >
-            Catálogo ({CATALOG_BIRDS.length})
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+            <Feather
+              name="book-open"
+              size={20}
+              color={
+                activeTab === 'catalog'
+                  ? colors.textTaxonomic
+                  : colors.textSecondary
+              }
+            />
+            <Text
+              style={[
+                styles.navTabText,
+                activeTab === 'catalog' && styles.navTabTextActive,
+              ]}
+            >
+              Catálogo ({CATALOG_BIRDS.length})
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 }
 

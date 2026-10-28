@@ -4,7 +4,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { createWorker, Worker } from 'tesseract.js';
 import { colors, MIN_TOUCH_TARGET, spacing, typeScale } from '../theme/tokens';
 import { DEFAULT_TARGET_BOX } from '../utils/boundingBoxFilter';
-import { LiveCameraScannerProps } from './LiveCameraScanner';
+import { LiveCameraScannerProps } from './LiveCameraScanner.types';
 
 export function LiveCameraScanner({
   scannerPaused,

@@ -8,5 +8,3 @@ export interface LiveCameraScannerProps {
   }) => void;
 }
 
-export { LiveCameraScanner } from './LiveCameraScanner.web';
-

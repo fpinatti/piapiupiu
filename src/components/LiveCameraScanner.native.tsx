@@ -2,7 +2,6 @@ import { Feather } from '@expo/vector-icons';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  NativeModules,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,51 +9,11 @@ import {
 } from 'react-native';
 import { WebView, WebViewMessageEvent } from 'react-native-webview';
 import { colors, MIN_TOUCH_TARGET, spacing, typeScale } from '../theme/tokens';
-import {
-  DEFAULT_TARGET_BOX,
-  extractLinesFromOcrPayload,
-} from '../utils/boundingBoxFilter';
-import { LiveCameraScannerProps } from './LiveCameraScanner';
+import { DEFAULT_TARGET_BOX } from '../utils/boundingBoxFilter';
+import { LiveCameraScannerProps } from './LiveCameraScanner.types';
 
 /**
- * Detect whether the native VisionCamera JSI module is compiled into the binary.
- * In a custom Development Build it is present; inside standard Expo Go we automatically
- * use Expo Go's built-in `expo-camera` (<CameraView>) + WebView OCR worker so the live
- * native camera works out-of-the-box in Expo Go with zero HTTPS/localhost errors.
- */
-function loadVisionCameraModules() {
-  try {
-    const hasNativeCameraView = Boolean(
-      NativeModules?.CameraView || NativeModules?.VisionCameraModule
-    );
-    if (!hasNativeCameraView) {
-      return null;
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const visionCamera = require('react-native-vision-camera');
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const textRecognition = require('react-native-vision-camera-text-recognition');
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    const worklets = require('react-native-worklets-core');
-
-    return {
-      Camera: visionCamera.Camera,
-      useCameraDevice: visionCamera.useCameraDevice,
-      useCameraPermission: visionCamera.useCameraPermission,
-      useFrameProcessor: visionCamera.useFrameProcessor,
-      useTextRecognition: textRecognition.useTextRecognition,
-      useRunOnJS: worklets.useRunOnJS,
-    };
-  } catch {
-    return null;
-  }
-}
-
-const VISION_MODULES = loadVisionCameraModules();
-
-/**
- * Self-contained HTML page hosted inside a 1x1 hidden WebView for Expo Go OCR.
+ * Self-contained HTML page hosted inside a 1x1 hidden WebView for Expo Go / Native OCR.
  * Uses pinned tesseract.js@7.0.0 with Subresource Integrity (SRI) hash.
  * Note: Update tesseract.js version and SRI hash together if upgrading.
  */
@@ -136,297 +95,180 @@ const EXPO_GO_OCR_WEBVIEW_HTML = `<!DOCTYPE html>
 </body>
 </html>`;
 
-function ExpoGoCameraScanner({
-  scannerPaused,
-  torchOn,
-  onOcrLinesDetected,
-  onCameraCapabilitiesChange,
-}: LiveCameraScannerProps) {
-  const [permission, requestPermission] = useCameraPermissions();
-  const [cameraReady, setCameraReady] = useState(false);
-  const [ocrWorkerReady, setOcrWorkerReady] = useState(false);
-  const [isCapturing, setIsCapturing] = useState(false);
+  export function LiveCameraScanner({
+    scannerPaused,
+    torchOn,
+    onOcrLinesDetected,
+    onCameraCapabilitiesChange,
+  }: LiveCameraScannerProps) {
+    const [permission, requestPermission] = useCameraPermissions();
+    const [cameraReady, setCameraReady] = useState(false);
+    const [ocrWorkerReady, setOcrWorkerReady] = useState(false);
+    const [isCapturing, setIsCapturing] = useState(false);
 
-  const cameraRef = useRef<CameraView | null>(null);
-  const webViewRef = useRef<WebView<Record<string, unknown>> | null>(null);
-  const busyRef = useRef(false);
+    const cameraRef = useRef<CameraView | null>(null);
+    const webViewRef = useRef<WebView<Record<string, unknown>> | null>(null);
+    const busyRef = useRef(false);
 
-  useEffect(() => {
-    if (permission && !permission.granted && permission.canAskAgain) {
-      requestPermission().catch(() => {});
-    }
-  }, [permission, requestPermission]);
+    useEffect(() => {
+      if (permission && !permission.granted && permission.canAskAgain) {
+        requestPermission().catch(() => { });
+      }
+    }, [permission, requestPermission]);
 
-  const hasPermission = Boolean(permission?.granted);
+    const hasPermission = Boolean(permission?.granted);
 
-  useEffect(() => {
-    onCameraCapabilitiesChange?.({
-      hasCamera: hasPermission,
-      hasTorch: hasPermission,
-    });
-  }, [hasPermission, onCameraCapabilitiesChange]);
-
-  const captureAndRecognizeFrame = useCallback(async () => {
-    if (
-      !cameraReady ||
-      !ocrWorkerReady ||
-      scannerPaused ||
-      busyRef.current ||
-      !cameraRef.current ||
-      !webViewRef.current
-    ) {
-      return;
-    }
-
-    busyRef.current = true;
-    setIsCapturing(true);
-    try {
-      const photo = await cameraRef.current.takePictureAsync({
-        quality: 0.35,
-        base64: true,
-        shutterSound: false,
-        skipProcessing: true,
+    useEffect(() => {
+      onCameraCapabilitiesChange?.({
+        hasCamera: hasPermission,
+        hasTorch: hasPermission,
       });
+    }, [hasPermission, onCameraCapabilitiesChange]);
 
-      if (photo?.base64 && webViewRef.current) {
-        const safeBase64 = photo.base64.replace(/[^A-Za-z0-9+/=]/g, '');
-        webViewRef.current.injectJavaScript(
-          `window.processBase64Frame && window.processBase64Frame("${safeBase64}"); true;`
-        );
-      } else {
-        busyRef.current = false;
-        setIsCapturing(false);
-      }
-    } catch {
-      busyRef.current = false;
-      setIsCapturing(false);
-    }
-  }, [cameraReady, ocrWorkerReady, scannerPaused]);
-
-  useEffect(() => {
-    if (!hasPermission || !cameraReady || !ocrWorkerReady || scannerPaused) {
-      return;
-    }
-
-    const timer = setInterval(() => {
-      captureAndRecognizeFrame();
-    }, 1800);
-
-    return () => clearInterval(timer);
-  }, [hasPermission, cameraReady, ocrWorkerReady, scannerPaused, captureAndRecognizeFrame]);
-
-  const handleWebViewMessage = useCallback(
-    (event: WebViewMessageEvent) => {
-      try {
-        const payload = JSON.parse(event.nativeEvent.data);
-        if (payload?.type === 'ready') {
-          setOcrWorkerReady(true);
-        } else if (payload?.type === 'ocr') {
-          busyRef.current = false;
-          setIsCapturing(false);
-          if (Array.isArray(payload.lines) && payload.lines.length > 0) {
-            onOcrLinesDetected(payload.lines);
-          }
-        } else if (payload?.type === 'error') {
-          busyRef.current = false;
-          setIsCapturing(false);
-        }
-      } catch {
-        busyRef.current = false;
-        setIsCapturing(false);
-      }
-    },
-    [onOcrLinesDetected]
-  );
-
-  if (!hasPermission) {
-    return (
-      <View style={styles.fallbackBg}>
-        <View style={styles.fallbackContent}>
-          <Text style={styles.title}>Permissão de Câmera Necessária</Text>
-          <Text style={styles.subtitle}>
-            Conceda acesso à câmera no Expo Go para ler o topo das cartas de Wingspan em tempo real.
-          </Text>
-          <TouchableOpacity
-            onPress={() => requestPermission()}
-            style={styles.permissionBtn}
-            accessibilityRole="button"
-            accessibilityLabel="Permitir acesso à câmera"
-          >
-            <Feather name="camera" size={18} color={colors.onPrimary} />
-            <Text style={styles.permissionBtnText}>Permitir Câmera</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    );
-  }
-
-  return (
-    <View style={StyleSheet.absoluteFill}>
-      <CameraView
-        ref={cameraRef}
-        style={StyleSheet.absoluteFill}
-        facing="back"
-        enableTorch={torchOn}
-        animateShutter={false}
-        active={!scannerPaused}
-        onCameraReady={() => setCameraReady(true)}
-      />
-
-      {/* Hidden 1x1 WebView running OCR worker inside Expo Go */}
-      <View style={styles.hiddenWebView}>
-        <WebView<Record<string, unknown>>
-          ref={webViewRef}
-          originWhitelist={['*']}
-          source={{ html: EXPO_GO_OCR_WEBVIEW_HTML }}
-          javaScriptEnabled
-          onMessage={handleWebViewMessage}
-        />
-      </View>
-
-      {/* Manual instant scan button at the bottom of the camera preview */}
-      <View style={styles.expoGoFloatingBar} pointerEvents="box-none">
-        <TouchableOpacity
-          onPress={captureAndRecognizeFrame}
-          style={styles.instantScanPill}
-          activeOpacity={0.8}
-          accessibilityRole="button"
-          accessibilityLabel="Ler carta agora"
-        >
-          <Feather
-            name="aperture"
-            size={15}
-            color={isCapturing ? colors.textTaxonomic : colors.onPrimary}
-          />
-          <Text style={styles.instantScanText}>
-            {!ocrWorkerReady
-              ? 'Preparando leitor óptico...'
-              : isCapturing
-                ? 'Lendo topo da carta...'
-                : 'Leitura automática ativa • Toque para ler agora'}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-}
-
-function NativeVisionCameraScanner({
-  scannerPaused,
-  torchOn,
-  onOcrLinesDetected,
-  onCameraCapabilitiesChange,
-}: LiveCameraScannerProps) {
-  const {
-    Camera,
-    useCameraDevice,
-    useCameraPermission,
-    useFrameProcessor,
-    useTextRecognition,
-    useRunOnJS,
-  } = VISION_MODULES!;
-
-  const { hasPermission, requestPermission } = useCameraPermission();
-  const device = useCameraDevice('back');
-
-  useEffect(() => {
-    if (!hasPermission) {
-      requestPermission().catch(() => {});
-    }
-  }, [hasPermission, requestPermission]);
-
-  useEffect(() => {
-    onCameraCapabilitiesChange?.({
-      hasCamera: Boolean(hasPermission && device),
-      hasTorch: Boolean(device?.hasTorch),
-    });
-  }, [hasPermission, device, onCameraCapabilitiesChange]);
-
-  const { scanText } = useTextRecognition({ language: 'latin' });
-
-  const handleFrameOcrOnJS = useRunOnJS(
-    (ocrPayload: unknown, frameWidth: number, frameHeight: number) => {
-      if (scannerPaused) {
+    const captureAndRecognizeFrame = useCallback(async () => {
+      if (
+        !cameraReady ||
+        !ocrWorkerReady ||
+        scannerPaused ||
+        busyRef.current ||
+        !cameraRef.current ||
+        !webViewRef.current
+      ) {
         return;
       }
-      const lines = extractLinesFromOcrPayload(ocrPayload, frameWidth, frameHeight);
-      if (lines.length > 0) {
-        onOcrLinesDetected(lines);
-      }
-    },
-    [scannerPaused, onOcrLinesDetected]
-  );
 
-  const frameProcessor = useFrameProcessor(
-    (frame: { width: number; height: number }) => {
-      'worklet';
+      busyRef.current = true;
+      setIsCapturing(true);
       try {
-        const ocrData = scanText(frame);
-        if (ocrData) {
-          handleFrameOcrOnJS(ocrData, frame.width, frame.height);
+        const photo = await cameraRef.current.takePictureAsync({
+          quality: 0.35,
+          base64: true,
+          shutterSound: false,
+          skipProcessing: true,
+        });
+
+        if (photo?.base64 && webViewRef.current) {
+          const safeBase64 = photo.base64.replace(/[^A-Za-z0-9+/=]/g, '');
+          webViewRef.current.injectJavaScript(
+            `window.processBase64Frame && window.processBase64Frame("${safeBase64}"); true;`
+          );
+        } else {
+          busyRef.current = false;
+          setIsCapturing(false);
         }
       } catch {
-        // Ignore transient native frame processor errors
+        busyRef.current = false;
+        setIsCapturing(false);
       }
-    },
-    [scanText, handleFrameOcrOnJS]
-  );
+    }, [cameraReady, ocrWorkerReady, scannerPaused]);
 
-  if (!hasPermission) {
+    useEffect(() => {
+      if (!hasPermission || !cameraReady || !ocrWorkerReady || scannerPaused) {
+        return;
+      }
+
+      const timer = setInterval(() => {
+        captureAndRecognizeFrame();
+      }, 1800);
+
+      return () => clearInterval(timer);
+    }, [hasPermission, cameraReady, ocrWorkerReady, scannerPaused, captureAndRecognizeFrame]);
+
+    const handleWebViewMessage = useCallback(
+      (event: WebViewMessageEvent) => {
+        try {
+          const payload = JSON.parse(event.nativeEvent.data);
+          if (payload?.type === 'ready') {
+            setOcrWorkerReady(true);
+          } else if (payload?.type === 'ocr') {
+            busyRef.current = false;
+            setIsCapturing(false);
+            if (Array.isArray(payload.lines) && payload.lines.length > 0) {
+              onOcrLinesDetected(payload.lines);
+            }
+          } else if (payload?.type === 'error') {
+            busyRef.current = false;
+            setIsCapturing(false);
+          }
+        } catch {
+          busyRef.current = false;
+          setIsCapturing(false);
+        }
+      },
+      [onOcrLinesDetected]
+    );
+
+    if (!hasPermission) {
+      return (
+        <View style={styles.fallbackBg}>
+          <View style={styles.fallbackContent}>
+            <Text style={styles.title}>Permissão de Câmera Necessária</Text>
+            <Text style={styles.subtitle}>
+              Conceda acesso à câmera no Expo Go para ler o topo das cartas de Wingspan em tempo real.
+            </Text>
+            <TouchableOpacity
+              onPress={() => requestPermission()}
+              style={styles.permissionBtn}
+              accessibilityRole="button"
+              accessibilityLabel="Permitir acesso à câmera"
+            >
+              <Feather name="camera" size={18} color={colors.onPrimary} />
+              <Text style={styles.permissionBtnText}>Permitir Câmera</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      );
+    }
+
     return (
-      <View style={styles.fallbackBg}>
-        <View style={styles.fallbackContent}>
-          <Text style={styles.title}>Permissão de Câmera Necessária</Text>
-          <Text style={styles.subtitle}>
-            Conceda acesso à câmera para ler o topo das cartas de Wingspan em tempo real.
-          </Text>
+      <View style={StyleSheet.absoluteFill}>
+        <CameraView
+          ref={cameraRef}
+          style={StyleSheet.absoluteFill}
+          facing="back"
+          enableTorch={torchOn}
+          animateShutter={false}
+          active={!scannerPaused}
+          onCameraReady={() => setCameraReady(true)}
+        />
+
+        {/* Hidden 1x1 WebView running OCR worker inside Expo Go */}
+        <View style={styles.hiddenWebView}>
+          <WebView<Record<string, unknown>>
+            ref={webViewRef}
+            originWhitelist={['*']}
+            source={{ html: EXPO_GO_OCR_WEBVIEW_HTML }}
+            javaScriptEnabled
+            onMessage={handleWebViewMessage}
+          />
+        </View>
+
+        {/* Manual instant scan button at the top of the camera preview */}
+        <View style={styles.expoGoFloatingBar} pointerEvents="box-none">
           <TouchableOpacity
-            onPress={() => requestPermission()}
-            style={styles.permissionBtn}
+            onPress={captureAndRecognizeFrame}
+            style={styles.instantScanPill}
+            activeOpacity={0.8}
             accessibilityRole="button"
-            accessibilityLabel="Permitir acesso à câmera"
+            accessibilityLabel="Ler carta agora"
           >
-            <Feather name="camera" size={18} color={colors.onPrimary} />
-            <Text style={styles.permissionBtnText}>Permitir Câmera</Text>
+            <Feather
+              name="aperture"
+              size={15}
+              color={isCapturing ? colors.textTaxonomic : colors.onPrimary}
+            />
+            <Text style={styles.instantScanText}>
+              {!ocrWorkerReady
+                ? 'Preparando leitor óptico...'
+                : isCapturing
+                  ? 'Lendo topo da carta...'
+                  : 'Leitura automática ativa • Toque para ler agora'}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
     );
   }
-
-  if (!device) {
-    return (
-      <View style={styles.fallbackBg}>
-        <View style={styles.fallbackContent}>
-          <Text style={styles.title}>Câmera Física Indisponível</Text>
-          <Text style={styles.subtitle}>
-            Use a opção Testar Cartas abaixo ou a aba Catálogo para ouvir os cantos das aves.
-          </Text>
-        </View>
-      </View>
-    );
-  }
-
-  return (
-    <Camera
-      style={StyleSheet.absoluteFill}
-      device={device}
-      isActive={!scannerPaused}
-      pixelFormat="yuv"
-      torch={torchOn && device.hasTorch ? 'on' : 'off'}
-      frameProcessor={frameProcessor}
-      fps={15}
-    />
-  );
-}
-
-export function LiveCameraScanner(props: LiveCameraScannerProps) {
-  if (VISION_MODULES) {
-    return <NativeVisionCameraScanner {...props} />;
-  }
-
-  return <ExpoGoCameraScanner {...props} />;
-}
 
 const styles = StyleSheet.create({
   fallbackBg: {
