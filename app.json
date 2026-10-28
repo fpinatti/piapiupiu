@@ -15,6 +15,11 @@
     "android": {
       "package": "com.piapiupiu.app",
       "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"
       ]
     },
     "web": {
@@ -43,6 +48,14 @@
     ],
     "runtimeVersion": {
       "policy": "appVersion"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "549b0ca8-949a-47bc-a491-9f6f350b6157"
+      }
+    },
+    "updates": {
+      "url": "https://u.expo.dev/549b0ca8-949a-47bc-a491-9f6f350b6157"
     }
   }
 }

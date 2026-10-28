@@ -9,7 +9,7 @@
       "wetland"
     ],
     "audio": "abbotts_booby.mp3",
-    "source": "bundled"
+    "source": "cached"
   },
   {
     "id": "acorn_woodpecker",
@@ -35,7 +35,7 @@
       "wetland"
     ],
     "audio": "altamira_oriole.mp3",
-    "source": "cached"
+    "source": "bundled"
   },
   {
     "id": "amazon_kingfisher",
@@ -47,7 +47,7 @@
       "wetland"
     ],
     "audio": "amazon_kingfisher.mp3",
-    "source": "cached"
+    "source": "bundled"
   },
   {
     "id": "amazonian_parrotlet",
@@ -60,7 +60,7 @@
       "wetland"
     ],
     "audio": "amazonian_parrotlet.mp3",
-    "source": "cached"
+    "source": "bundled"
   },
   {
     "id": "american_avocet",
@@ -122,7 +122,7 @@
       "wetland"
     ],
     "audio": "american_flamingo.mp3",
-    "source": "cached"
+    "source": "bundled"
   },
   {
     "id": "american_golden_plover",
@@ -134,7 +134,7 @@
       "grassland"
     ],
     "audio": "american_golden_plover.mp3",
-    "source": "cached"
+    "source": "bundled"
   },
   {
     "id": "american_goldfinch",
