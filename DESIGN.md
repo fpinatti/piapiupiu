@@ -76,3 +76,18 @@ Piupiu U derives its identity directly from Elizabeth Hargrave's *Wingspan* and 
 - **Moldura da Foto Real**: Retrato arredondado com efeito de estampa litográfica botânica e indicador de zoom.
 - **Botão de Som**: Botão com formato de selo botânico em verde floresta e dourado de latão.
 
+---
+
+## 6. Selos e Ícones Aquarelados de Delight (`WatercolorIcon`)
+
+Como não existem bibliotecas prontas de ícones com renderização de aquarela (que exigem gradientes orgânicos, acúmulo de pigmento nas bordas e dispersão em papel), o Piapiu U implementa uma técnica artesanal de **Selos de Aquarela (Watercolor Stamps)**:
+
+1. **Gotículas Orgânicas Assimétricas**: Em vez de círculos perfeitamente redondos, cada selo utiliza raios de borda assimétricos (ex: `borderTopLeftRadius: 62%`, `borderTopRightRadius: 38%`, etc.) simulando gotas reais de tinta sobre papel prensado a frio.
+2. **Pigment Pooling (Acúmulo de Pigmento nas Bordas)**: Uma borda delicada de 1.2px ligeiramente mais escura que a lavagem interna imita a física da secagem da aquarela, onde as partículas de pigmento se concentram no menisco da água.
+3. **Difusão e Halo de Água**: Uma camada externa semi-transparente que simula a umidade do papel ao redor da pincelada.
+4. **Emblemas Botânicos dos Habitats**:
+   - **Floresta (`forest`)**: Pinheiro/conífera botânica em tinta verde floresta sobre lavagem verde folha suave.
+   - **Campo (`grassland`)**: Tufo de trigo/cevada em tom âmbar sobre lavagem ocre dourada.
+   - **Pântano (`wetland`)**: Ondulações e gotas de água doce sobre lavagem azul cerúleo.
+5. **Pulso de Dispersão "Wet-on-Wet"**: Quando o canto da ave está tocando, o selo pulsa suavemente (escala sinusoidal 1.0 -> 1.10), dando a impressão viva de tinta fresca se espalhando no linho.
+

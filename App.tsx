@@ -12,6 +12,7 @@ import {
   SafeAreaView,
 } from 'react-native-safe-area-context';
 import { BirdPhoto } from './src/components/BirdPhoto';
+import { WatercolorIcon } from './src/components/WatercolorIcon';
 import birdsCatalogJson from './src/data/birds.json';
 import { CatalogScreen } from './src/screens/CatalogScreen';
 import { ScannerScreen } from './src/screens/ScannerScreen';
@@ -104,9 +105,11 @@ export default function App() {
         {/* Naturalist Field Guide Header */}
         <View style={styles.header}>
           <View style={styles.brandRow}>
-            <View style={styles.brandEmblem}>
-              <Feather name="feather" size={18} color={colors.primary} />
-            </View>
+            <WatercolorIcon
+              type="feather"
+              size="md"
+              pulse={playbackState.isPlaying}
+            />
             <View>
               <Text style={styles.brandTitle}>Piupiu U</Text>
               <Text style={styles.brandSubtitle}>

@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import { BirdPhoto } from '../components/BirdPhoto';
+import { WatercolorIcon } from '../components/WatercolorIcon';
 import { BirdMatcher } from '../services/birdMatcher';
 import {
   colors,
@@ -141,7 +142,7 @@ export function CatalogScreen({
                     </View>
                   )}
 
-                  {item.habitats?.map((h) => {
+                  {item.habitats?.map((h, hIdx) => {
                     const hab = HABITAT_THEME[h];
                     if (!hab) return null;
                     return (
@@ -155,6 +156,12 @@ export function CatalogScreen({
                           },
                         ]}
                       >
+                        <WatercolorIcon
+                          type={h}
+                          size="sm"
+                          variant={(((hIdx) % 3) + 1) as 1 | 2 | 3}
+                          pulse={active}
+                        />
                         <Text
                           style={[styles.habitatTagText, { color: hab.text }]}
                         >
@@ -183,7 +190,7 @@ export function CatalogScreen({
         }}
         ListEmptyComponent={
           <View style={styles.emptyBox}>
-            <Feather name="feather" size={28} color={colors.textSecondary} />
+            <WatercolorIcon type="feather" size="lg" />
             <Text style={styles.emptyTitle}>Nenhuma ave encontrada</Text>
             <Text style={styles.emptySubtitle}>
               Tente outro nome em Português, Inglês ou Latim.
@@ -323,9 +330,13 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   habitatTag: {
-    paddingHorizontal: 8,
-    paddingVertical: 2.5,
-    borderRadius: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingLeft: 4,
+    paddingRight: 8,
+    paddingVertical: 2,
+    borderRadius: 8,
     borderWidth: 1,
   },
   habitatTagText: {

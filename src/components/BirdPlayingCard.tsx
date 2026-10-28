@@ -12,6 +12,7 @@ import {
 } from '../theme/tokens';
 import { BirdCard } from '../types/bird';
 import { BirdPhoto } from './BirdPhoto';
+import { WatercolorIcon } from './WatercolorIcon';
 
 interface BirdPlayingCardProps {
   bird: BirdCard;
@@ -68,7 +69,7 @@ export function BirdPlayingCard({
             </View>
           )}
 
-          {bird.habitats?.map((h) => {
+          {bird.habitats?.map((h, idx) => {
             const hab = HABITAT_THEME[h];
             if (!hab) return null;
             return (
@@ -79,6 +80,12 @@ export function BirdPlayingCard({
                   { backgroundColor: hab.bg, borderColor: hab.border },
                 ]}
               >
+                <WatercolorIcon
+                  type={h}
+                  size="sm"
+                  variant={(((idx) % 3) + 1) as 1 | 2 | 3}
+                  pulse={isPlaying}
+                />
                 <Text style={[styles.habitatText, { color: hab.text }]}>
                   {hab.label}
                 </Text>
@@ -203,9 +210,13 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   habitatBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 2.5,
-    borderRadius: 6,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    paddingLeft: 4,
+    paddingRight: 8,
+    paddingVertical: 2,
+    borderRadius: 8,
     borderWidth: 1,
   },
   habitatText: {
