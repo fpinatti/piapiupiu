@@ -21,6 +21,23 @@ export interface BirdCard {
   audio: string;
   /** Optional Xeno-Canto recording attribution or source note */
   source?: string;
+  /** Optional pre-resolved HTTPS photograph URL from an open biodiversity repository */
+  imageUrl?: string;
+}
+
+export type BirdPhotoSource = 'catalog' | 'inaturalist' | 'wikipedia';
+
+export interface BirdPhotoMetadata {
+  /** Bird identifier matching BirdCard.id */
+  birdId: string;
+  /** Optimized HTTPS URL (~300px–500px) for cards, list thumbnails, and mini-player */
+  thumbUrl: string;
+  /** High-resolution HTTPS URL (~800px–1200px) for the full-screen zoom modal */
+  fullUrl: string;
+  /** Open data repository that provided the photo */
+  source: BirdPhotoSource;
+  /** Optional photographer / license attribution string */
+  attribution?: string;
 }
 
 export interface NormalizedBoundingBox {

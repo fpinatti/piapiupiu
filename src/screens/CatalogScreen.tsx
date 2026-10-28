@@ -9,6 +9,7 @@ import {
   useWindowDimensions,
   View,
 } from 'react-native';
+import { BirdPhoto } from '../components/BirdPhoto';
 import { FilterBar } from '../components/FilterBar';
 import { BirdMatcher } from '../services/birdMatcher';
 import {
@@ -125,6 +126,10 @@ export function CatalogScreen({
                   : `Ouvir canto de ${primaryTitle}`
               }
             >
+              <View style={styles.birdLeading}>
+                <BirdPhoto bird={item} variant="thumbnail" enableZoom />
+              </View>
+
               <View style={styles.birdInfo}>
                 <View style={styles.titleLine}>
                   <Text style={styles.primaryName}>{primaryTitle}</Text>
@@ -273,6 +278,9 @@ const styles = StyleSheet.create({
   birdRowActive: {
     borderColor: colors.primaryBorder,
     backgroundColor: colors.surfaceElevated,
+  },
+  birdLeading: {
+    marginRight: spacing.md,
   },
   birdInfo: {
     flex: 1,

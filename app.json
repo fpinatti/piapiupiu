@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "PiaPiuPiu - Wingsong",
+    "name": "Piupiu U",
     "slug": "piapiupiu",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -9,7 +9,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.piapiupiu.app",
       "infoPlist": {
-        "NSCameraUsageDescription": "O PiaPiuPiu precisa de acesso à câmera para identificar cartas do Wingspan via OCR."
+        "NSCameraUsageDescription": "O Piupiu U precisa de acesso à câmera para identificar cartas do Wingspan via OCR."
       }
     },
     "android": {
@@ -29,13 +29,13 @@
       [
         "react-native-vision-camera",
         {
-          "cameraPermissionText": "O PiaPiuPiu precisa de acesso à câmera para identificar cartas do Wingspan via OCR."
+          "cameraPermissionText": "O Piupiu U precisa de acesso à câmera para identificar cartas do Wingspan via OCR."
         }
       ],
       [
         "expo-camera",
         {
-          "cameraPermission": "O PiaPiuPiu precisa de acesso à câmera para identificar cartas do Wingspan via OCR.",
+          "cameraPermission": "O Piupiu U precisa de acesso à câmera para identificar cartas do Wingspan via OCR.",
           "recordAudioAndroid": false
         }
       ],
@@ -48,14 +48,6 @@
     ],
     "runtimeVersion": {
       "policy": "sdkVersion"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "549b0ca8-949a-47bc-a491-9f6f350b6157"
-      }
-    },
-    "updates": {
-      "url": "https://u.expo.dev/549b0ca8-949a-47bc-a491-9f6f350b6157"
     }
   }
 }

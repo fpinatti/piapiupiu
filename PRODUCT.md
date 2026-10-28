@@ -4,49 +4,41 @@
 
 ## Platform
 
-adaptive
+adaptive (Android & iOS via Expo SDK 58 / Expo Go + Web via `react-native-web`)
 
 ## Users
 
-Primary users are tabletop board game players playing **Wingspan** (base game and expansions: European, Oceania, Asia) around a physical table. They hold a bird card in one hand and their phone in the other, often in warm or dim living-room lighting, with cards inside reflective plastic sleeves, and in locations (such as cabins or game nights) where internet connectivity may be weak or absent.
+Primary users are tabletop board game players playing **Wingspan** (Base game and all expansions: European, Oceania, Asia, Americas) around a physical table. They hold a bird card in one hand and their phone in the other, often in warm or dim living-room lighting, with cards inside reflective plastic sleeves.
 
 ## Product Purpose
 
-**PiaPiuPiu** is a recreation of the discontinued *Wingsong* companion app for *Wingspan*. It lets players point their phone camera at a *Wingspan* bird card—or search the catalog manually—to immediately hear the authentic vocalization of that bird species and view its ornithological card context. Success means sub-second recognition without false positives, instant offline audio playback, and zero friction during a turn at the gaming table.
+**Piupiu U** (formerly *PiaPiuPiu*) is a modern recreation of the discontinued *Wingsong* companion app for *Wingspan*. It lets players photograph a *Wingspan* bird card—or search the complete 597-bird catalog manually—to immediately hear the authentic field vocalization of that bird species and view its real-life photograph and ornithological card context. Success means accurate card recognition without hand-shake blur, authentic bird songs with single-player audio exclusivity, real species photographs, and a lightweight app bundle that updates in seconds.
 
 ## Positioning
 
-Rather than using fragile visual neural-network image classification on 400+ small, similarly framed bird illustrations, PiaPiuPiu performs real-time on-device Optical Character Recognition (OCR) constrained to a virtual bounding box over the top card title, paired with diacritic- and glare-tolerant fuzzy matching (`Fuse.js`) across official Brazilian Portuguese (Grok Games), English (Stonemaier Games), and universal binomial scientific names, triggering pre-compressed offline audio assets.
+Rather than using fragile visual neural-network image classification on 597 small, similarly framed bird illustrations, **Piupiu U** uses deliberate still-photo Optical Character Recognition (OCR) with optical zoom presets (`1x`, `1.5x Ideal`, `2x`, `Macro`) constrained to the top card header, paired with diacritic- and glare-tolerant fuzzy matching (`Fuse.js`) across official Brazilian Portuguese (Grok Games), English (Stonemaier Games), and universal binomial scientific names, streaming real ornithological recordings and photographs on demand.
 
 ## Operating Context
 
 - **At the gaming table**: One-handed phone operation during a *Wingspan* match; frequent glare from card sleeves and angled table lighting; players frequently pass the phone or scan cards in quick succession.
-- **Bilingual table environment**: Tables in Brazil play with either the Brazilian Portuguese (Grok) edition, imported English expansions, or mixed decks, requiring simultaneous PT-BR, EN, and scientific-name matching and filtering.
-- **100% Offline execution**: All bird metadata and compressed audio clips are bundled locally so the app works without network access.
+- **Trilingual table environment**: Tables in Brazil play with either the Brazilian Portuguese (Grok) edition, imported English expansions, or mixed decks, requiring simultaneous PT-BR, EN, and scientific-name matching and filtering across all **597 birds** (`base`: 180, `europe`: 81, `oceania`: 95, `asia`: 90, `americas`: 151).
+- **Lightweight On-Demand Media**: Metadata for all 597 birds is bundled locally for instant `<100ms` search, while authentic audio recordings (iNaturalist Research-Grade Sounds / Xeno-Canto v3) and species photographs (iNaturalist Taxa API / Wikimedia Commons) are streamed on demand and cached in memory so the app bundle remains tiny (`~2.2 MB`).
 
 ## Capabilities and Constraints
 
-- **Real-time OCR Scanner (`ScannerScreen`)**: Uses `react-native-vision-camera` v4 Frame Processors + Google ML Kit Text Recognition (`react-native-vision-camera-text-recognition`) on native Android/iOS, filtering text lines to the top targeting box (`DEFAULT_TARGET_BOX`), stripping ability/power text (`QUANDO ATIVAR`, `WHEN PLAYED`, etc.), normalizing OCR glitches (`GA1O-AZUL` -> `gaio azul`), and enforcing a 6-second per-bird anti-spam debounce cooldown.
-- **Interactive Web & Simulator Mode (`LiveCameraScanner.web.tsx`)**: Provides WebRTC browser webcam preview and an interactive OCR simulator bar for testing card recognition and sleeve-glare tolerance in the browser or emulator.
-- **Searchable Bilingual Catalog & Collection Mode (`CatalogScreen`)**: Instant fuzzy search and filtering by expansion (`base`, `europe`, `oceania`, `asia`) and language (`all`, `pt`, `en`), with planned expansion from the initial 40-bird seed dataset (`src/data/birds-seed.json`) to the full ~450+ *Wingspan* bird catalog and richer ornithological card details (habitats, wingspan, lore/curiosities).
-- **Automated Audio Pipeline (`scripts/sync-birds.mjs`)**: Node.js + `ffmpeg` script that fetches ornithological recordings by scientific name (Xeno-Canto / iNaturalist), transcodes them to mono 32kbps (max 6s with 1s fade-out, ~12–24 KB per bird), and generates `src/data/birds.json` and `src/data/audioMap.ts`.
+- **Deliberate Still-Photo OCR Scanner (`ScannerScreen` + `LiveCameraScanner`)**: Uses `expo-camera` (`CameraView`) with zoom controls (`1x`, `1.5x Ideal`, `2x`, `Macro`) and a WebView Tesseract.js OCR worker on mobile (and WebRTC + Tesseract.js on Web), normalizing EXIF rotation (`skipProcessing: false`), stripping power text (`QUANDO ATIVAR`, `WHEN PLAYED`, etc.), and matching card titles via `Fuse.js`.
+- **Authentic Audio Streaming (`audioService.ts`)**: Streams real research-grade bird vocalizations by scientific name from iNaturalist Sounds API and Xeno-Canto API v3 via `expo-audio`, enforcing strict single-player disposal so two sounds never overlap.
+- **Real Bird Photography (`birdImageService.ts` + `BirdPhoto.tsx`)**: Displays curated species photographs from iNaturalist Taxa API v1 and Wikipedia REST API v1 in `BirdPlayingCard`, `CatalogScreen`, and the Mini-Player, including tap-to-zoom full-screen modal view.
+- **Searchable 597-Bird Catalog (`CatalogScreen`)**: Instant fuzzy search and filtering by expansion (`base`, `europe`, `oceania`, `asia`, `americas`) and language (`all`, `pt`, `en`).
 
 ## Brand Commitments
 
-- **Name**: PiaPiuPiu (Wingsong Companion).
-- **Voice & Copy**: Primary UI copy in Brazilian Portuguese (PT-BR), with bilingual PT-BR and English support for all bird names and Latin scientific taxonomy.
-
-## Evidence on Hand
-
-- `src/data/birds-seed.json` & `src/data/birds.json`: 40 curated *Wingspan* birds across Base, Europe, Oceania, and Asia expansions with official PT-BR names, English names, scientific names, and habitat tags.
-- `assets/audio/*.mp3` & `src/data/audioMap.ts`: 40 real ornithological vocalization clips downloaded and transcoded via `ffmpeg` (944 KB total).
-- `src/__tests__/`: 17 unit tests verifying text normalization, bounding-box coordinate filtering, `Fuse.js` fuzzy matching, and 6-second debounce logic.
-- Full ~450+ card dataset and extended ornithological curiosity fields (wingspan cm, flavor text, geographic range) are not yet populated in `src/data/birds-seed.json` and must be sourced from real card data rather than fabricated.
+- **Name**: **Piupiu U** (Wingsong Companion).
+- **Voice & Copy**: Primary UI copy in Brazilian Portuguese (PT-BR), with full PT-BR, English, and Latin scientific taxonomy support.
 
 ## Product Principles
 
-1. **Table-Side Speed & Zero Ceremony**: Scanning a card or tapping a bird in the catalog must play its song immediately without modal clutter or multi-step confirmation.
-2. **Offline Reliability First**: Core scanning, fuzzy search, and bird vocalizations must function 100% offline with deterministic local assets.
-3. **Glare & Language Tolerance**: Treat sleeve reflections, dim lighting, and mixed PT-BR/EN decks as the norm—normalize aggressively and scope OCR strictly to the card header.
-4. **Authentic Ornithological Grounding**: Use binomial scientific names (`latin name`) as the universal key linking board game editions to real-world ornithological data and recordings.
-
+1. **Table-Side Speed & Deliberate OCR Precision**: Capturing a card or tapping a bird in the catalog must recognize the species accurately and play its song without modal clutter.
+2. **Taxonomic Grounding**: Use binomial scientific names (`scientific`) as the universal key linking all 597 board game cards to real-world ornithological audio and photographs.
+3. **Authentic Media & Single-Player Exclusivity**: Play only real ornithological recordings (never synthetic sine waves), never allow overlapping audio playback, and load photos in parallel without blocking sound.
+4. **Lightweight Bundle & Secure Config**: Keep the app bundle lightweight (`<5 MB`) for fast Expo Go / EAS updates and isolate all project/API credentials in `.env` variables via `app.config.js`.

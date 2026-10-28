@@ -40,7 +40,11 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- **I. Table-Side Speed & Deliberate OCR Precision**: Does the feature preserve `<100ms` matching and low-friction tabletop UX?
+- **II. Taxonomic Grounding & 597-Bird Bilingual Catalog**: Does the feature use `bird.scientific` as primary taxonomic key and support all 5 expansions (`base`, `europe`, `oceania`, `asia`, `americas`) in PT-BR, EN, and Latin?
+- **III. Authentic Ornithological Media & Single-Player Audio**: Are media sourced from open scientific APIs, non-blocking, and guaranteed never to play overlapping audio?
+- **IV. Lightweight Bundle & On-Demand Streaming**: Does the bundle remain `<5 MB` with zero bulk binary media embedded via static `require()`?
+- **V. Security, Privacy & Zero Hardcoded Secrets**: Are secrets isolated in `.env` (`app.config.js`) and all remote URLs validated against the HTTPS allow-list?
 
 ## Project Structure
 

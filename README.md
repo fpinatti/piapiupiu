@@ -1,12 +1,17 @@
-# PiaPiuPiu — Wingsong Companion App (React Native)
+# Piupiu U — Guia Sonoro e Visual para Wingspan (React Native / Expo SDK 58)
 
-Aplicativo companheiro **100% offline** para o jogo de tabuleiro **Wingspan**, recriando a experiência do *Wingsong* em React Native + TypeScript.
+Aplicativo companheiro para o jogo de tabuleiro **Wingspan**, recriando e expandindo a experiência do *Wingsong* em React Native + TypeScript (**Expo SDK 58**).
 
-Em vez de usar classificação visual da ilustração (suscetível a falsos-positivos por iluminação e sleeves), o **PiaPiuPiu** utiliza:
-1. **OCR On-Device em Tempo Real** (`react-native-vision-camera` v4 + `react-native-vision-camera-text-recognition` / Google ML Kit) focado em uma **Zona de Enquadramento (Bounding Box Virtual)** no terço superior da carta.
-2. **Normalização e Fuzzy Matching (`Fuse.js`)** tolerante a reflexos de sleeves e ruídos de OCR (ex: `"GA1O-AZUL"` → `"Gaio-azul"`), buscando simultaneamente em **Português (PT-BR)**, **Inglês (EN)** e **Nome Científico** nas **597 aves oficiais** do jogo **Base** (180) e das expansões **Europa** (81), **Oceania** (95), **Ásia** (90) e **Américas** (151, incluindo os 40 beija-flores).
-3. **Debounce Anti-Spam (6 segundos)**: evita disparar o áudio repetidamente enquanto o jogador segura a mesma carta.
-4. **Banco de Áudios 100% Offline** (`expo-av`): gravações ornitológicas comprimidas via `ffmpeg` (Mono, 24–32kbps, máx. 4,5s com fade-out — `<20 MB` para todas as 597 aves).
+O **Piupiu U** combina:
+1. **Scanner OCR por Captura de Foto Nítida** (`expo-camera` + `Tesseract.js` Worker) com controles de zoom óptico (`1x`, `1.5x Ideal`, `2x`, `Macro`) para leitura precisa do nome no topo da carta sem borrão de movimento ou foco.
+2. **Catálogo Completo com 597 Aves Oficiais (`Fuse.js`)**: busca instantânea (`<100ms`) tolerante a acentos e reflexos de sleeves simultaneamente em **Português (PT-BR)**, **Inglês (EN)** e **Nome Científico (Latim)** cobrindo todas as **5 expansões**:
+   - **Jogo Base (`base`)**: 180 aves
+   - **Expansão Europa (`europe`)**: 81 aves
+   - **Expansão Oceania (`oceania`)**: 95 aves
+   - **Expansão Ásia (`asia`)**: 90 aves
+   - **Expansão Américas (`americas`)**: 151 aves (incluindo os 40 beija-flores)
+3. **Cantos Ornitológicos Reais com Exclusividade de Áudio (`expo-audio`)**: streaming sob demanda de gravações reais de campo via **iNaturalist Research-Grade Sounds API** e **Xeno-Canto API v3**, garantindo que dois sons nunca toquem ao mesmo tempo.
+4. **Fotografias Reais das Espécies (`BirdPhoto`)**: exibição da foto real da ave no card do Scanner, na lista do Catálogo e no Mini-Player (com ampliação em tela cheia ao tocar na foto), obtida sob demanda via **iNaturalist Taxa API v1** e **Wikipedia / Wikimedia Commons REST API v1** sem pesar no tamanho do aplicativo (`~2.2 MB`).
 
 ---
 
@@ -14,34 +19,24 @@ Em vez de usar classificação visual da ilustração (suscetível a falsos-posi
 
 ### 1. Instalar dependências
 ```bash
-npm install --legacy-peer-deps
+npm install
 ```
 
-### 2. Gerar semente completa (597 aves) e sincronizar áudios offline (Pipeline Node.js + `ffmpeg`)
-Requer `ffmpeg` instalado no sistema:
+### 2. Configurar Variáveis de Ambiente (`.env`)
+Copie o arquivo `.env.example` para `.env` e preencha os identificadores da sua conta Expo/EAS (e opcionalmente sua chave da API v3 do Xeno-Canto):
 ```bash
-# 1. Atualizar src/data/birds-seed.json (597 cartas das 5 expansões + nomes PT-BR via Wikidata/iNaturalist)
-npm run build:seed
-
-# 2. Processar todas as 597 aves de src/data/birds-seed.json e gerar assets/audio/, src/data/birds.json e src/data/audioMap.ts
-npm run sync:birds
-
-# Opções avançadas (filtrar por expansão, concorrência, síntese offline rápida):
-node scripts/sync-birds.mjs --expansion americas --limit 10 --concurrency 8
-node scripts/sync-birds.mjs --fast-synth --concurrency 12
+cp .env.example .env
 ```
-O script busca gravações pelo nome científico (Xeno-Canto / iNaturalist), converte com `ffmpeg` para `assets/audio/` e gera automaticamente `src/data/birds.json` e `src/data/audioMap.ts`.
 
-### 3. Rodar no Android / iOS (Development Build com VisionCamera + ML Kit)
-Como o Frame Processor de OCR utiliza código nativo (`react-native-vision-camera` + `react-native-worklets-core`), execute via Development Build do Expo:
+### 3. Executar no Expo Go (SDK 58) ou Web
 ```bash
-npx expo run:android
-# ou
-npx expo run:ios
+npm start
+# ou publicar atualização OTA no canal preview:
+npm run update:preview -- "Descrição da atualização"
 ```
 
 ### 4. Testes Automatizados e Checagem de Tipos
 ```bash
-npm test
 npm run typecheck
+npm test
 ```

@@ -10,6 +10,7 @@ import {
   typeScale,
 } from '../theme/tokens';
 import { BirdCard } from '../types/bird';
+import { BirdPhoto } from './BirdPhoto';
 
 interface BirdPlayingCardProps {
   bird: BirdCard;
@@ -95,6 +96,8 @@ export function BirdPlayingCard({
       </View>
 
       <View style={styles.mainRow}>
+        <BirdPhoto bird={bird} variant="hero" enableZoom />
+
         <View style={styles.namesColumn}>
           <Text style={styles.namePt}>{bird.name_pt}</Text>
           <Text style={styles.nameEn}>

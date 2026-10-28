@@ -12,6 +12,7 @@ import {
   SafeAreaView,
 } from 'react-native-safe-area-context';
 import birdsCatalogJson from './src/data/birds.json';
+import { BirdPhoto } from './src/components/BirdPhoto';
 import { CatalogScreen } from './src/screens/CatalogScreen';
 import { ScannerScreen } from './src/screens/ScannerScreen';
 import { audioService } from './src/services/audioService';
@@ -125,9 +126,9 @@ export default function App() {
           <View style={styles.brandRow}>
             <Feather name="feather" size={20} color={colors.textTaxonomic} />
             <View>
-              <Text style={styles.brandTitle}>PiaPiuPiu</Text>
+              <Text style={styles.brandTitle}>Piupiu U</Text>
               <Text style={styles.brandSubtitle}>
-                Guia Sonoro Offline para Wingspan
+                Guia Sonoro e Visual para Wingspan
               </Text>
             </View>
           </View>
@@ -171,10 +172,10 @@ export default function App() {
           currentlyPlayingBird && (
             <View style={styles.miniPlayer}>
               <View style={styles.miniPlayerInfo}>
-                <Feather
-                  name="volume-2"
-                  size={18}
-                  color={colors.textTaxonomic}
+                <BirdPhoto
+                  bird={currentlyPlayingBird}
+                  variant="mini"
+                  enableZoom={false}
                 />
                 <View style={styles.miniPlayerTexts}>
                   <Text style={styles.miniPlayerTitle} numberOfLines={1}>
