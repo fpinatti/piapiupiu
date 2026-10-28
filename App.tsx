@@ -18,6 +18,7 @@ import { WatercolorIcon } from './src/components/WatercolorIcon';
 import birdsCatalogJson from './src/data/birds.json';
 import { CatalogScreen } from './src/screens/CatalogScreen';
 import { ScannerScreen } from './src/screens/ScannerScreen';
+import { ScorepadScreen } from './src/screens/ScorepadScreen';
 import { audioService } from './src/services/audioService';
 import { BirdMatcher } from './src/services/birdMatcher';
 import {
@@ -32,8 +33,10 @@ import {
   ExpansionId,
   ScanMatchResult,
 } from './src/types/bird';
+import { ScorepadState } from './src/types/scorepad';
+import { createInitialScorepadState } from './src/utils/scoreCalculator';
 
-type ActiveTab = 'scanner' | 'catalog';
+type ActiveTab = 'scanner' | 'catalog' | 'scorepad';
 
 const ALL_EXPANSIONS: ExpansionId[] = [
   'base',
@@ -52,6 +55,9 @@ export default function App() {
     isPlaying: boolean;
     birdId: string | null;
   }>({ isPlaying: false, birdId: null });
+  const [scorepadState, setScorepadState] = useState<ScorepadState>(
+    createInitialScorepadState
+  );
 
   const matcher = useMemo(() => {
     return new BirdMatcher(CATALOG_BIRDS, {
@@ -136,12 +142,18 @@ export default function App() {
               onPlayBird={handlePlayBird}
               onTogglePlayBird={handleTogglePlayBird}
             />
-          ) : (
+          ) : activeTab === 'catalog' ? (
             <CatalogScreen
               matcher={matcher}
               isPlaying={playbackState.isPlaying}
               playingBirdId={playbackState.birdId}
               onTogglePlayBird={handleTogglePlayBird}
+            />
+          ) : (
+            <ScorepadScreen
+              scorepadState={scorepadState}
+              onScorepadStateChange={setScorepadState}
+              onResetScores={() => setScorepadState(createInitialScorepadState())}
             />
           )}
         </View>
@@ -248,6 +260,41 @@ export default function App() {
             textStyle={[
               styles.navTabText,
               activeTab === 'catalog'
+                ? styles.navTabTextActive
+                : styles.navTabTextInactive,
+            ]}
+          />
+
+          <WatercolorBlobButton
+            onPress={() => setActiveTab('scorepad')}
+            title="Pontuação"
+            icon={
+              <Feather
+                name="clipboard"
+                size={18}
+                color={
+                  activeTab === 'scorepad'
+                    ? colors.textPrimary
+                    : colors.textSecondary
+                }
+              />
+            }
+            variant="secondary"
+            shape="pill"
+            shapeVariant={3}
+            size="md"
+            accessibilityRole="tab"
+            accessibilityLabel="Pontuação"
+            style={styles.navBlobWrapper}
+            contentStyle={[
+              styles.navBlobContent,
+              activeTab === 'scorepad'
+                ? styles.navBlobContentActive
+                : styles.navBlobContentInactive,
+            ]}
+            textStyle={[
+              styles.navTabText,
+              activeTab === 'scorepad'
                 ? styles.navTabTextActive
                 : styles.navTabTextInactive,
             ]}

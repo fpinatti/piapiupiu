@@ -12,7 +12,13 @@ export type WatercolorIconType =
   | 'audio'
   | 'egg'
   | 'camera'
-  | 'wingspan';
+  | 'wingspan'
+  | 'bonus'
+  | 'goal'
+  | 'food'
+  | 'tucked'
+  | 'hummingbird'
+  | 'nectar';
 
 export interface WatercolorIconProps {
   type: WatercolorIconType;
@@ -104,6 +110,42 @@ const PALETTES: Record<
     ink: '#5B400D',
     halo: 'rgba(200, 170, 110, 0.18)',
   },
+  bonus: {
+    bg: '#EDEDF9',
+    border: '#B1B5E0',
+    ink: '#222869',
+    halo: 'rgba(70, 80, 160, 0.16)',
+  },
+  goal: {
+    bg: '#FAEBEC',
+    border: '#E2A5A7',
+    ink: '#7A2024',
+    halo: 'rgba(160, 60, 70, 0.16)',
+  },
+  food: {
+    bg: '#FAF1DC',
+    border: '#E8CB82',
+    ink: '#5B400D',
+    halo: 'rgba(201, 151, 56, 0.18)',
+  },
+  tucked: {
+    bg: '#EAF3ED',
+    border: '#A5CFB5',
+    ink: '#1C452C',
+    halo: 'rgba(45, 106, 79, 0.18)',
+  },
+  hummingbird: {
+    bg: '#E7F5EF',
+    border: '#A1D6BF',
+    ink: '#175138',
+    halo: 'rgba(30, 130, 80, 0.18)',
+  },
+  nectar: {
+    bg: '#FAEFE6',
+    border: '#E9BBA0',
+    ink: '#7C3415',
+    halo: 'rgba(200, 100, 50, 0.18)',
+  },
 };
 
 export function WatercolorIcon({
@@ -166,6 +208,18 @@ export function WatercolorIcon({
         return <Feather name="camera" size={iconSize} color={palette.ink} />;
       case 'wingspan':
         return <MaterialCommunityIcons name="arrow-expand-horizontal" size={iconSize} color={palette.ink} />;
+      case 'bonus':
+        return <Feather name="award" size={iconSize} color={palette.ink} />;
+      case 'goal':
+        return <Feather name="flag" size={iconSize} color={palette.ink} />;
+      case 'food':
+        return <MaterialCommunityIcons name="food-apple-outline" size={iconSize} color={palette.ink} />;
+      case 'tucked':
+        return <MaterialCommunityIcons name="cards-outline" size={iconSize} color={palette.ink} />;
+      case 'hummingbird':
+        return <MaterialCommunityIcons name="bird" size={iconSize} color={palette.ink} />;
+      case 'nectar':
+        return <MaterialCommunityIcons name="flower-tulip-outline" size={iconSize} color={palette.ink} />;
       case 'feather':
       default:
         return <Feather name="feather" size={iconSize} color={palette.ink} />;
