@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { BirdPlayingCard } from '../components/BirdPlayingCard';
 import { LiveCameraScanner } from '../components/LiveCameraScanner';
+import { WatercolorBlobButton } from '../components/WatercolorBlobButton';
 import {
   BirdMatcher,
   DEFAULT_DEBOUNCE_MS,
@@ -132,48 +133,48 @@ export function ScannerScreen({
         <View style={styles.topOverlay} pointerEvents="box-none">
           <View style={styles.quickActionsRow} pointerEvents="box-none">
             {cameraCaps.hasTorch && (
-              <TouchableOpacity
+              <WatercolorBlobButton
                 onPress={() => setTorchOn((prev) => !prev)}
-                style={[styles.actionBtn, torchOn && styles.actionBtnActive]}
-                accessibilityRole="button"
+                title={torchOn ? 'Luz: ON' : 'Luz'}
+                icon={
+                  <Feather
+                    name="zap"
+                    size={14}
+                    color={torchOn ? colors.onPrimary : colors.textPrimary}
+                  />
+                }
+                variant={torchOn ? 'primary' : 'secondary'}
+                shape="pill"
+                shapeVariant={1}
+                size="sm"
                 accessibilityLabel={
                   torchOn ? 'Desligar lanterna' : 'Ligar lanterna'
                 }
-              >
-                <Feather name="zap" size={15} color={colors.textPrimary} />
-                <Text style={styles.actionBtnText}>
-                  {torchOn ? 'Luz: ON' : 'Luz'}
-                </Text>
-              </TouchableOpacity>
+              />
             )}
 
             {cameraCaps.hasCamera && (
-              <TouchableOpacity
+              <WatercolorBlobButton
                 onPress={() => setScannerPaused((prev) => !prev)}
-                style={[styles.actionBtn, scannerPaused && styles.actionBtnWarn]}
-                accessibilityRole="button"
+                title={scannerPaused ? 'Pausado' : 'Lendo'}
+                icon={
+                  <Feather
+                    name={scannerPaused ? 'play' : 'pause'}
+                    size={14}
+                    color={scannerPaused ? colors.onWarning : colors.textPrimary}
+                  />
+                }
+                variant={scannerPaused ? 'warning' : 'secondary'}
+                shape="pill"
+                shapeVariant={2}
+                size="sm"
                 accessibilityLabel={
                   scannerPaused
                     ? 'Retomar leitura da câmera'
                     : 'Pausar leitura da câmera'
                 }
-              >
-                <Feather
-                  name={scannerPaused ? 'play' : 'pause'}
-                  size={15}
-                  color={scannerPaused ? colors.onWarning : colors.textPrimary}
-                />
-        <Text
-          style={[
-            styles.actionBtnText,
-            scannerPaused && { color: colors.onWarning },
-          ]}
-        >
-          {scannerPaused ? 'Pausado' : 'Lendo'}
-        </Text>
-      </TouchableOpacity>
-  )
-}
+              />
+            )}
   </View >
 </View >
       )}
@@ -227,33 +228,26 @@ export function ScannerScreen({
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.recentChipsRow}
       >
-        {recentBirds.map((bird) => {
+        {recentBirds.map((bird, idx) => {
           const active = isPlaying && playingBirdId === bird.id;
           return (
-            <TouchableOpacity
+            <WatercolorBlobButton
               key={bird.id}
               onPress={() => handleReplayRecentBird(bird)}
-              style={[
-                styles.recentChip,
-                active && styles.recentChipActive,
-              ]}
-              accessibilityRole="button"
+              title={bird.name_pt}
+              icon={
+                <Feather
+                  name={active ? 'volume-2' : 'rotate-ccw'}
+                  size={13}
+                  color={active ? colors.onPrimary : colors.textTaxonomic}
+                />
+              }
+              variant={active ? 'primary' : 'secondary'}
+              shape="pill"
+              shapeVariant={(((idx % 3) + 1) as 1 | 2 | 3)}
+              size="sm"
               accessibilityLabel={`Ouvir novamente ${bird.name_pt}`}
-            >
-              <Feather
-                name={active ? 'volume-2' : 'rotate-ccw'}
-                size={13}
-                color={active ? colors.onPrimary : colors.textTaxonomic}
-              />
-              <Text
-                style={[
-                  styles.recentChipText,
-                  active && { color: colors.onPrimary },
-                ]}
-              >
-                {bird.name_pt}
-              </Text>
-            </TouchableOpacity>
+            />
           );
         })}
       </ScrollView>

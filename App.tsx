@@ -13,6 +13,7 @@ import {
 } from 'react-native-safe-area-context';
 import { BirdPhoto } from './src/components/BirdPhoto';
 import { WatercolorBackground } from './src/components/WatercolorBackground';
+import { WatercolorBlobButton } from './src/components/WatercolorBlobButton';
 import { WatercolorIcon } from './src/components/WatercolorIcon';
 import birdsCatalogJson from './src/data/birds.json';
 import { CatalogScreen } from './src/screens/CatalogScreen';
@@ -167,77 +168,90 @@ export default function App() {
                 </View>
               </View>
 
-              <TouchableOpacity
+              <WatercolorBlobButton
                 onPress={() => audioService.stop()}
-                style={styles.miniPlayerStopBtn}
-                accessibilityRole="button"
+                title="Parar"
+                icon={<Feather name="square" size={14} color={colors.onDanger} />}
+                variant="danger"
+                shape="pill"
+                shapeVariant={2}
+                size="sm"
                 accessibilityLabel={`Parar canto de ${currentlyPlayingBird.name_pt}`}
-              >
-                <Feather name="square" size={15} color={colors.onDanger} />
-                <Text style={styles.miniPlayerStopText}>Parar</Text>
-              </TouchableOpacity>
+              />
             </View>
           )}
 
         {/* Botanical Tab Navigation Bar */}
         <View style={styles.bottomNav} accessibilityRole="tablist">
-          <TouchableOpacity
+          <WatercolorBlobButton
             onPress={() => setActiveTab('scanner')}
-            style={[
-              styles.navTab,
-              activeTab === 'scanner' && styles.navTabActive,
-            ]}
-            accessibilityRole="tab"
-            accessibilityState={{ selected: activeTab === 'scanner' }}
-            accessibilityLabel="Scanner de Cartas"
-          >
-            <Feather
-              name="camera"
-              size={18}
-              color={
-                activeTab === 'scanner'
-                    ? colors.primary
+            title="Scanner"
+            icon={
+              <Feather
+                name="camera"
+                size={18}
+                color={
+                  activeTab === 'scanner'
+                    ? colors.textPrimary
                     : colors.textSecondary
-              }
-            />
-            <Text
-              style={[
-                styles.navTabText,
-                activeTab === 'scanner' && styles.navTabTextActive,
-              ]}
-            >
-              Scanner de Cartas
-            </Text>
-          </TouchableOpacity>
+                }
+              />
+            }
+            variant="secondary"
+            shape="pill"
+            shapeVariant={1}
+            size="md"
+            accessibilityRole="tab"
+            accessibilityLabel="Scanner"
+            style={styles.navBlobWrapper}
+            contentStyle={[
+              styles.navBlobContent,
+              activeTab === 'scanner'
+                ? styles.navBlobContentActive
+                : styles.navBlobContentInactive,
+            ]}
+            textStyle={[
+              styles.navTabText,
+              activeTab === 'scanner'
+                ? styles.navTabTextActive
+                : styles.navTabTextInactive,
+            ]}
+          />
 
-          <TouchableOpacity
+          <WatercolorBlobButton
             onPress={() => setActiveTab('catalog')}
-            style={[
-              styles.navTab,
-              activeTab === 'catalog' && styles.navTabActive,
-            ]}
-            accessibilityRole="tab"
-            accessibilityState={{ selected: activeTab === 'catalog' }}
-            accessibilityLabel={`Catálogo de ${CATALOG_BIRDS.length} aves`}
-          >
-            <Feather
-              name="book-open"
-              size={18}
-              color={
-                activeTab === 'catalog'
-                    ? colors.primary
+            title="Catálogo"
+            icon={
+              <Feather
+                name="book-open"
+                size={18}
+                color={
+                  activeTab === 'catalog'
+                    ? colors.textPrimary
                     : colors.textSecondary
-              }
-            />
-            <Text
-              style={[
-                styles.navTabText,
-                activeTab === 'catalog' && styles.navTabTextActive,
-              ]}
-            >
-              Catálogo ({CATALOG_BIRDS.length})
-            </Text>
-          </TouchableOpacity>
+                }
+              />
+            }
+            variant="secondary"
+            shape="pill"
+            shapeVariant={2}
+            size="md"
+            accessibilityRole="tab"
+            accessibilityLabel="Catálogo"
+            style={styles.navBlobWrapper}
+            contentStyle={[
+              styles.navBlobContent,
+              activeTab === 'catalog'
+                ? styles.navBlobContentActive
+                : styles.navBlobContentInactive,
+            ]}
+            textStyle={[
+              styles.navTabText,
+              activeTab === 'catalog'
+                ? styles.navTabTextActive
+                : styles.navTabTextInactive,
+            ]}
+          />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -346,38 +360,42 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surfaceSubtle,
     borderTopWidth: 1.5,
     borderTopColor: colors.border,
-    paddingHorizontal: spacing.sm,
-    paddingVertical: spacing.xs,
-    gap: spacing.sm,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.sm,
+    gap: spacing.md,
   },
-  navTab: {
+  navBlobWrapper: {
     flex: 1,
-    minHeight: MIN_TOUCH_TARGET,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 8,
-    borderRadius: 12,
-    backgroundColor: 'transparent',
   },
-  navTabActive: {
-    backgroundColor: colors.surfaceElevated,
-    borderWidth: 1.5,
-    borderColor: colors.primary,
+  navBlobContent: {
+    width: '100%',
+    minHeight: 46,
+  },
+  navBlobContentActive: {
+    backgroundColor: '#FFFFFF',
+    borderColor: colors.borderFocus,
     shadowColor: '#2B1E12',
     shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 2,
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+    elevation: 3,
+  },
+  navBlobContentInactive: {
+    backgroundColor: 'rgba(252, 250, 247, 0.45)',
+    borderColor: 'transparent',
+    shadowOpacity: 0,
+    elevation: 0,
   },
   navTabText: {
     fontFamily: fonts.serif,
-    color: colors.textSecondary,
     fontSize: typeScale.label,
-    fontWeight: '600',
   },
   navTabTextActive: {
-    color: colors.primary,
+    color: colors.textPrimary,
     fontWeight: '700',
+  },
+  navTabTextInactive: {
+    color: colors.textSecondary,
+    fontWeight: '600',
   },
 });

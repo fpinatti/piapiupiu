@@ -12,6 +12,7 @@ import {
 } from '../theme/tokens';
 import { BirdCard } from '../types/bird';
 import { BirdPhoto } from './BirdPhoto';
+import { WatercolorBlobButton } from './WatercolorBlobButton';
 import { WatercolorIcon } from './WatercolorIcon';
 
 interface BirdPlayingCardProps {
@@ -69,29 +70,15 @@ export function BirdPlayingCard({
             </View>
           )}
 
-          {bird.habitats?.map((h, idx) => {
-            const hab = HABITAT_THEME[h];
-            if (!hab) return null;
-            return (
-              <View
-                key={h}
-                style={[
-                  styles.habitatBadge,
-                  { backgroundColor: hab.bg, borderColor: hab.border },
-                ]}
-              >
-                <WatercolorIcon
-                  type={h}
-                  size="sm"
-                  variant={(((idx) % 3) + 1) as 1 | 2 | 3}
-                  pulse={isPlaying}
-                />
-                <Text style={[styles.habitatText, { color: hab.text }]}>
-                  {hab.label}
-                </Text>
-              </View>
-            );
-          })}
+          {bird.habitats?.map((h, idx) => (
+            <WatercolorIcon
+              key={h}
+              type={h}
+              size="sm"
+              variant={(((idx) % 3) + 1) as 1 | 2 | 3}
+              pulse={isPlaying}
+            />
+          ))}
 
           <View style={styles.statusBadge}>
             <Feather
@@ -106,15 +93,17 @@ export function BirdPlayingCard({
         </View>
 
         {onDismiss && (
-          <TouchableOpacity
+          <WatercolorBlobButton
             onPress={onDismiss}
-            style={styles.closeBtn}
-            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-            accessibilityRole="button"
+            shape="pebble"
+            shapeVariant={2}
+            variant="secondary"
+            size="sm"
             accessibilityLabel="Fechar card da ave"
+            contentStyle={{ minHeight: 32, width: 32, paddingHorizontal: 0, paddingVertical: 0 }}
           >
-            <Feather name="x" size={18} color={colors.textSecondary} />
-          </TouchableOpacity>
+            <Feather name="x" size={17} color={colors.textSecondary} />
+          </WatercolorBlobButton>
         )}
       </View>
 
@@ -138,31 +127,26 @@ export function BirdPlayingCard({
             ) : null}
           </View>
 
-          <TouchableOpacity
+          <WatercolorBlobButton
             onPress={() => onTogglePlay(bird)}
-            style={[styles.playButton, isPlaying && styles.playButtonActive]}
-            activeOpacity={0.85}
-            accessibilityRole="button"
+            title={isPlaying ? 'Parar' : 'Ouvir'}
+            icon={
+              <Feather
+                name={isPlaying ? 'square' : 'volume-2'}
+                size={17}
+                color={isPlaying ? colors.onDanger : colors.onPrimary}
+              />
+            }
+            variant={isPlaying ? 'danger' : 'primary'}
+            shape="pill"
+            shapeVariant={3}
+            size="md"
             accessibilityLabel={
               isPlaying
                 ? `Parar canto de ${bird.name_pt}`
                 : `Ouvir canto de ${bird.name_pt}`
             }
-          >
-            <Feather
-              name={isPlaying ? 'square' : 'volume-2'}
-              size={18}
-              color={isPlaying ? colors.onDanger : colors.onPrimary}
-            />
-            <Text
-              style={[
-                styles.playButtonLabel,
-                isPlaying && { color: colors.onDanger },
-              ]}
-            >
-              {isPlaying ? 'Parar' : 'Ouvir'}
-            </Text>
-          </TouchableOpacity>
+          />
         </View>
       </View>
     </View>
@@ -200,44 +184,41 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   expansionBadge: {
+    height: 24,
     paddingHorizontal: 8,
-    paddingVertical: 2.5,
     borderRadius: 6,
     borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   expansionText: {
-    fontSize: typeScale.caption,
+    fontSize: 11,
     fontWeight: '700',
-  },
-  habitatBadge: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 5,
-    paddingLeft: 4,
-    paddingRight: 8,
-    paddingVertical: 2,
-    borderRadius: 8,
-    borderWidth: 1,
-  },
-  habitatText: {
-    fontSize: typeScale.caption,
-    fontWeight: '700',
+    fontFamily: fonts.sans,
+    includeFontPadding: false,
+    textAlign: 'center',
+    lineHeight: 14,
+    letterSpacing: 0.2,
   },
   statusBadge: {
+    height: 24,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: 4,
     backgroundColor: 'rgba(255, 255, 255, 0.70)',
     paddingHorizontal: 7,
-    paddingVertical: 2.5,
     borderRadius: 6,
     borderWidth: 1,
     borderColor: colors.borderSubtle,
   },
   statusBadgeText: {
     color: colors.textTaxonomic,
-    fontSize: typeScale.caption,
+    fontSize: 11,
     fontWeight: '600',
+    fontFamily: fonts.sans,
+    includeFontPadding: false,
+    lineHeight: 14,
   },
   closeBtn: {
     minWidth: 36,

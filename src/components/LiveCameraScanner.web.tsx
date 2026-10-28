@@ -5,6 +5,7 @@ import { createWorker, Worker } from 'tesseract.js';
 import { colors, fonts, MIN_TOUCH_TARGET, spacing, typeScale } from '../theme/tokens';
 import { DEFAULT_TARGET_BOX } from '../utils/boundingBoxFilter';
 import { LiveCameraScannerProps } from './LiveCameraScanner.types';
+import { WatercolorBlobButton } from './WatercolorBlobButton';
 
 export function LiveCameraScanner({
   onOcrLinesDetected,
@@ -303,36 +304,36 @@ export function LiveCameraScanner({
           />
 
           <View style={styles.topWebcamControls} pointerEvents="box-none">
-            <TouchableOpacity
+            <WatercolorBlobButton
               onPress={stopWebcam}
-              style={styles.stopCamBtn}
-              accessibilityRole="button"
+              shape="pebble"
+              shapeVariant={2}
+              variant="danger"
+              size="sm"
               accessibilityLabel="Desligar câmera"
+              contentStyle={{ minHeight: 38, width: 38, paddingHorizontal: 0, paddingVertical: 0 }}
             >
               <Feather name="video-off" size={16} color={colors.onDanger} />
-            </TouchableOpacity>
+            </WatercolorBlobButton>
           </View>
 
           <View style={styles.bottomShutterContainer} pointerEvents="box-none">
-            <TouchableOpacity
+            <WatercolorBlobButton
               onPress={captureFromWebcamAndRecognize}
               disabled={isProcessingPhoto}
-              style={[
-                styles.shutterButton,
-                isProcessingPhoto && styles.shutterButtonAnalyzing,
-              ]}
-              activeOpacity={0.85}
-              accessibilityRole="button"
+              shape="pebble"
+              shapeVariant={1}
+              variant="primary"
+              size="lg"
               accessibilityLabel="Fotografar carta"
+              contentStyle={{ minHeight: 72, width: 72, paddingHorizontal: 0, paddingVertical: 0 }}
             >
-              <View style={styles.shutterInnerCircle}>
-                {isProcessingPhoto ? (
-                  <ActivityIndicator size="small" color={colors.onPrimary} />
-                ) : (
-                  <Feather name="camera" size={28} color={colors.onPrimary} />
-                )}
-              </View>
-            </TouchableOpacity>
+              {isProcessingPhoto ? (
+                <ActivityIndicator size="small" color={colors.onPrimary} />
+              ) : (
+                <Feather name="camera" size={28} color={colors.onPrimary} />
+              )}
+            </WatercolorBlobButton>
           </View>
         </View>
       ) : (
@@ -347,30 +348,28 @@ export function LiveCameraScanner({
             ) : null}
 
             <View style={styles.btnGroup}>
-              <TouchableOpacity
+              <WatercolorBlobButton
                 onPress={startWebcam}
-                style={styles.webcamBtn}
-                activeOpacity={0.8}
-                accessibilityRole="button"
+                title={isProcessingPhoto ? 'Lendo carta...' : 'Fotografar carta'}
+                icon={<Feather name="camera" size={20} color={colors.onPrimary} />}
+                variant="primary"
+                shape="pill"
+                shapeVariant={1}
+                size="lg"
                 accessibilityLabel="Fotografar carta"
-              >
-                <Feather name="camera" size={20} color={colors.onPrimary} />
-                <Text style={styles.webcamBtnText}>
-                  {isProcessingPhoto ? 'Lendo carta...' : 'Fotografar carta'}
-                </Text>
-              </TouchableOpacity>
+              />
 
               {capturedPreviewUrl && !isProcessingPhoto ? (
-                <TouchableOpacity
+                <WatercolorBlobButton
                   onPress={openPhotoCaptureFallback}
-                  style={styles.secondaryPhotoBtn}
-                  activeOpacity={0.8}
-                  accessibilityRole="button"
+                  title="Fotografar outra carta"
+                  icon={<Feather name="refresh-cw" size={16} color={colors.textPrimary} />}
+                  variant="secondary"
+                  shape="pill"
+                  shapeVariant={2}
+                  size="sm"
                   accessibilityLabel="Fotografar outra carta"
-                >
-                  <Feather name="refresh-cw" size={16} color={colors.textPrimary} />
-                  <Text style={styles.secondaryPhotoBtnText}>Fotografar outra carta</Text>
-                </TouchableOpacity>
+                />
               ) : null}
             </View>
           </View>

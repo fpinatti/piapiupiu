@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import { BirdPhoto } from '../components/BirdPhoto';
+import { WatercolorBlobButton } from '../components/WatercolorBlobButton';
 import { WatercolorIcon } from '../components/WatercolorIcon';
 import { BirdMatcher } from '../services/birdMatcher';
 import {
@@ -59,14 +60,17 @@ export function CatalogScreen({
             autoCorrect={false}
           />
           {searchQuery.length > 0 && (
-            <TouchableOpacity
+            <WatercolorBlobButton
               onPress={() => setSearchQuery('')}
-              style={styles.clearBtn}
-              accessibilityRole="button"
+              shape="pebble"
+              shapeVariant={1}
+              variant="secondary"
+              size="sm"
               accessibilityLabel="Limpar busca"
+              contentStyle={{ minHeight: 30, width: 30, paddingHorizontal: 0, paddingVertical: 0 }}
             >
-              <Feather name="x" size={18} color={colors.textSecondary} />
-            </TouchableOpacity>
+              <Feather name="x" size={16} color={colors.textSecondary} />
+            </WatercolorBlobButton>
           )}
         </View>
       </View>
@@ -89,7 +93,7 @@ export function CatalogScreen({
         removeClippedSubviews
         contentContainerStyle={styles.listContent}
         columnWrapperStyle={numColumns > 1 ? styles.columnWrapper : undefined}
-        renderItem={({ item }) => {
+        renderItem={({ item, index }) => {
           const active = isPlaying && playingBirdId === item.id;
           const expMeta = EXPANSION_THEME[item.expansion];
           const primaryTitle = item.name_pt;
@@ -142,49 +146,37 @@ export function CatalogScreen({
                     </View>
                   )}
 
-                  {item.habitats?.map((h, hIdx) => {
-                    const hab = HABITAT_THEME[h];
-                    if (!hab) return null;
-                    return (
-                      <View
-                        key={h}
-                        style={[
-                          styles.habitatTag,
-                          {
-                            backgroundColor: hab.bg,
-                            borderColor: hab.border,
-                          },
-                        ]}
-                      >
-                        <WatercolorIcon
-                          type={h}
-                          size="sm"
-                          variant={(((hIdx) % 3) + 1) as 1 | 2 | 3}
-                          pulse={active}
-                        />
-                        <Text
-                          style={[styles.habitatTagText, { color: hab.text }]}
-                        >
-                          {hab.label}
-                        </Text>
-                      </View>
-                    );
-                  })}
+                  {item.habitats?.map((h, hIdx) => (
+                    <WatercolorIcon
+                      key={h}
+                      type={h}
+                      size="sm"
+                      variant={(((hIdx) % 3) + 1) as 1 | 2 | 3}
+                      pulse={active}
+                    />
+                  ))}
                 </View>
               </View>
 
-              <View
-                style={[
-                  styles.playCircle,
-                  active && styles.playCircleActive,
-                ]}
+              <WatercolorBlobButton
+                onPress={() => onTogglePlayBird(item)}
+                shape="pebble"
+                shapeVariant={(((index % 3) + 1) as 1 | 2 | 3)}
+                variant={active ? 'danger' : 'primary'}
+                size="sm"
+                accessibilityLabel={
+                  active
+                    ? `Parar canto de ${primaryTitle}`
+                    : `Ouvir canto de ${primaryTitle}`
+                }
+                contentStyle={{ minHeight: 40, width: 40, paddingHorizontal: 0, paddingVertical: 0 }}
               >
                 <Feather
                   name={active ? 'square' : 'volume-2'}
-                  size={18}
-                  color={active ? colors.onDanger : colors.primary}
+                  size={17}
+                  color={active ? colors.onDanger : colors.onPrimary}
                 />
-              </View>
+              </WatercolorBlobButton>
             </TouchableOpacity>
           );
         }}
@@ -315,33 +307,27 @@ const styles = StyleSheet.create({
   },
   tagsRow: {
     flexDirection: 'row',
+    alignItems: 'center',
     flexWrap: 'wrap',
-    gap: 6,
+    gap: 8,
     marginTop: 8,
   },
   expTag: {
+    height: 24,
     paddingHorizontal: 8,
-    paddingVertical: 2.5,
     borderRadius: 6,
     borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   expTagText: {
-    fontSize: typeScale.caption,
+    fontSize: 11,
     fontWeight: '700',
-  },
-  habitatTag: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-    paddingLeft: 4,
-    paddingRight: 8,
-    paddingVertical: 2,
-    borderRadius: 8,
-    borderWidth: 1,
-  },
-  habitatTagText: {
-    fontSize: typeScale.caption,
-    fontWeight: '700',
+    fontFamily: fonts.sans,
+    includeFontPadding: false,
+    textAlign: 'center',
+    lineHeight: 14,
+    letterSpacing: 0.2,
   },
   playCircle: {
     width: 44,

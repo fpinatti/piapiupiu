@@ -108,3 +108,21 @@ Para trazer a atmosfera visual do tabuleiro físico de *Wingspan* para a tela in
 4. **Isolamento de Toque**:
    - `pointerEvents="none"` absoluto, garantindo zero interferência nas interações de toque e gestos.
 
+---
+
+## 8. Botões em Blobs Aquarelados de Dois Níveis (`WatercolorBlobButton`)
+
+Substituição de botões retangulares genéricos por elementos orgânicos vivos inspirados em gotas e poças de aquarela:
+
+1. **Dois Níveis Visuais de Profundidade**:
+   - **Nível 1 (Halo Externo Translúcido)**: Uma camada expandida com raios orgânicos assimétricos e transparência aquarelada (`rgba(..., 0.18–0.22)`), simulando a água pura sangrando para as fibras do linho ao redor da mancha de tinta.
+   - **Nível 2 (Núcleo de Pigmento Concentrado)**: Poça interna com pigmento rico, borda de secagem artesanal de 1.5px (*pigment pooling border*) e raios assimétricos correspondentes.
+2. **Formas Orgânicas Assimétricas**:
+   - Variações `pill` (seixos fluídos para ações com texto) e `pebble` (gotas circulares para botões de disparo de câmera e reprodução).
+   - Três variantes de curvas assimétricas (`shapeVariant: 1 | 2 | 3`) para que botões vizinhos não compartilhem uma mesma silhueta mecânica.
+3. **Aplicações no Aplicativo**:
+   - **CTA Principal da Câmera**: Botão "Fotografar carta" na tela inicial e obturador da câmera são os **únicos elementos com o verde floresta primário** (`variant="primary"`), conferindo hierarquia e foco imediato à ação central.
+   - **Barra Inferior (Rodapé)**: Abas de navegação utilizam estilo secundário orgânico (`variant="secondary"`) em papel de linho prensado, onde a aba ativa destaca-se com elevação, borda botânica e tinta sumi (`#202B24`), sem competir com o botão de captura.
+   - **Controles de Canto da Ave**: Botões "Ouvir" e "Parar" na carta de ave e nos itens do catálogo.
+   - **Ações Rápidas & Recentes**: Pílulas de lanterna, pausa e aves recentes na mesa.
+

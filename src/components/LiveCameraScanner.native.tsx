@@ -18,6 +18,7 @@ import { WebView, WebViewMessageEvent } from 'react-native-webview';
 import { colors, fonts, MIN_TOUCH_TARGET, spacing, typeScale } from '../theme/tokens';
 import { DEFAULT_TARGET_BOX } from '../utils/boundingBoxFilter';
 import { LiveCameraScannerProps } from './LiveCameraScanner.types';
+import { WatercolorBlobButton } from './WatercolorBlobButton';
 import { WatercolorIcon } from './WatercolorIcon';
 
 const ZOOM_PRESETS = [
@@ -333,15 +334,16 @@ export function LiveCameraScanner({
           <Text style={styles.subtitle}>
             Conceda acesso à câmera para fotografar o topo das cartas de Wingspan e ouvir o canto da ave.
           </Text>
-          <TouchableOpacity
+          <WatercolorBlobButton
             onPress={() => requestPermission()}
-            style={styles.permissionBtn}
-            accessibilityRole="button"
+            title="Permitir Câmera"
+            icon={<Feather name="camera" size={18} color={colors.onPrimary} />}
+            variant="primary"
+            shape="pill"
+            shapeVariant={1}
+            size="md"
             accessibilityLabel="Permitir acesso à câmera"
-          >
-            <Feather name="camera" size={18} color={colors.onPrimary} />
-            <Text style={styles.permissionBtnText}>Permitir Câmera</Text>
-          </TouchableOpacity>
+          />
         </View>
       </View>
     );
@@ -387,33 +389,28 @@ export function LiveCameraScanner({
       {/* Top Zoom / Macro selector pills */}
       <View style={styles.topZoomFloatingBar} pointerEvents="box-none">
         <View style={styles.zoomBar}>
-          {ZOOM_PRESETS.map((preset) => {
+          {ZOOM_PRESETS.map((preset, pIdx) => {
             const isSelected = !selectedLens && zoomPresetId === preset.id;
             return (
-              <TouchableOpacity
+              <WatercolorBlobButton
                 key={preset.id}
                 onPress={() => {
                   setSelectedLens(undefined);
                   setZoomPresetId(preset.id);
                 }}
-                style={[styles.zoomChip, isSelected && styles.zoomChipActive]}
-                accessibilityRole="button"
+                title={preset.label}
+                variant={isSelected ? 'primary' : 'secondary'}
+                shape="pill"
+                shapeVariant={(((pIdx % 3) + 1) as 1 | 2 | 3)}
+                size="sm"
                 accessibilityLabel={`Zoom ${preset.label}`}
-              >
-                <Text
-                  style={[
-                    styles.zoomChipText,
-                    isSelected && styles.zoomChipTextActive,
-                  ]}
-                >
-                  {preset.label}
-                </Text>
-              </TouchableOpacity>
+                contentStyle={{ minHeight: 32, paddingHorizontal: 10, paddingVertical: 4 }}
+              />
             );
           })}
 
           {macroOrUltraWideLens && (
-            <TouchableOpacity
+            <WatercolorBlobButton
               onPress={() =>
                 setSelectedLens((prev) =>
                   prev === macroOrUltraWideLens.deviceType
@@ -421,55 +418,46 @@ export function LiveCameraScanner({
                     : macroOrUltraWideLens.deviceType
                 )
               }
-              style={[
-                styles.zoomChip,
-                selectedLens === macroOrUltraWideLens.deviceType &&
-                styles.zoomChipActive,
-              ]}
-              accessibilityRole="button"
+              title="Macro"
+              variant={
+                selectedLens === macroOrUltraWideLens.deviceType
+                  ? 'primary'
+                  : 'secondary'
+              }
+              shape="pill"
+              shapeVariant={3}
+              size="sm"
               accessibilityLabel="Alternar lente Macro / Ultra-Wide"
-            >
-              <Text
-                style={[
-                  styles.zoomChipText,
-                  selectedLens === macroOrUltraWideLens.deviceType &&
-                  styles.zoomChipTextActive,
-                ]}
-              >
-                Macro
-              </Text>
-            </TouchableOpacity>
+              contentStyle={{ minHeight: 32, paddingHorizontal: 10, paddingVertical: 4 }}
+            />
           )}
         </View>
       </View>
 
       {/* Bottom Shutter Action Button in Thumb-Zone */}
       <View style={styles.bottomShutterContainer} pointerEvents="box-none">
-        <TouchableOpacity
+        <WatercolorBlobButton
           onPress={handleTakePhotoAndAnalyze}
           disabled={!ocrWorkerReady || isAnalyzing}
-          style={[
-            styles.shutterButton,
-            isAnalyzing && styles.shutterButtonAnalyzing,
-          ]}
-          activeOpacity={0.85}
-          accessibilityRole="button"
+          shape="pebble"
+          shapeVariant={1}
+          variant="primary"
+          size="lg"
           accessibilityLabel={
             capturedPhotoUri ? 'Fotografar outra carta' : 'Fotografar carta'
           }
+          contentStyle={{ minHeight: 72, width: 72, paddingHorizontal: 0, paddingVertical: 0 }}
         >
-          <View style={styles.shutterInnerCircle}>
-            {isAnalyzing ? (
-              <ActivityIndicator size="small" color={colors.onPrimary} />
-            ) : (
-              <Feather
-                name={capturedPhotoUri ? 'refresh-cw' : 'camera'}
-                size={28}
-                color={colors.onPrimary}
-              />
-            )}
-          </View>
-        </TouchableOpacity>
+          {isAnalyzing ? (
+            <ActivityIndicator size="small" color={colors.onPrimary} />
+          ) : (
+            <Feather
+              name={capturedPhotoUri ? 'refresh-cw' : 'camera'}
+              size={28}
+              color={colors.onPrimary}
+            />
+          )}
+        </WatercolorBlobButton>
       </View>
     </View >
   );

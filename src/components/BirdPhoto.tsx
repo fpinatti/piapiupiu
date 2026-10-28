@@ -14,6 +14,7 @@ import {
   getCachedBirdPhoto,
   resolveBirdPhoto,
 } from '../services/birdImageService';
+import { WatercolorBlobButton } from './WatercolorBlobButton';
 import {
   colors,
   EXPANSION_THEME,
@@ -196,14 +197,17 @@ export function BirdPhoto({
                 </Text>
               </View>
 
-              <TouchableOpacity
+              <WatercolorBlobButton
                 onPress={() => setZoomVisible(false)}
-                style={styles.modalCloseBtn}
-                accessibilityRole="button"
+                shape="pebble"
+                shapeVariant={2}
+                variant="secondary"
+                size="sm"
                 accessibilityLabel="Fechar visualização da foto"
+                contentStyle={{ minHeight: 36, width: 36, paddingHorizontal: 0, paddingVertical: 0 }}
               >
-                <Feather name="x" size={22} color={colors.textPrimary} />
-              </TouchableOpacity>
+                <Feather name="x" size={18} color={colors.textPrimary} />
+              </WatercolorBlobButton>
             </View>
 
             <View style={styles.modalImageWrapper}>
