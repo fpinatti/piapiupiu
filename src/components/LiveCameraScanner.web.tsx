@@ -301,11 +301,11 @@ export function LiveCameraScanner({
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: colors.canvas,
   },
   fallbackBg: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: colors.canvas,
     justifyContent: 'center',
     alignItems: 'center',

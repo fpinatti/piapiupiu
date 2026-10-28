@@ -1,24 +1,62 @@
 import { Feather } from '@expo/vector-icons';
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import {
-  Camera,
-  useCameraDevice,
-  useCameraPermission,
-  useFrameProcessor,
-} from 'react-native-vision-camera';
-import { useTextRecognition } from 'react-native-vision-camera-text-recognition';
-import { useRunOnJS } from 'react-native-worklets-core';
+import { NativeModules, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { colors, MIN_TOUCH_TARGET, spacing, typeScale } from '../theme/tokens';
 import { extractLinesFromOcrPayload } from '../utils/boundingBoxFilter';
 import { LiveCameraScannerProps } from './LiveCameraScanner';
 
-export function LiveCameraScanner({
+/**
+ * Detect whether the native VisionCamera module is linked in the binary.
+ * Inside standard Expo Go, custom JSI/C++ modules (react-native-vision-camera)
+ * are not compiled in, whereas in an Expo Development Build / standalone APK they are.
+ */
+function loadVisionCameraModules() {
+  try {
+    // Check if native module exists before initializing VisionCamera JSI bindings
+    const hasNativeCameraView = Boolean(
+      NativeModules?.CameraView || NativeModules?.VisionCameraModule
+    );
+    if (!hasNativeCameraView) {
+      return null;
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const visionCamera = require('react-native-vision-camera');
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const textRecognition = require('react-native-vision-camera-text-recognition');
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const worklets = require('react-native-worklets-core');
+
+    return {
+      Camera: visionCamera.Camera,
+      useCameraDevice: visionCamera.useCameraDevice,
+      useCameraPermission: visionCamera.useCameraPermission,
+      useFrameProcessor: visionCamera.useFrameProcessor,
+      useTextRecognition: textRecognition.useTextRecognition,
+      useRunOnJS: worklets.useRunOnJS,
+    };
+  } catch {
+    return null;
+  }
+}
+
+const VISION_MODULES = loadVisionCameraModules();
+
+function NativeVisionCameraScanner({
   scannerPaused,
   torchOn,
   onOcrLinesDetected,
   onCameraCapabilitiesChange,
 }: LiveCameraScannerProps) {
+  const {
+    Camera,
+    useCameraDevice,
+    useCameraPermission,
+    useFrameProcessor,
+    useTextRecognition,
+    useRunOnJS,
+  } = VISION_MODULES!;
+
   const { hasPermission, requestPermission } = useCameraPermission();
   const device = useCameraDevice('back');
 
@@ -51,7 +89,7 @@ export function LiveCameraScanner({
   );
 
   const frameProcessor = useFrameProcessor(
-    (frame) => {
+    (frame: { width: number; height: number }) => {
       'worklet';
       try {
         const ocrData = scanText(frame);
@@ -113,9 +151,45 @@ export function LiveCameraScanner({
   );
 }
 
+export function LiveCameraScanner(props: LiveCameraScannerProps) {
+  const { onCameraCapabilitiesChange } = props;
+
+  useEffect(() => {
+    if (!VISION_MODULES) {
+      onCameraCapabilitiesChange?.({
+        hasCamera: false,
+        hasTorch: false,
+      });
+    }
+  }, [onCameraCapabilitiesChange]);
+
+  if (!VISION_MODULES) {
+    return (
+      <View style={styles.fallbackBg}>
+        <View style={styles.fallbackContent}>
+          <Feather
+            name="smartphone"
+            size={28}
+            color={colors.textTaxonomic}
+            style={{ marginBottom: spacing.sm }}
+          />
+          <Text style={styles.title}>Modo Expo Go Ativo</Text>
+          <Text style={styles.subtitle}>
+            O Catálogo completo (597 aves + áudio offline) e o botão &ldquo;Testar Cartas&rdquo;
+            abaixo funcionam normalmente no Expo Go. Para OCR nativo via câmera, use um
+            Development Build (npx expo run:android / ios) ou abra a versão Web.
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
+  return <NativeVisionCameraScanner {...props} />;
+}
+
 const styles = StyleSheet.create({
   fallbackBg: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: colors.canvas,
     justifyContent: 'center',
     alignItems: 'center',

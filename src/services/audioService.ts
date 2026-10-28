@@ -1,4 +1,9 @@
-import { Audio, AVPlaybackStatus } from 'expo-av';
+import {
+  AudioPlayer,
+  AudioStatus,
+  createAudioPlayer,
+  setAudioModeAsync,
+} from 'expo-audio';
 import { BIRD_AUDIO_ASSETS } from '../data/audioMap';
 import { BirdCard } from '../types/bird';
 
@@ -8,7 +13,7 @@ export type PlaybackListener = (state: {
 }) => void;
 
 class OfflineAudioService {
-  private currentSound: Audio.Sound | null = null;
+  private currentPlayer: AudioPlayer | null = null;
   private currentBirdId: string | null = null;
   private isPlaying: boolean = false;
   private isConfigured: boolean = false;
@@ -34,11 +39,9 @@ class OfflineAudioService {
       return;
     }
     try {
-      await Audio.setAudioModeAsync({
-        playsInSilentModeIOS: true,
-        staysActiveInBackground: false,
-        shouldDuckAndroid: true,
-        playThroughEarpieceAndroid: false,
+      await setAudioModeAsync({
+        playsInSilentMode: true,
+        shouldPlayInBackground: false,
       });
       this.isConfigured = true;
     } catch {
@@ -47,17 +50,17 @@ class OfflineAudioService {
   }
 
   public async stop(): Promise<void> {
-    if (this.currentSound) {
-      const soundToUnload = this.currentSound;
-      this.currentSound = null;
+    if (this.currentPlayer) {
+      const playerToRemove = this.currentPlayer;
+      this.currentPlayer = null;
       this.isPlaying = false;
       this.currentBirdId = null;
       this.notify();
       try {
-        await soundToUnload.stopAsync();
-        await soundToUnload.unloadAsync();
+        playerToRemove.pause();
+        playerToRemove.remove();
       } catch {
-        // Ignore cleanup errors if sound was already unloaded
+        // Ignore cleanup errors if player was already disposed
       }
     } else if (this.isPlaying || this.currentBirdId) {
       this.isPlaying = false;
@@ -80,25 +83,25 @@ class OfflineAudioService {
       this.isPlaying = true;
       this.notify();
 
-      const { sound } = await Audio.Sound.createAsync(
-        assetModule,
-        { shouldPlay: true, volume: 1.0 },
-        (status: AVPlaybackStatus) => {
-          if (!status.isLoaded) {
-            return;
+      const player = createAudioPlayer(assetModule);
+      this.currentPlayer = player;
+
+      player.addListener('playbackStatusUpdate', (status: AudioStatus) => {
+        if (status.didJustFinish) {
+          this.isPlaying = false;
+          this.notify();
+          try {
+            player.remove();
+          } catch {
+            // Ignore remove errors
           }
-          if (status.didJustFinish) {
-            this.isPlaying = false;
-            this.notify();
-            sound.unloadAsync().catch(() => {});
-            if (this.currentSound === sound) {
-              this.currentSound = null;
-            }
+          if (this.currentPlayer === player) {
+            this.currentPlayer = null;
           }
         }
-      );
+      });
 
-      this.currentSound = sound;
+      player.play();
       return true;
     } catch {
       this.isPlaying = false;
@@ -118,4 +121,3 @@ class OfflineAudioService {
 }
 
 export const audioService = new OfflineAudioService();
-
