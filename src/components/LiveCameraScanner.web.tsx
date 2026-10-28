@@ -11,14 +11,17 @@ export function LiveCameraScanner({
   onOcrLinesDetected,
   onCameraCapabilitiesChange,
 }: LiveCameraScannerProps) {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const streamRef = useRef<MediaStream | null>(null);
-  const workerRef = useRef<Worker | null>(null);
-  const isRecognizingRef = useRef<boolean>(false);
-
   const [webcamActive, setWebcamActive] = useState(false);
   const [webcamError, setWebcamError] = useState<string | null>(null);
-  const [ocrStatus, setOcrStatus] = useState<string>('Leitor de cartas pronto');
+  const [ocrStatus, setOcrStatus] = useState<string>('Inicializando leitor óptico...');
+  const [capturedPreviewUrl, setCapturedPreviewUrl] = useState<string | null>(null);
+  const [isProcessingPhoto, setIsProcessingPhoto] = useState(false);
+
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const streamRef = useRef<MediaStream | null>(null);
+  const workerRef = useRef<Worker | null>(null);
+  const isRecognizingRef = useRef(false);
 
   useEffect(() => {
     onCameraCapabilitiesChange?.({
@@ -26,25 +29,6 @@ export function LiveCameraScanner({
       hasTorch: false,
     });
   }, [webcamActive, onCameraCapabilitiesChange]);
-
-  const setVideoElementRef = useCallback((node: HTMLVideoElement | null) => {
-    videoRef.current = node;
-    if (node && streamRef.current) {
-      if (node.srcObject !== streamRef.current) {
-        node.srcObject = streamRef.current;
-      }
-      node.play().catch(() => {});
-    }
-  }, []);
-
-  useEffect(() => {
-    if (webcamActive && videoRef.current && streamRef.current) {
-      if (videoRef.current.srcObject !== streamRef.current) {
-        videoRef.current.srcObject = streamRef.current;
-      }
-      videoRef.current.play().catch(() => {});
-    }
-  }, [webcamActive]);
 
   const stopWebcam = useCallback(() => {
     if (streamRef.current) {
@@ -59,6 +43,106 @@ export function LiveCameraScanner({
     setWebcamActive(false);
   }, []);
 
+  const setVideoElementRef = useCallback((node: HTMLVideoElement | null) => {
+    videoRef.current = node;
+    if (node && streamRef.current && node.srcObject !== streamRef.current) {
+      node.srcObject = streamRef.current;
+      node.play().catch(() => {});
+    }
+  }, []);
+
+  useEffect(() => {
+    if (
+      webcamActive &&
+      videoRef.current &&
+      streamRef.current &&
+      videoRef.current.srcObject !== streamRef.current
+    ) {
+      videoRef.current.srcObject = streamRef.current;
+      videoRef.current.play().catch(() => {});
+    }
+  }, [webcamActive]);
+
+  const openPhotoCaptureFallback = useCallback(() => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+      fileInputRef.current.click();
+    }
+  }, []);
+
+  const handlePhotoFileSelected = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const file = event.target?.files?.[0];
+      if (!file || typeof document === 'undefined') {
+        return;
+      }
+
+      setWebcamError(null);
+      setIsProcessingPhoto(true);
+      setOcrStatus('Lendo nome da ave na foto...');
+
+      const objectUrl = URL.createObjectURL(file);
+      setCapturedPreviewUrl((prev) => {
+        if (prev) URL.revokeObjectURL(prev);
+        return objectUrl;
+      });
+
+      try {
+        if (!workerRef.current) {
+          workerRef.current = await createWorker('por+eng');
+        }
+
+        const img = new Image();
+        await new Promise<void>((resolve, reject) => {
+          img.onload = () => resolve();
+          img.onerror = () => reject(new Error('Falha ao carregar imagem'));
+          img.src = objectUrl;
+        });
+
+        const canvas = document.createElement('canvas');
+        // Crop top 45% of the captured photo where the Wingspan card title sits
+        const cropWidth = Math.max(120, img.naturalWidth);
+        const cropHeight = Math.max(80, Math.floor(img.naturalHeight * 0.45));
+        canvas.width = cropWidth;
+        canvas.height = cropHeight;
+
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.filter = 'grayscale(100%) contrast(145%)';
+          ctx.drawImage(img, 0, 0, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+        }
+
+        const topResult = await workerRef.current.recognize(canvas);
+        const topLines = (topResult?.data?.text || '')
+          .split(/\r?\n/)
+          .map((l) => l.trim())
+          .filter((l) => l.length >= 3);
+
+        // Also run on the full image in case the card was held lower in frame
+        const fullResult = await workerRef.current.recognize(img);
+        const fullLines = (fullResult?.data?.text || '')
+          .split(/\r?\n/)
+          .map((l) => l.trim())
+          .filter((l) => l.length >= 3);
+
+        const combinedLines = [...new Set([...topLines, ...fullLines])];
+        if (combinedLines.length > 0) {
+          onOcrLinesDetected(combinedLines);
+          setOcrStatus(`Texto lido: "${combinedLines[0]}"`);
+        } else {
+          setWebcamError(
+            'Não foi possível identificar o título na foto. Tente aproximar o topo da carta com boa iluminação.'
+          );
+        }
+      } catch {
+        setWebcamError('Erro ao processar a foto da carta. Tente novamente.');
+      } finally {
+        setIsProcessingPhoto(false);
+      }
+    },
+    [onOcrLinesDetected]
+  );
+
   const startWebcam = async () => {
     setWebcamError(null);
     if (
@@ -66,9 +150,9 @@ export function LiveCameraScanner({
       !navigator.mediaDevices ||
       !navigator.mediaDevices.getUserMedia
     ) {
-      setWebcamError(
-        'O navegador não disponibilizou acesso à câmera (use localhost ou HTTPS).'
-      );
+      // On mobile HTTP (non-HTTPS LAN IP), getUserMedia is restricted by the browser,
+      // so open the native mobile camera capture sheet directly!
+      openPhotoCaptureFallback();
       return;
     }
 
@@ -93,10 +177,7 @@ export function LiveCameraScanner({
       streamRef.current = stream;
       setWebcamActive(true);
     } catch {
-      setWebcamError(
-        'Não foi possível acessar a webcam. Verifique a permissão de câmera no navegador.'
-      );
-      setWebcamActive(false);
+      openPhotoCaptureFallback();
     }
   };
 
@@ -243,6 +324,17 @@ export function LiveCameraScanner({
 
   return (
     <View style={styles.container}>
+      {/* Hidden native camera file input that works on mobile browsers even over plain HTTP */}
+      {/* @ts-ignore - Standard DOM input rendered via react-native-web */}
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        capture="environment"
+        onChange={handlePhotoFileSelected}
+        style={{ display: 'none' }}
+      />
+
       {webcamActive ? (
         <View style={StyleSheet.absoluteFill}>
           {/* @ts-ignore - Standard DOM video element rendered via react-native-web */}
@@ -277,21 +369,44 @@ export function LiveCameraScanner({
           <View style={styles.fallbackContent}>
             <Text style={styles.title}>Leitor de Cartas Wingspan</Text>
             <Text style={styles.subtitle}>
-              Ligue a câmera para apontar o topo de uma carta física de ave e ouvir o seu canto, ou teste cartas abaixo sem câmera.
+              Toque abaixo para abrir a câmera do celular (ou fotografar a carta) e ouvir o canto da ave, ou use Testar Cartas.
             </Text>
+
+            {isProcessingPhoto ? (
+              <Text style={styles.processingText}>{ocrStatus}</Text>
+            ) : null}
+
             {webcamError ? (
               <Text style={styles.errorText}>{webcamError}</Text>
             ) : null}
-            <TouchableOpacity
-              onPress={startWebcam}
-              style={styles.webcamBtn}
-              activeOpacity={0.8}
-              accessibilityRole="button"
-              accessibilityLabel="Ativar câmera para ler cartas"
-            >
-              <Feather name="camera" size={18} color={colors.onPrimary} />
-              <Text style={styles.webcamBtnText}>Ativar Câmera</Text>
-            </TouchableOpacity>
+
+            <View style={styles.btnGroup}>
+              <TouchableOpacity
+                onPress={startWebcam}
+                style={styles.webcamBtn}
+                activeOpacity={0.8}
+                accessibilityRole="button"
+                accessibilityLabel="Ativar câmera para ler cartas"
+              >
+                <Feather name="camera" size={18} color={colors.onPrimary} />
+                <Text style={styles.webcamBtnText}>
+                  {isProcessingPhoto ? 'Lendo Carta...' : 'Ativar Câmera / Fotografar Carta'}
+                </Text>
+              </TouchableOpacity>
+
+              {capturedPreviewUrl && !isProcessingPhoto ? (
+                <TouchableOpacity
+                  onPress={openPhotoCaptureFallback}
+                  style={styles.secondaryPhotoBtn}
+                  activeOpacity={0.8}
+                  accessibilityRole="button"
+                  accessibilityLabel="Tirar outra foto de carta"
+                >
+                  <Feather name="refresh-cw" size={16} color={colors.textPrimary} />
+                  <Text style={styles.secondaryPhotoBtnText}>Fotografar Outra Carta</Text>
+                </TouchableOpacity>
+              ) : null}
+            </View>
           </View>
         </View>
       )}
@@ -330,14 +445,25 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     lineHeight: 22,
   },
+  processingText: {
+    color: colors.textTaxonomic,
+    fontSize: typeScale.label,
+    fontWeight: '700',
+    marginTop: spacing.sm,
+    textAlign: 'center',
+  },
   errorText: {
     color: colors.onDanger,
     fontSize: typeScale.label,
     marginTop: spacing.sm,
     textAlign: 'center',
   },
-  webcamBtn: {
+  btnGroup: {
     marginTop: spacing.lg,
+    alignItems: 'center',
+    gap: spacing.sm,
+  },
+  webcamBtn: {
     minHeight: MIN_TOUCH_TARGET,
     flexDirection: 'row',
     alignItems: 'center',
@@ -353,6 +479,23 @@ const styles = StyleSheet.create({
     color: colors.onPrimary,
     fontWeight: '700',
     fontSize: typeScale.body,
+  },
+  secondaryPhotoBtn: {
+    minHeight: 42,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    backgroundColor: colors.surfaceElevated,
+    borderWidth: 1,
+    borderColor: colors.border,
+    paddingHorizontal: spacing.lg,
+    borderRadius: 10,
+  },
+  secondaryPhotoBtnText: {
+    color: colors.textPrimary,
+    fontWeight: '600',
+    fontSize: typeScale.label,
   },
   statusBanner: {
     position: 'absolute',

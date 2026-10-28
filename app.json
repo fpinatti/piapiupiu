@@ -9,13 +9,12 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.piapiupiu.app",
       "infoPlist": {
-        "NSCameraUsageDescription": "O PiaPiuPiu precisa da câmera para ler o nome da carta de ave do Wingspan via OCR e tocar o seu canto."
+        "NSCameraUsageDescription": "O PiaPiuPiu precisa de acesso à câmera para identificar cartas do Wingspan via OCR."
       }
     },
     "android": {
       "package": "com.piapiupiu.app",
       "permissions": [
-        "android.permission.CAMERA"
       ]
     },
     "web": {
@@ -29,12 +28,21 @@
         }
       ],
       [
+        "expo-camera",
+        {
+          "cameraPermission": "O PiaPiuPiu precisa de acesso à câmera para identificar cartas do Wingspan via OCR.",
+          "recordAudioAndroid": false
+        }
+      ],
+      [
         "expo-audio",
         {
           "microphonePermission": false
         }
       ]
-    ]
+    ],
+    "runtimeVersion": {
+      "policy": "appVersion"
+    }
   }
 }
-

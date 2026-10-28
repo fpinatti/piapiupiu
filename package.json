@@ -10,6 +10,8 @@
     "web": "expo start --web",
     "build:seed": "node scripts/build-full-seed.mjs",
     "sync:birds": "node scripts/sync-birds.mjs",
+    "update:preview": "npx eas-cli update --branch preview --auto",
+    "update:prod": "npx eas-cli update --branch production --auto",
     "test": "jest --runInBand",
     "typecheck": "tsc --noEmit"
   },
@@ -19,7 +21,9 @@
     "@react-native-ml-kit/text-recognition": "^2.0.0",
     "expo": "~58.0.20",
     "expo-audio": "~58.0.10",
+    "expo-camera": "~58.0.13",
     "expo-status-bar": "~58.0.4",
+    "expo-updates": "~58.0.18",
     "fuse.js": "^7.0.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
@@ -28,15 +32,16 @@
     "react-native-vision-camera": "^4.6.3",
     "react-native-vision-camera-text-recognition": "^3.1.1",
     "react-native-web": "~0.21.4",
+    "react-native-webview": "^14.0.1",
     "react-native-worklets-core": "^1.5.0",
     "tesseract.js": "^7.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
-    "@types/jest": "^29.5.14",
+    "@types/jest": "30.0.0",
     "@types/react": "~19.3.0",
-    "jest": "^29.7.0",
+    "jest": "~30.5.2",
     "ts-jest": "^29.2.5",
-    "typescript": "~5.8.2"
+    "typescript": "~6.0.3"
   }
 }
