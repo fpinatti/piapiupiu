@@ -31,11 +31,13 @@ export function parseScoreNumber(input?: string): number {
 
 /**
  * Returns list of category definitions applicable for the specified version.
+ * If version is omitted, returns all categories (unified table mode).
  */
 export function getActiveCategories(
-  version: ScorepadVersionId,
+  version?: ScorepadVersionId,
   allCategories: readonly ScoreCategoryDefinition[] = DEFAULT_SCORE_CATEGORIES
 ): ScoreCategoryDefinition[] {
+  if (!version) return [...allCategories];
   return allCategories.filter((category) => {
     if (category.expansion === 'base') return true;
     return category.expansion === version;
@@ -44,10 +46,11 @@ export function getActiveCategories(
 
 /**
  * Calculates total sum for a player given their scores map and active category set.
+ * Defaults to all categories in the scorepad if not specified.
  */
 export function calculatePlayerTotal(
   scores: Record<string, string>,
-  categories: readonly ScoreCategoryDefinition[]
+  categories: readonly ScoreCategoryDefinition[] = DEFAULT_SCORE_CATEGORIES
 ): number {
   if (!scores) return 0;
   return categories.reduce((sum, cat) => {
@@ -57,11 +60,14 @@ export function calculatePlayerTotal(
 
 /**
  * Evaluates end-game standings and winner comparison between both players.
+ * Evaluates across all categories by default (unified table mode).
  */
-export function evaluateScorepad(state: ScorepadState): ScorepadEvaluation {
-  const activeCategories = getActiveCategories(state.version);
-  const player1Total = calculatePlayerTotal(state.player1.scores, activeCategories);
-  const player2Total = calculatePlayerTotal(state.player2.scores, activeCategories);
+export function evaluateScorepad(
+  state: ScorepadState,
+  categories: readonly ScoreCategoryDefinition[] = DEFAULT_SCORE_CATEGORIES
+): ScorepadEvaluation {
+  const player1Total = calculatePlayerTotal(state.player1.scores, categories);
+  const player2Total = calculatePlayerTotal(state.player2.scores, categories);
   const diff = Math.abs(player1Total - player2Total);
 
   if (player1Total === 0 && player2Total === 0) {
@@ -98,7 +104,6 @@ export function evaluateScorepad(state: ScorepadState): ScorepadEvaluation {
  */
 export function createInitialScorepadState(): ScorepadState {
   return {
-    version: 'base',
     player1: {
       id: 'player1',
       name: 'Jogador 1',
@@ -111,4 +116,3 @@ export function createInitialScorepadState(): ScorepadState {
     },
   };
 }
-

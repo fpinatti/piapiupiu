@@ -52,7 +52,22 @@ describe('scoreCalculator', () => {
   });
 
   describe('getActiveCategories', () => {
-    it('returns 6 core categories for base game', () => {
+    it('returns all 8 categories by default for unified table mode', () => {
+      const allCats = getActiveCategories();
+      expect(allCats).toHaveLength(8);
+      expect(allCats.map((c) => c.id)).toEqual([
+        'birds',
+        'bonus',
+        'goals',
+        'hummingbirds',
+        'eggs',
+        'food',
+        'tucked',
+        'nectar',
+      ]);
+    });
+
+    it('supports backward-compatible filtering if version is passed', () => {
       const baseCats = getActiveCategories('base');
       expect(baseCats).toHaveLength(6);
       expect(baseCats.map((c) => c.id)).toEqual([
@@ -64,25 +79,10 @@ describe('scoreCalculator', () => {
         'tucked',
       ]);
     });
-
-    it('returns 7 categories for americas expansion including hummingbirds', () => {
-      const americasCats = getActiveCategories('americas');
-      expect(americasCats).toHaveLength(7);
-      expect(americasCats.some((c) => c.id === 'hummingbirds')).toBe(true);
-      expect(americasCats.some((c) => c.id === 'nectar')).toBe(false);
-    });
-
-    it('returns 7 categories for oceania expansion including nectar', () => {
-      const oceaniaCats = getActiveCategories('oceania');
-      expect(oceaniaCats).toHaveLength(7);
-      expect(oceaniaCats.some((c) => c.id === 'nectar')).toBe(true);
-      expect(oceaniaCats.some((c) => c.id === 'hummingbirds')).toBe(false);
-    });
   });
 
   describe('calculatePlayerTotal', () => {
-    it('sums active category scores correctly', () => {
-      const baseCats = getActiveCategories('base');
+    it('sums active category scores correctly across unified table', () => {
       const scores = {
         birds: '45',
         bonus: '10',
@@ -92,36 +92,28 @@ describe('scoreCalculator', () => {
         tucked: '6',
       };
       // 45 + 10 + 15 + 8 + 4 + 6 = 88
-      expect(calculatePlayerTotal(scores, baseCats)).toBe(88);
+      expect(calculatePlayerTotal(scores)).toBe(88);
     });
 
-    it('ignores empty fields and treats them as 0', () => {
-      const baseCats = getActiveCategories('base');
+    it('ignores empty expansion fields and treats them as 0', () => {
       const scores = {
         birds: '30',
         eggs: '5',
+        hummingbirds: '',
+        nectar: '',
       };
-      expect(calculatePlayerTotal(scores, baseCats)).toBe(35);
+      expect(calculatePlayerTotal(scores)).toBe(35);
     });
 
-    it('ignores expansion categories if they are not in the active set', () => {
-      const baseCats = getActiveCategories('base');
+    it('seamlessly includes expansion points in total score when filled', () => {
       const scores = {
-        birds: '30',
+        birds: '40',
+        eggs: '10',
         hummingbirds: '15',
-        nectar: '20',
+        nectar: '8',
       };
-      // baseCats does not include hummingbirds or nectar
-      expect(calculatePlayerTotal(scores, baseCats)).toBe(30);
-    });
-
-    it('includes expansion categories when active', () => {
-      const americasCats = getActiveCategories('americas');
-      const scores = {
-        birds: '30',
-        hummingbirds: '15',
-      };
-      expect(calculatePlayerTotal(scores, americasCats)).toBe(45);
+      // 40 + 10 + 15 + 8 = 73
+      expect(calculatePlayerTotal(scores)).toBe(73);
     });
   });
 
@@ -140,7 +132,6 @@ describe('scoreCalculator', () => {
 
     it('correctly identifies player1 as leader with difference', () => {
       const state: ScorepadState = {
-        version: 'base',
         player1: {
           id: 'player1',
           name: 'Player 1',
@@ -164,7 +155,6 @@ describe('scoreCalculator', () => {
 
     it('correctly identifies player2 as leader with difference', () => {
       const state: ScorepadState = {
-        version: 'base',
         player1: {
           id: 'player1',
           name: 'Player 1',
@@ -184,7 +174,6 @@ describe('scoreCalculator', () => {
 
     it('correctly identifies a tie when scores are equal and positive', () => {
       const state: ScorepadState = {
-        version: 'base',
         player1: {
           id: 'player1',
           name: 'Player 1',
@@ -202,41 +191,30 @@ describe('scoreCalculator', () => {
       expect(evalResult.isTie).toBe(true);
     });
 
-    it('dynamically factors expansion points when version is switched', () => {
+    it('calculates totals with multiple expansion categories simultaneously', () => {
       const state: ScorepadState = {
-        version: 'americas',
         player1: {
           id: 'player1',
           name: 'Player 1',
-          scores: { birds: '40', hummingbirds: '15' }, // 55
+          scores: { birds: '40', hummingbirds: '15', nectar: '5' }, // 60
         },
         player2: {
           id: 'player2',
           name: 'Player 2',
-          scores: { birds: '50', hummingbirds: '0' }, // 50
+          scores: { birds: '50', nectar: '12' }, // 62
         },
       };
-      let evalResult = evaluateScorepad(state);
-      expect(evalResult.player1Total).toBe(55);
-      expect(evalResult.player2Total).toBe(50);
-      expect(evalResult.leader).toBe('player1');
-
-      // Switch to base: hummingbirds ignored, so player2 (50) beats player1 (40)
-      const baseState: ScorepadState = {
-        ...state,
-        version: 'base',
-      };
-      evalResult = evaluateScorepad(baseState);
-      expect(evalResult.player1Total).toBe(40);
-      expect(evalResult.player2Total).toBe(50);
+      const evalResult = evaluateScorepad(state);
+      expect(evalResult.player1Total).toBe(60);
+      expect(evalResult.player2Total).toBe(62);
       expect(evalResult.leader).toBe('player2');
+      expect(evalResult.diff).toBe(2);
     });
   });
 
   describe('Quickstart Scenarios Verification', () => {
-    it('Scenario A: Core 2-Player Tallying (Base Game)', () => {
+    it('Scenario B: Base Game Scoring (Leaving Expansion Rows Blank)', () => {
       const state: ScorepadState = {
-        version: 'base',
         player1: {
           id: 'player1',
           name: 'Jogador 1',
@@ -257,10 +235,8 @@ describe('scoreCalculator', () => {
       expect(evalResult.isTie).toBe(false);
     });
 
-    it('Scenario B: Expansion Mode (Americas & Oceania)', () => {
-      // Start in Americas mode
-      const americasState: ScorepadState = {
-        version: 'americas',
+    it('Scenario C: Mixed / Multi-Expansion Scoring', () => {
+      const state: ScorepadState = {
         player1: {
           id: 'player1',
           name: 'Jogador 1',
@@ -273,29 +249,25 @@ describe('scoreCalculator', () => {
         },
       };
 
-      let evalResult = evaluateScorepad(americasState);
-      // P1: 45 + 12 + 18 + 15 = 90
+      let evalResult = evaluateScorepad(state);
       expect(evalResult.player1Total).toBe(90);
-      // P2: 52 + 14 + 6 = 72 (nectar ignored in Americas)
-      expect(evalResult.player2Total).toBe(72);
+      expect(evalResult.player2Total).toBe(82);
+      expect(evalResult.leader).toBe('player1');
+      expect(evalResult.diff).toBe(8);
 
-      // Switch to Oceania mode: hummingbirds ignored, nectar counted
-      const oceaniaState: ScorepadState = {
-        ...americasState,
-        version: 'oceania',
+      // Add Oceania nectar to player 1 as well
+      const multiState: ScorepadState = {
+        ...state,
+        player1: {
+          ...state.player1,
+          scores: { ...state.player1.scores, nectar: '5' },
+        },
       };
 
-      evalResult = evaluateScorepad(oceaniaState);
-      // P1: 45 + 12 + 18 = 75 (hummingbirds ignored in Oceania)
-      expect(evalResult.player1Total).toBe(75);
-      // P2: 52 + 14 + 6 + 10 = 82
+      evalResult = evaluateScorepad(multiState);
+      expect(evalResult.player1Total).toBe(95);
       expect(evalResult.player2Total).toBe(82);
-      expect(evalResult.leader).toBe('player2');
-      expect(evalResult.diff).toBe(7);
-
-      // Switch back to Americas: 15 points preserved in state
-      evalResult = evaluateScorepad(americasState);
-      expect(evalResult.player1Total).toBe(90);
+      expect(evalResult.diff).toBe(13);
     });
   });
 });

@@ -4,15 +4,17 @@
 
 **Created**: 2026-10-28
 
-**Status**: Draft
+**Updated**: 2026-10-29
 
-**Input**: User description: "crie uma nova secao para pontuacao, simule os tableiros de pontuacao (considere as diferentes versoes, como america com os pontos de humming birds), crie duas colunas para pontuacao de dois jogadores, execute a soma dos campos conforme for inserindo os valores"
+**Status**: Draft (Updated)
+
+**Input**: User description: "na aba pontuacao, remova o filtro de expansoes, e faca ter apenas uma tabela, com os campos de expansao marcados com uma pequena anotacao como estao atualmente. dessa forma se o jogador quiser preencher, esta ok, caso contrario é so deixar branco"
 
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Two-Player Interactive Scoring Calculator (Priority: P1)
 
-At the end of a Wingspan match, two players want to tally their end-game scores across all official board game categories (Birds, Bonus Cards, End-of-Round Goals, Eggs, Food on Cards, Tucked Cards). As either player types numbers into the category fields, the total score for each player recalculates automatically in real time without requiring a "calculate" button or page reload.
+At the end of a Wingspan match, two players want to tally their end-game scores across official board game categories (Birds, Bonus Cards, End-of-Round Goals, Eggs, Food on Cards, Tucked Cards). As either player types numbers into the category fields, the total score for each player recalculates automatically in real time without requiring a "calculate" button or page reload.
 
 **Why this priority**: Real-time two-player summation across core board game categories provides immediate, independent value for any Wingspan game session, eliminating mental math errors and paper scorepad waste.
 
@@ -26,19 +28,20 @@ At the end of a Wingspan match, two players want to tally their end-game scores 
 
 ---
 
-### User Story 2 - Expansion Scorepad Modes (Americas & Oceania) (Priority: P2)
+### User Story 2 - Unified All-in-One Scorepad Table with Expansion Annotations (Priority: P2)
 
-Players using expansion decks (such as the Americas expansion with Hummingbirds, or Oceania with Nectar) need the scorepad to adapt its categories to match the specific physical scoring sheets of those editions. Selecting a scorepad edition adds the dedicated scoring rows without breaking the standard categories.
+Players want a single, clean scoring table that displays all categories (base game plus official expansions: Beija-flores for Américas and Néctar for Oceania) without needing to configure or toggle an expansion mode before scoring. Each expansion-specific row carries a subtle visual annotation (e.g. `[Américas]`, `[Oceania]`). If an expansion was not used in that match, players simply leave the field blank or `0`, and it adds 0 points to their total without any penalty or setup friction.
 
-**Why this priority**: Expansions introduce unique scoring rules (e.g., Hummingbirds / Beija-flores in Americas, Nectar in Oceania) that physical players must account for to determine the true winner.
+**Why this priority**: Eliminates mode-switching friction, prevents accidental loss of rows, and lets players seamlessly combine expansions (e.g. Base + Oceania + Americas simultaneously) without requiring modal configuration.
 
-**Independent Test**: Switch the scorepad version selector from "Jogo Base" to "Américas" or "Oceania"; verify that expansion-specific rows (e.g. "Beija-flores / Hummingbirds" or "Néctar") appear and are factored into the real-time total sum.
+**Independent Test**: View the scorepad sheet; verify there is no expansion selector pill bar, that all categories (including "Beija-flores" with `Américas` tag and "Néctar" with `Oceania` tag) are present in the same table, and entering points into any expansion row sums directly into the player's total score.
 
 **Acceptance Scenarios**:
 
-1. **Given** the scorepad in "Américas" mode, **When** Player 1 enters `12` in the "Beija-flores / Hummingbirds" row, **Then** those 12 points are added directly to Player 1's total.
-2. **Given** existing numbers entered in base categories, **When** the user switches between scorepad versions, **Then** all previously entered values in shared categories (Birds, Eggs, etc.) are preserved.
-3. **Given** the scorepad in "Oceania" mode, **Then** scoring categories for Nectar across habitats (Forest, Grassland, Wetland) are available and sum into each player's total.
+1. **Given** the scorepad screen, **Then** no version selector or expansion filter pills are rendered, presenting one unified table directly.
+2. **Given** the unified score table, **Then** the "Beija-flores" category row displays a subtle `Américas` badge, and the "Néctar" category row displays a subtle `Oceania` badge.
+3. **Given** a game played only with the base game, **When** players leave "Beija-flores" and "Néctar" empty, **Then** both fields evaluate as `0` points and do not alter the base game total.
+4. **Given** a game played with both Américas and Oceania, **When** Player 1 enters `14` in "Beija-flores" and `10` in "Néctar", **Then** both values sum directly into Player 1's total in real time.
 
 ---
 
@@ -60,10 +63,10 @@ Players want to personalize their column headers with their real names (e.g., "F
 ### Edge Cases
 
 - **Non-numeric or negative input**: The calculator must only accept non-negative whole numbers (`0..999`), discarding negative signs, decimals, or non-digit characters.
-- **Empty input fields**: An input left blank or backspaced completely must be evaluated as `0` in the sum without crashing or showing `NaN`.
+- **Empty input fields**: Any input left blank or backspaced completely must be evaluated as `0` in the sum without crashing or showing `NaN`.
 - **Extremely large numbers**: The calculator should cap individual category inputs at 3 digits (`999`) to prevent layout overflow or unrealistic board game scores.
 - **Tied scores**: When both players achieve the exact same total score, the UI must display a "Empate!" (Tie) status.
-- **Tab switching during calculation**: If a player switches to the "Scanner" or "Catálogo" tab and returns to "Pontuação", all entered scores and selected edition must remain preserved in memory.
+- **Tab switching during calculation**: If a player switches to the "Scanner" or "Catálogo" tab and returns to "Pontuação", all entered scores and player names must remain preserved in memory.
 
 ---
 
@@ -74,30 +77,29 @@ Players want to personalize their column headers with their real names (e.g., "F
 - **FR-001**: System MUST provide a dedicated "Pontuação" (Scorepad) tab in the main bottom navigation bar alongside "Scanner" and "Catálogo".
 - **FR-002**: System MUST render two side-by-side columns corresponding to two independent players.
 - **FR-003**: System MUST calculate and display the sum of all category fields for each player in real time as values are typed (zero lag, no manual submit button).
-- **FR-004**: System MUST support the core Wingspan scoring categories present in all official editions:
+- **FR-004**: System MUST present a single, unified scoring table containing all 8 official Wingspan scoring categories without expansion toggle or filter buttons:
   - Pássaros (Bird card victory points)
   - Cartas Bônus (End-game bonus cards)
   - Metas de Fim de Rodada (Round goals board)
   - Ovos (Eggs on bird cards, 1 pt each)
   - Comida Estocada (Food tokens cached on cards, 1 pt each)
   - Cartas Sobpostas / Bandos (Cards tucked under birds, 1 pt each)
-- **FR-005**: System MUST provide a version/expansion selector with at least:
-  - **Padrão / Base**: Standard 6 core categories.
-  - **Américas**: Standard categories PLUS "Beija-flores (Hummingbirds)" scoring category.
-  - **Oceania**: Standard categories PLUS "Néctar" scoring category.
+  - Beija-flores (Hummingbirds points, with a subtle `Américas` tag)
+  - Néctar (Nectar points, with a subtle `Oceania` tag)
+- **FR-005**: System MUST treat any blank or unfilled expansion or base field as `0` points, allowing players to score matches with or without expansions without extra configuration.
 - **FR-006**: System MUST automatically evaluate and display a prominent winner indicator highlighting the player with the higher total score, or a tie indicator when scores are identical.
 - **FR-007**: System MUST allow users to tap and edit the names of both players.
 - **FR-008**: System MUST provide a "Novo Jogo / Limpar" button that resets all score fields to blank.
 - **FR-009**: System MUST preserve all active scores and player names when switching between app tabs during a session.
-- **FR-010**: System MUST validate and restrict inputs to positive numeric integers, treating empty fields as `0` in calculations.
+- **FR-010**: System MUST validate and restrict inputs to positive numeric integers `0..999`.
 - **FR-011**: System MUST align visually with the established Wingspan Naturalist Field Guide design system (`DESIGN.md`), utilizing linen surfaces (`#F5F0E6`, `#FCFAF7`), watercolor badges, and organic blob buttons.
 
 ### Key Entities
 
-- **ScoreCategory**: Represents a scoring row item (`id`, localized label, expansion requirement, optional icon/symbol).
-- **ScorepadVersion**: Identifies the scoring ruleset (`base`, `americas`, `oceania`), determining which scoring categories are active.
+- **ScoreCategory**: Represents a scoring row item (`id`, localized label, optional expansion badge, icon).
 - **PlayerScore**: Represents a single player's score state (`name`, map of category IDs to numeric values, calculated total score).
-- **ScoringSession**: Represents the active game sheet containing `version`, `player1` (`PlayerScore`), `player2` (`PlayerScore`), and session status.
+- **ScorepadState**: Represents the active game sheet containing `player1` (`PlayerScore`), `player2` (`PlayerScore`), and session status.
+- **ScorepadEvaluation**: Represents the calculated outcome (`player1Total`, `player2Total`, `diff`, `leader`, `isTie`).
 
 ---
 
@@ -106,7 +108,7 @@ Players want to personalize their column headers with their real names (e.g., "F
 ### Measurable Outcomes
 
 - **SC-001**: Score recalculation occurs instantaneously on keypress (<16ms, zero perceptual latency).
-- **SC-002**: Players can tally and review a complete 2-player end-game scorepad in under 60 seconds.
+- **SC-002**: Players can tally and review a complete 2-player end-game scorepad in under 60 seconds with zero modal setup or configuration.
 - **SC-003**: 100% of mathematical sums across all standard and expansion categories match official board game scoring rules.
 - **SC-004**: Seamless navigation between Scanner, Catalog, and Scorepad tabs without losing entered score sheet data.
 
@@ -115,6 +117,5 @@ Players want to personalize their column headers with their real names (e.g., "F
 ## Assumptions
 
 - Standard tabletop sessions using the companion app are played with 2 players sharing the device for end-game tallying; additional players can be tallied in successive rounds or future multi-player expansions.
-- Scores are non-negative integers as defined by the Stonemaier Games / Grok Games official rulebook.
+- Leaving expansion fields blank simply treats them as zero, eliminating the need for mode selection or version toggles.
 - In the Americas expansion, hummingbirds have dedicated scoring contributions (food/tokens/nectar interactions), summarized cleanly as a dedicated category row in the scorepad.
-

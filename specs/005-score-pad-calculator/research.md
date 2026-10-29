@@ -11,21 +11,22 @@ The official physical Wingspan score sheet consists of 6 core categories summed 
 5. **Comida Estocada / Food on Cards (`food`)**: 1 point per food token cached on bird cards (via predator, hoarder, or forage powers).
 6. **Cartas Sobpostas / Tucked Cards (`tucked`)**: 1 point per card tucked beneath bird cards (via flocking, hunting, or breeding powers).
 
-### 1.2 Oceania Expansion Scoring
-In addition to the 6 core categories, the Oceania expansion introduces **Néctar / Nectar**:
-- Players spend nectar during the game into separate habitat discard spaces (Forest, Grassland, Wetland).
-- At game end:
-  - 1st place in each habitat receives 5 points.
-  - 2nd place in each habitat receives 2 points.
-  - (Ties split points per rulebook).
-- On the physical scorepad, players can enter either their total nectar score directly or broken down by habitat.
-- **Decision**: Provide direct total nectar point input for each player in Oceania mode (`nectar`), with optional sub-fields if desired.
+### 1.2 Official Expansion Categories
+- **Américas Expansion — Beija-flores / Hummingbirds (`hummingbirds`)**: Dedicated points from hummingbird powers, nectar tokens, and feeder contributions.
+- **Oceania Expansion — Néctar / Nectar (`nectar`)**: Total points earned from nectar spent across habitats at game end.
 
-### 1.3 Americas Expansion Scoring
-The Americas expansion introduces **Beija-flores / Hummingbirds (`hummingbirds`)**:
-- Hummingbirds feature dedicated high-frequency nectar feeding and interaction scoring.
-- On the Americas scoring sheet, a dedicated category row captures points earned through hummingbird cards and feeding interactions.
-- **Decision**: In Americas mode, add the dedicated `hummingbirds` ("Beija-flores") row directly below Bonus Cards / Goals, fully integrated into the real-time sum.
+### 1.3 Architectural & UX Decision: Unified All-in-One Table vs. Version Selector
+- **Problem with Version Selector / Mode Pills**:
+  - Selecting an expansion mode previously hid or filtered categories.
+  - Players frequently combine multiple expansions (e.g., Base + Oceania + Americas together). A strict dropdown/pill selector forced an artificial either-or choice or required complex multi-select UI.
+  - Toggling versions risked confusing players or hiding numbers previously entered.
+- **Chosen Solution: Single Unified Scoring Table**:
+  - Display all 8 official categories in one fixed, elegant table.
+  - Mark expansion-specific categories with subtle, non-intrusive badge annotations (`[Américas]` for Beija-flores, `[Oceania]` for Néctar).
+  - Treat blank/empty fields as `0` points.
+  - If players did not play with an expansion, they simply leave that row empty, which has zero effect on the sum.
+  - If players played with one or both expansions, they simply type their points in the corresponding row.
+  - Eliminates all version selector pills, header clutter, and configuration friction.
 
 ---
 
@@ -33,70 +34,60 @@ The Americas expansion introduces **Beija-flores / Hummingbirds (`hummingbirds`)
 
 ### 2.1 State Structure
 ```typescript
-export type ScorepadVersionId = 'base' | 'americas' | 'oceania';
-
 export interface ScoreCategoryDefinition {
   id: string;
   label: string;
   description: string;
-  iconType?: 'forest' | 'grassland' | 'wetland' | 'egg' | 'wingspan' | 'feather';
   expansion?: 'base' | 'americas' | 'oceania';
+  iconType: 'feather' | 'bonus' | 'goal' | 'egg' | 'food' | 'tucked' | 'hummingbird' | 'nectar';
 }
 
 export interface PlayerScoreState {
+  id: 'player1' | 'player2';
   name: string;
   scores: Record<string, string>; // raw string input to handle empty state and cursor position gracefully
 }
 
 export interface ScorepadState {
-  version: ScorepadVersionId;
   player1: PlayerScoreState;
   player2: PlayerScoreState;
 }
 ```
 
 ### 2.2 Numerical Summation & Real-Time Calculation Logic
-- In mobile text inputs, storing numeric values as raw strings (`"35"`, `""`) prevents jarring cursor jumps or unwanted `"0"` prefixes while typing.
-- Pure calculation function:
+- Values are stored as strings (`"35"`, `""`) in the `scores` map.
+- Sanitization ensures only positive digits `0..999` are kept.
+- Summation iterates over all categories in `DEFAULT_SCORE_CATEGORIES` (or present in scores):
   ```typescript
-  export function calculateCategoryPoints(raw: string): number {
-    const parsed = parseInt(raw, 10);
-    return isNaN(parsed) || parsed < 0 ? 0 : parsed;
-  }
-
   export function calculatePlayerTotal(
     scores: Record<string, string>,
-    activeCategoryIds: string[]
+    categories: readonly ScoreCategoryDefinition[] = DEFAULT_SCORE_CATEGORIES
   ): number {
-    return activeCategoryIds.reduce((sum, catId) => {
-      return sum + calculateCategoryPoints(scores[catId] || '');
+    return categories.reduce((sum, cat) => {
+      const val = parseInt(scores[cat.id] || '', 10);
+      return sum + (isNaN(val) || val < 0 ? 0 : val);
     }, 0);
   }
   ```
-- Instant re-rendering (<5ms) using standard React state hooks (`useState` / `useReducer`).
-
-### 2.3 Session Persistence
-- The scorepad state should be lifted or held in memory during the app lifecycle so players can switch to the "Scanner" or "Catálogo" tab without losing their entered game scores.
-- A prominent "Novo Jogo" (Reset) button allows starting a new game with zeroed scores.
+- Sub-millisecond calculation speed (<1ms), completely synchronous and instantaneous on keypress.
 
 ---
 
 ## 3. UI/UX Design & Layout Strategy
 
 ### 3.1 Two-Player Side-by-Side Comparison
-- Column layout:
-  - Left column: Category Label + Watercolor Icon / Badge.
-  - Middle column: Player 1 numeric input.
-  - Right column: Player 2 numeric input.
-- Large fixed Header / Banner:
-  - Real-time Total Score for Player 1 and Player 2.
-  - Dynamic Winner Trophy or Tie indicator.
-  - Score differential ("+8 pts").
+- Single vertical scrollable sheet:
+  - Header: Title "Bloco de Pontuação", subtitle, and winner summary card.
+  - Unified Table:
+    - Left column: Category Label + Watercolor Icon + subtle expansion tag (`[Américas]`, `[Oceania]`).
+    - Middle column: Player 1 numeric input (`keyboardType="number-pad"`).
+    - Right column: Player 2 numeric input (`keyboardType="number-pad"`).
+    - Bottom row: TOTAL points for each player with leader highlight.
+  - Footer Action: "Novo Jogo / Limpar" blob button with confirmation alert.
 
-### 3.2 Mobile-First Touch & Input Considerations
-- Number pad keyboard (`keyboardType="number-pad"`).
-- Large touch targets (≥44px height for inputs).
-- Naturalist theme styling matching `DESIGN.md` (warm paper surfaces `#FCFAF7`, borders `#DCD3C1`, sumi ink text `#202B24`, organic blob buttons for actions).
+### 3.2 Mobile-First Touch & Aesthetic Alignment
+- Touch targets $\ge 42$px for numeric text inputs.
+- Naturalist theme styling matching `DESIGN.md` (warm paper `#FCFAF7`, borders `#DCD3C1`, sumi ink `#202B24`, secondary organic blob buttons).
 
 ---
 
@@ -104,7 +95,6 @@ export interface ScorepadState {
 
 | Risk | Mitigation |
 |---|---|
-| Non-numeric input typed on web or external keyboards | Strict regex filter `text.replace(/[^0-9]/g, '').slice(0, 3)` ensures only valid 0-999 integers are accepted |
-| Accidental reset while tallying scores | Confirmation alert ("Limpar pontuação atual?") before wiping all inputs |
-| Screen overflow on smaller mobile viewports | Vertical `ScrollView` with sticky total score banner at top or bottom |
-
+| Confusion over unused expansion rows | Clear subtle annotation tags (`[Américas]`, `[Oceania]`) and `0` placeholders indicate they can be left blank safely |
+| Non-numeric input on web | Strict regex filter `text.replace(/[^0-9]/g, '').slice(0, 3)` |
+| Accidental reset | Platform-safe confirmation dialog before clearing scores |

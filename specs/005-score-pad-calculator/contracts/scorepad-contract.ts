@@ -1,9 +1,7 @@
 /**
- * Interface Contract: Wingspan Score Pad Calculator
+ * Interface Contract: Wingspan Score Pad Calculator (Unified Table)
  * Feature: 005-score-pad-calculator
  */
-
-export type ScorepadVersionId = 'base' | 'americas' | 'oceania';
 
 export interface ScoreCategoryDefinition {
   readonly id: string;
@@ -14,12 +12,6 @@ export interface ScoreCategoryDefinition {
   readonly max?: number;
 }
 
-export interface ScorepadVersionDefinition {
-  readonly id: ScorepadVersionId;
-  readonly label: string;
-  readonly subtitle: string;
-}
-
 export interface PlayerScoreState {
   readonly id: 'player1' | 'player2';
   name: string;
@@ -27,7 +19,6 @@ export interface PlayerScoreState {
 }
 
 export interface ScorepadState {
-  version: ScorepadVersionId;
   player1: PlayerScoreState;
   player2: PlayerScoreState;
 }
@@ -39,24 +30,6 @@ export interface ScorepadEvaluation {
   readonly leader: 'player1' | 'player2' | 'tie' | 'none';
   readonly isTie: boolean;
 }
-
-export const SCOREPAD_VERSIONS: readonly ScorepadVersionDefinition[] = [
-  {
-    id: 'base',
-    label: 'Jogo Base',
-    subtitle: 'Regras padrão (6 categorias)',
-  },
-  {
-    id: 'americas',
-    label: 'Américas',
-    subtitle: 'Com pontuação de Beija-flores',
-  },
-  {
-    id: 'oceania',
-    label: 'Oceania',
-    subtitle: 'Com pontuação de Néctar',
-  },
-] as const;
 
 export const DEFAULT_SCORE_CATEGORIES: readonly ScoreCategoryDefinition[] = [
   {
@@ -81,13 +54,6 @@ export const DEFAULT_SCORE_CATEGORIES: readonly ScoreCategoryDefinition[] = [
     iconType: 'goal',
   },
   {
-    id: 'hummingbirds',
-    label: 'Beija-flores',
-    description: 'Pontos de beija-flores e interações do alimentador (Américas)',
-    expansion: 'americas',
-    iconType: 'hummingbird',
-  },
-  {
     id: 'eggs',
     label: 'Ovos',
     description: '1 ponto por ovo nos ninhos das aves',
@@ -107,6 +73,13 @@ export const DEFAULT_SCORE_CATEGORIES: readonly ScoreCategoryDefinition[] = [
     description: '1 ponto por carta sobposta nas aves (bandos/caça)',
     expansion: 'base',
     iconType: 'tucked',
+  },
+  {
+    id: 'hummingbirds',
+    label: 'Beija-flores',
+    description: 'Pontos de beija-flores e interações do alimentador (Américas)',
+    expansion: 'americas',
+    iconType: 'hummingbird',
   },
   {
     id: 'nectar',
@@ -132,16 +105,11 @@ export interface ScoreCalculatorContract {
   parseScoreNumber(input: string): number;
 
   /**
-   * Returns list of category definitions applicable for the specified version.
-   */
-  getActiveCategories(version: ScorepadVersionId): ScoreCategoryDefinition[];
-
-  /**
    * Calculates total sum for a player given their scores map and active category set.
    */
   calculatePlayerTotal(
     scores: Record<string, string>,
-    categories: readonly ScoreCategoryDefinition[]
+    categories?: readonly ScoreCategoryDefinition[]
   ): number;
 
   /**
@@ -154,4 +122,3 @@ export interface ScoreCalculatorContract {
    */
   createInitialScorepadState(): ScorepadState;
 }
-

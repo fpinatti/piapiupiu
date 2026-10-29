@@ -36,7 +36,7 @@ export interface PlayerScoreState {
 }
 
 export interface ScorepadState {
-  version: ScorepadVersionId;
+  version?: ScorepadVersionId;
   player1: PlayerScoreState;
   player2: PlayerScoreState;
 }

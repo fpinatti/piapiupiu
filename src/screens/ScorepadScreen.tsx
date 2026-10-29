@@ -8,7 +8,6 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from 'react-native';
 import { WatercolorBlobButton } from '../components/WatercolorBlobButton';
@@ -23,15 +22,12 @@ import {
 import {
   DEFAULT_SCORE_CATEGORIES,
   PlayerScoreState,
-  SCOREPAD_VERSIONS,
   ScoreCategoryDefinition,
   ScorepadState,
-  ScorepadVersionId,
 } from '../types/scorepad';
 import {
   createInitialScorepadState,
   evaluateScorepad,
-  getActiveCategories,
   sanitizeScoreInput,
 } from '../utils/scoreCalculator';
 
@@ -63,16 +59,13 @@ export function ScorepadScreen({
     [state, onScorepadStateChange]
   );
 
-  // Active categories for selected edition
-  const activeCategories = useMemo(
-    () => getActiveCategories(state.version, DEFAULT_SCORE_CATEGORIES),
-    [state.version]
-  );
+  // All 8 categories are rendered in a single unified table
+  const categories = DEFAULT_SCORE_CATEGORIES;
 
-  // Evaluation & standings
+  // Evaluation & standings (real-time summation)
   const evaluation = useMemo(() => evaluateScorepad(state), [state]);
 
-  // Handle score change with strict sanitization
+  // Handle score change with strict sanitization (0..999)
   const handleScoreChange = useCallback(
     (playerId: 'player1' | 'player2', categoryId: string, text: string) => {
       const sanitized = sanitizeScoreInput(text);
@@ -100,17 +93,6 @@ export function ScorepadScreen({
           ...prev[playerId],
           name: trimmed,
         },
-      }));
-    },
-    [updateState]
-  );
-
-  // Handle expansion switch
-  const handleVersionSelect = useCallback(
-    (version: ScorepadVersionId) => {
-      updateState((prev) => ({
-        ...prev,
-        version,
       }));
     },
     [updateState]
@@ -159,35 +141,6 @@ export function ScorepadScreen({
           <Text style={styles.screenSubtitle}>
             Tabela de contagem de fim de jogo para 2 jogadores
           </Text>
-        </View>
-
-        {/* Expansion / Ruleset Selector Pills */}
-        <View style={styles.versionSelector}>
-          {SCOREPAD_VERSIONS.map((v) => {
-            const isSelected = state.version === v.id;
-            return (
-              <TouchableOpacity
-                key={v.id}
-                onPress={() => handleVersionSelect(v.id)}
-                activeOpacity={0.7}
-                style={[
-                  styles.versionPill,
-                  isSelected && styles.versionPillSelected,
-                ]}
-                accessibilityRole="button"
-                accessibilityLabel={`Selecionar versão ${v.label}`}
-              >
-                <Text
-                  style={[
-                    styles.versionPillText,
-                    isSelected && styles.versionPillTextSelected,
-                  ]}
-                >
-                  {v.label}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
         </View>
 
         {/* Winner & Standings Summary Banner */}
@@ -274,7 +227,7 @@ export function ScorepadScreen({
           </View>
         </View>
 
-        {/* Scorepad Table Card */}
+        {/* Unified Scorepad Table Card */}
         <View style={styles.sheetCard}>
           {/* Table Column Headers */}
           <View style={styles.tableHeaderRow}>
@@ -295,18 +248,18 @@ export function ScorepadScreen({
             </Text>
           </View>
 
-          {/* Score Category Rows */}
-          {activeCategories.map((category, index) => {
+          {/* Unified Score Category Rows */}
+          {categories.map((category, index) => {
             const p1Val = state.player1.scores[category.id] ?? '';
             const p2Val = state.player2.scores[category.id] ?? '';
-            const isLast = index === activeCategories.length - 1;
+            const isLast = index === categories.length - 1;
 
             return (
               <View
                 key={category.id}
                 style={[styles.categoryRow, isLast && styles.categoryRowLast]}
               >
-                {/* Left: Category Label & Icon */}
+                {/* Left: Category Label, Watercolor Icon & Subtle Expansion Badge */}
                 <View style={styles.catCell}>
                   <WatercolorIcon
                     type={category.iconType}
@@ -442,36 +395,6 @@ const styles = StyleSheet.create({
     fontSize: typeScale.caption,
     color: colors.textSecondary,
     marginTop: 2,
-  },
-  versionSelector: {
-    flexDirection: 'row',
-    gap: spacing.xs,
-    marginVertical: spacing.sm,
-  },
-  versionPill: {
-    flex: 1,
-    paddingVertical: 8,
-    paddingHorizontal: 6,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: colors.border,
-    backgroundColor: colors.surface,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  versionPillSelected: {
-    backgroundColor: colors.primary,
-    borderColor: colors.primaryBorder,
-  },
-  versionPillText: {
-    fontFamily: fonts.sans,
-    fontSize: typeScale.caption,
-    fontWeight: '600',
-    color: colors.textSecondary,
-  },
-  versionPillTextSelected: {
-    color: colors.onPrimary,
-    fontWeight: '700',
   },
   summaryCard: {
     flexDirection: 'row',
@@ -726,4 +649,3 @@ const styles = StyleSheet.create({
     maxWidth: 240,
   },
 });
-

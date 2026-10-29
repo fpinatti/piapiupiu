@@ -2,6 +2,7 @@
 
 **Purpose**: Validate specification completeness and quality before proceeding to planning
 **Created**: 2026-10-28
+**Updated**: 2026-10-29
 **Feature**: [spec.md](../spec.md)
 
 ## Content Quality
@@ -32,5 +33,5 @@
 ## Notes
 
 - Feature directory resolved to `specs/005-score-pad-calculator` in `.specify/feature.json`.
-- All requirements adhere strictly to the project constitution principles (table-side speed, lightweight UX, board game rules fidelity).
-
+- Specification updated to remove expansion filters and present a single, unified scoring table with subtle tags for expansion categories (Beija-flores and Néctar).
+- All requirements adhere strictly to project constitution principles.

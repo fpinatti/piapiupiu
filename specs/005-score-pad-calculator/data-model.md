@@ -4,18 +4,11 @@
 
 ```mermaid
 classDiagram
-  class ScorepadVersionId {
-    <<enumeration>>
-    base
-    americas
-    oceania
-  }
-
   class ScoreCategoryDefinition {
     +string id
     +string label
     +string description
-    +ScorepadVersionId expansion
+    +string expansion
     +string iconType
     +number max
   }
@@ -27,7 +20,6 @@ classDiagram
   }
 
   class ScorepadState {
-    +ScorepadVersionId version
     +PlayerScoreState player1
     +PlayerScoreState player2
   }
@@ -40,9 +32,8 @@ classDiagram
     +boolean isTie
   }
 
-  ScorepadState --> ScorepadVersionId : uses
   ScorepadState --> PlayerScoreState : contains 2
-  ScoreCategoryDefinition --> ScorepadVersionId : scoped to
+  ScoreCategoryDefinition --> ScorepadState : rendered in unified table
   ScorepadState ..> ScorepadEvaluation : evaluated into
 ```
 
@@ -57,12 +48,12 @@ Represents an official scoring category line item in the Wingspan scorepad.
 |---|---|---|---|---|
 | `id` | `string` | Yes | Unique snake_case identifier | `'birds'`, `'eggs'`, `'nectar'` |
 | `label` | `string` | Yes | Display name in Portuguese (PT-BR) | `'Pássaros'`, `'Cartas Bônus'` |
-| `description` | `string` | Yes | Brief description of how points are counted | `'Pontos impressos nas cartas de aves jogadas'` |
-| `expansion` | `'base' \| 'americas' \| 'oceania'` | Yes | Expansion required for this row to appear | `'base'` (standard), `'americas'`, `'oceania'` |
+| `description` | `string` | Yes | Brief description of how points are counted | `'Pontos impressos nas cartas de aves baixadas'` |
+| `expansion` | `'base' \| 'americas' \| 'oceania'` | Yes | Source set (used for subtle visual tag) | `'base'`, `'americas'`, `'oceania'` |
 | `iconType` | `string` | Yes | Semantic visual category icon | `'feather'`, `'egg'`, `'nectar'`, `'goal'` |
 | `max` | `number` | No | Maximum permitted value (default: 999) | `999` |
 
-#### Default Categories Roster
+#### Unified Categories Roster (Always Available)
 
 1. **`birds`** (*Pássaros*): `expansion: 'base'`, `iconType: 'feather'` — Sum of bird card face values.
 2. **`bonus`** (*Cartas Bônus*): `expansion: 'base'`, `iconType: 'bonus'` — End-game secret bonus card points.
@@ -70,8 +61,8 @@ Represents an official scoring category line item in the Wingspan scorepad.
 4. **`eggs`** (*Ovos*): `expansion: 'base'`, `iconType: 'egg'` — 1 point per egg laid on bird cards.
 5. **`food`** (*Comida Estocada*): `expansion: 'base'`, `iconType: 'food'` — 1 point per cached food token on cards.
 6. **`tucked`** (*Cartas Sobpostas*): `expansion: 'base'`, `iconType: 'tucked'` — 1 point per card tucked beneath birds.
-7. **`hummingbirds`** (*Beija-flores*): `expansion: 'americas'`, `iconType: 'hummingbird'` — Americas expansion hummingbird interactions and feeder points.
-8. **`nectar`** (*Néctar*): `expansion: 'oceania'`, `iconType: 'nectar'` — Oceania expansion total points from habitat nectar discard majorities.
+7. **`hummingbirds`** (*Beija-flores*): `expansion: 'americas'`, `iconType: 'hummingbird'` — Tagged with `[Américas]` badge. Optional; leave blank if unused.
+8. **`nectar`** (*Néctar*): `expansion: 'oceania'`, `iconType: 'nectar'` — Tagged with `[Oceania]` badge. Optional; leave blank if unused.
 
 ---
 
@@ -91,7 +82,6 @@ Top-level state for the interactive scoring session.
 
 | Field | Type | Required | Description |
 |---|---|---|---|
-| `version` | `'base' \| 'americas' \| 'oceania'` | Yes | Active ruleset determining visible categories |
 | `player1` | `PlayerScoreState` | Yes | State for Player 1 |
 | `player2` | `PlayerScoreState` | Yes | State for Player 2 |
 
@@ -102,10 +92,10 @@ Derived pure calculation result computed instantaneously on any state modificati
 
 | Field | Type | Description |
 |---|---|---|
-| `player1Total` | `number` | Computed sum of Player 1's active category points |
-| `player2Total` | `number` | Computed sum of Player 2's active category points |
+| `player1Total` | `number` | Computed sum of Player 1's points across all categories |
+| `player2Total` | `number` | Computed sum of Player 2's points across all categories |
 | `diff` | `number` | Absolute score difference between players (`Math.abs(p1 - p2)`) |
-| `leader` | `'player1' \| 'player2' \| 'tie'` | Identifies current leader or tie |
+| `leader` | `'player1' \| 'player2' \| 'tie' \| 'none'` | Identifies current leader or tie |
 | `isTie` | `boolean` | `true` if `player1Total === player2Total` and total > 0 |
 
 ---
@@ -120,26 +110,6 @@ Derived pure calculation result computed instantaneously on any state modificati
 2. **Player Names**:
    - Trimmed string with maximum 24 characters (`name.trim().slice(0, 24)`).
    - If left empty upon blur, falls back to default (`"Jogador 1"` / `"Jogador 2"`).
-3. **Category Scope Filter**:
-   - When calculating totals, only categories enabled for the active `version` are summed:
-     - `'base'`: `['birds', 'bonus', 'goals', 'eggs', 'food', 'tucked']`
-     - `'americas'`: `['birds', 'bonus', 'goals', 'hummingbirds', 'eggs', 'food', 'tucked']`
-     - `'oceania'`: `['birds', 'bonus', 'goals', 'eggs', 'food', 'tucked', 'nectar']`
-   - Switching versions preserves input values in state so switching back does not lose data.
-
----
-
-## 4. State Transitions & Lifecycle
-
-```mermaid
-stateDiagram-v2
-  [*] --> BlankState : Launch Scorepad
-  BlankState --> Tallying : User types score / edits name
-  Tallying --> Tallying : User updates category / changes version
-  Tallying --> ResetConfirm : User taps "Novo Jogo"
-  ResetConfirm --> BlankState : Confirmed
-  ResetConfirm --> Tallying : Cancelled
-  Tallying --> TabSwitch : User views Scanner or Catalog
-  TabSwitch --> Tallying : Returns to Scorepad (State Preserved)
-```
-
+3. **Unified Calculation**:
+   - Summation iterates over all categories in the scorepad.
+   - Any unplayed expansion field left empty adds `0` points, with no setup modal or version configuration required.
