@@ -52,10 +52,10 @@ const isSkiaAvailable =
   Platform.OS !== 'web'
     ? Boolean(SkiaComponents?.Canvas)
     : Boolean(
-        typeof window !== 'undefined' &&
-        (window as any).CanvasKit &&
-        SkiaComponents?.Canvas
-      );
+      typeof window !== 'undefined' &&
+      (window as any).CanvasKit &&
+      SkiaComponents?.Canvas
+    );
 
 export function LivingBirdArtwork({
   bird,
@@ -119,7 +119,8 @@ export function LivingBirdArtwork({
 
     const loop = () => {
       const elapsedSec = (Date.now() - startTime) / 1000;
-      setBreathing(calculateBreathingOffset(elapsedSec, 0.28, 2.0));
+      const breathingAmplitude = Math.max(0.6, Math.min(1.8, width * 0.012));
+      setBreathing(calculateBreathingOffset(elapsedSec, 0.28, breathingAmplitude));
       setSheen(calculateFeatherSheen(elapsedSec, motion.tiltX, motion.tiltY));
 
       setParticles((prev) =>
@@ -133,23 +134,33 @@ export function LivingBirdArtwork({
     return () => cancelAnimationFrame(animId);
   }, [disabled, reduceMotion, appActive, width, height, primaryHabitat, isPlaying, motion.tiltX, motion.tiltY]);
 
-  // Calculate 2.5D layer translation offsets
+  // Proportional subtle parallax offset (delicate 2.5D optical micro-shift)
+  const maxParallax = useMemo(
+    () => Math.max(3, Math.min(7, Math.round(width * 0.03))),
+    [width]
+  );
+
   const bgOffset = useMemo(
-    () => (reduceMotion ? { x: 0, y: 0 } : calculateLayerOffset(motion.tiltX, motion.tiltY, 0.35, 12)),
-    [motion.tiltX, motion.tiltY, reduceMotion]
+      () => (reduceMotion ? { x: 0, y: 0 } : calculateLayerOffset(motion.tiltX, motion.tiltY, 0.3, maxParallax)),
+        [motion.tiltX, motion.tiltY, reduceMotion, maxParallax]
   );
 
   const subjectOffset = useMemo(
-    () => (reduceMotion ? { x: 0, y: 0 } : calculateLayerOffset(motion.tiltX, motion.tiltY, 1.0, 12)),
-    [motion.tiltX, motion.tiltY, reduceMotion]
+      () => (reduceMotion ? { x: 0, y: 0 } : calculateLayerOffset(motion.tiltX, motion.tiltY, 0.6, maxParallax)),
+        [motion.tiltX, motion.tiltY, reduceMotion, maxParallax]
   );
 
   const particleOffset = useMemo(
-    () => (reduceMotion ? { x: 0, y: 0 } : calculateLayerOffset(motion.tiltX, motion.tiltY, 1.45, 12)),
-    [motion.tiltX, motion.tiltY, reduceMotion]
+      () => (reduceMotion ? { x: 0, y: 0 } : calculateLayerOffset(motion.tiltX, motion.tiltY, 1.35, maxParallax)),
+        [motion.tiltX, motion.tiltY, reduceMotion, maxParallax]
   );
 
-  const sheenGeometry = useMemo(() => calculateSheenGeometry(width), [width]);
+  const sheenGeometry = useMemo(() => calculateSheenGeometry(width, height), [width, height]);
+
+  // Minimal overscan (only 4-8px) to eliminate border gaps with virtually zero crop/zoom
+  const overscan = Math.max(4, Math.min(8, Math.round(width * 0.03 + 2)));
+  const imageWidth = width + overscan * 2;
+  const imageHeight = height + overscan * 2;
 
   // PanResponder to capture touch-drag tilts smoothly
   const panResponder = useMemo(
@@ -218,7 +229,7 @@ export function LivingBirdArtwork({
         {photoUrl ? (
           <Image
             source={{ uri: photoUrl, cache: 'force-cache' }}
-            style={[styles.birdImage, { width: width + 8, height: height + 8 }]}
+            style={[styles.birdImage, { width: imageWidth, height: imageHeight }]}
             resizeMode="cover"
             accessibilityLabel={`Foto viva de ${bird.name_pt}`}
           />
@@ -226,16 +237,19 @@ export function LivingBirdArtwork({
           <View style={[styles.placeholderBox, { backgroundColor: habitatTheme.bg }]} />
         )}
 
-        {/* Subtle Specular Feather Sheen (Reflexo de luz do sol nas penas com difusão concêntrica) */}
+        {/* Subtle Specular Feather Sheen (Reflexo de luz solar localizado nas penas) */}
         {!reduceMotion && (
           <View
             style={[
               styles.featherSheenOverlay,
               {
                 transform: [
-                  { rotate: '-35deg' },
+                  { rotate: '-25deg' },
                   {
-                    translateX: sheen.sweepProgress * (width * 0.8),
+                    translateX: sheen.sweepProgress * (width * 0.22),
+                  },
+                  {
+                    translateY: sheen.sweepProgress * (height * 0.12),
                   },
                 ],
                 opacity: sheen.intensity,
@@ -245,9 +259,10 @@ export function LivingBirdArtwork({
           >
             <View
               style={[
-                styles.sheenLayerOuter,
+                styles.sheenLayerCentered,
                 {
                   width: sheenGeometry.layers.outer.width,
+                  height: sheenGeometry.layers.outer.height,
                   borderRadius: sheenGeometry.layers.outer.borderRadius,
                   backgroundColor: sheenGeometry.layers.outer.backgroundColor,
                 },
@@ -255,9 +270,10 @@ export function LivingBirdArtwork({
             >
               <View
                 style={[
-                  styles.sheenLayerNested,
+                  styles.sheenLayerCentered,
                   {
                     width: sheenGeometry.layers.mid.width,
+                    height: sheenGeometry.layers.mid.height,
                     borderRadius: sheenGeometry.layers.mid.borderRadius,
                     backgroundColor: sheenGeometry.layers.mid.backgroundColor,
                   },
@@ -265,9 +281,10 @@ export function LivingBirdArtwork({
               >
                 <View
                   style={[
-                    styles.sheenLayerNested,
+                    styles.sheenLayerCentered,
                     {
                       width: sheenGeometry.layers.halo.width,
+                      height: sheenGeometry.layers.halo.height,
                       borderRadius: sheenGeometry.layers.halo.borderRadius,
                       backgroundColor: sheenGeometry.layers.halo.backgroundColor,
                     },
@@ -275,9 +292,10 @@ export function LivingBirdArtwork({
                 >
                   <View
                     style={[
-                      styles.sheenLayerNested,
+                      styles.sheenLayerCentered,
                       {
                         width: sheenGeometry.layers.core.width,
+                        height: sheenGeometry.layers.core.height,
                         borderRadius: sheenGeometry.layers.core.borderRadius,
                         backgroundColor: sheenGeometry.layers.core.backgroundColor,
                       },
@@ -285,9 +303,10 @@ export function LivingBirdArtwork({
                   >
                     <View
                       style={[
-                        styles.sheenLayerNested,
+                        styles.sheenLayerCentered,
                         {
                           width: sheenGeometry.layers.glint.width,
+                          height: sheenGeometry.layers.glint.height,
                           borderRadius: sheenGeometry.layers.glint.borderRadius,
                           backgroundColor: sheenGeometry.layers.glint.backgroundColor,
                         },
@@ -382,11 +401,9 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFill,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 12,
-    overflow: 'hidden',
   },
   birdImage: {
-    borderRadius: 12,
+    position: 'absolute',
   },
   placeholderBox: {
     width: '100%',
@@ -410,18 +427,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     ...Platform.select({
       web: {
-        filter: 'blur(6px)',
-        mixBlendMode: 'screen',
+        filter: 'blur(8px)',
+        mixBlendMode: 'soft-light',
       },
     }),
   },
-  sheenLayerOuter: {
-    height: '240%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  sheenLayerNested: {
-    height: '100%',
+  sheenLayerCentered: {
     justifyContent: 'center',
     alignItems: 'center',
   },

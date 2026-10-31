@@ -108,6 +108,7 @@ half4 main(float2 xy) {
  */
 export interface SheenBeamLayer {
   width: number;
+  height: number;
   borderRadius: number;
   backgroundColor: string;
 }
@@ -117,6 +118,8 @@ export interface SheenBeamLayer {
  */
 export interface SheenGeometry {
   beamWidth: number;
+  patchWidth: number;
+  patchHeight: number;
   layers: {
     outer: SheenBeamLayer;
     mid: SheenBeamLayer;
@@ -127,47 +130,67 @@ export interface SheenGeometry {
 }
 
 /**
- * Calculates a multi-tier concentric Gaussian diffusion beam.
- * Simulates optical light dispersion across feathers so that Android and native
- * renderers display a continuous gradient curve without sharp rectangular edges,
- * even without CSS mix-blend-mode or hardware shader support.
+ * Calculates a localized, subtle concentric Gaussian diffusion highlight.
+ * Simulates soft sunlight catching the bird's plumage (localized elliptical highlight)
+ * rather than sweeping across the entire image.
  */
-export function calculateSheenGeometry(cardWidth: number): SheenGeometry {
+export function calculateSheenGeometry(cardWidth: number, cardHeight?: number): SheenGeometry {
   const w = isNaN(cardWidth) || cardWidth <= 0 ? 100 : cardWidth;
-  const beamWidth = Math.max(18, Math.round(w * 0.25));
-  const wOuter = beamWidth;
-  const wMid = Math.round(beamWidth * 0.72);
-  const wHalo = Math.round(beamWidth * 0.48);
-  const wCore = Math.round(beamWidth * 0.26);
-  const wGlint = Math.max(2, Math.round(beamWidth * 0.10));
+  const h = isNaN(cardHeight as number) || (cardHeight as number) <= 0 ? w : (cardHeight as number);
+
+  // Localized elliptical plumage patch (~36% width, ~26% height)
+  const patchWidth = Math.max(20, Math.round(w * 0.36));
+  const patchHeight = Math.max(14, Math.round(h * 0.26));
+
+  const wOuter = patchWidth;
+  const hOuter = patchHeight;
+
+  const wMid = Math.round(patchWidth * 0.76);
+  const hMid = Math.round(patchHeight * 0.76);
+
+  const wHalo = Math.round(patchWidth * 0.52);
+  const hHalo = Math.round(patchHeight * 0.52);
+
+  const wCore = Math.round(patchWidth * 0.32);
+  const hCore = Math.round(patchHeight * 0.32);
+
+  const wGlint = Math.max(4, Math.round(patchWidth * 0.14));
+  const hGlint = Math.max(3, Math.round(patchHeight * 0.16));
 
   return {
-    beamWidth,
+    beamWidth: patchWidth,
+    patchWidth,
+    patchHeight,
     layers: {
       outer: {
         width: wOuter,
-        borderRadius: Math.round(wOuter / 2),
-        backgroundColor: 'rgba(255, 252, 240, 0.04)',
+        height: hOuter,
+        borderRadius: Math.round(hOuter / 2),
+        backgroundColor: 'rgba(255, 248, 224, 0.025)',
       },
       mid: {
         width: wMid,
-        borderRadius: Math.round(wMid / 2),
-        backgroundColor: 'rgba(255, 252, 240, 0.06)',
+        height: hMid,
+        borderRadius: Math.round(hMid / 2),
+        backgroundColor: 'rgba(255, 246, 215, 0.035)',
       },
       halo: {
         width: wHalo,
-        borderRadius: Math.round(wHalo / 2),
-        backgroundColor: 'rgba(255, 250, 235, 0.09)',
+        height: hHalo,
+        borderRadius: Math.round(hHalo / 2),
+        backgroundColor: 'rgba(255, 244, 205, 0.045)',
       },
       core: {
         width: wCore,
-        borderRadius: Math.round(wCore / 2),
-        backgroundColor: 'rgba(255, 255, 245, 0.12)',
+        height: hCore,
+        borderRadius: Math.round(hCore / 2),
+        backgroundColor: 'rgba(255, 248, 220, 0.055)',
       },
       glint: {
         width: wGlint,
-        borderRadius: Math.max(1, Math.round(wGlint / 2)),
-        backgroundColor: 'rgba(255, 255, 255, 0.16)',
+        height: hGlint,
+        borderRadius: Math.max(1, Math.round(hGlint / 2)),
+        backgroundColor: 'rgba(255, 255, 245, 0.07)',
       },
     },
   };

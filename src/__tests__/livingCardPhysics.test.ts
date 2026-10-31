@@ -86,43 +86,52 @@ describe('livingCardPhysics', () => {
   });
 
   describe('calculateSheenGeometry', () => {
-    it('scales beam dimensions proportionally with card width', () => {
-      const thumbnailGeom = calculateSheenGeometry(54);
-      const heroGeom = calculateSheenGeometry(76);
-      const modalGeom = calculateSheenGeometry(300);
+    it('scales patch dimensions proportionally with card width and height', () => {
+      const thumbnailGeom = calculateSheenGeometry(54, 54);
+      const heroGeom = calculateSheenGeometry(76, 76);
+      const modalGeom = calculateSheenGeometry(300, 300);
 
-      expect(thumbnailGeom.beamWidth).toBeGreaterThanOrEqual(18);
-      expect(heroGeom.beamWidth).toBeGreaterThanOrEqual(18);
-      expect(modalGeom.beamWidth).toBe(75);
+      expect(thumbnailGeom.patchWidth).toBeGreaterThanOrEqual(20);
+      expect(thumbnailGeom.patchHeight).toBeGreaterThanOrEqual(14);
+      expect(heroGeom.patchWidth).toBeGreaterThan(thumbnailGeom.patchWidth);
+      expect(modalGeom.patchWidth).toBe(108);
+      expect(modalGeom.patchHeight).toBe(78);
     });
 
-    it('enforces concentric nested hierarchy with decreasing widths', () => {
-      const geom = calculateSheenGeometry(300);
+    it('enforces concentric nested hierarchy with decreasing widths and heights', () => {
+      const geom = calculateSheenGeometry(300, 300);
       const { outer, mid, halo, core, glint } = geom.layers;
 
       expect(outer.width).toBeGreaterThan(mid.width);
       expect(mid.width).toBeGreaterThan(halo.width);
       expect(halo.width).toBeGreaterThan(core.width);
       expect(core.width).toBeGreaterThan(glint.width);
-      expect(glint.width).toBeGreaterThanOrEqual(2);
+
+      expect(outer.height).toBeGreaterThan(mid.height);
+      expect(mid.height).toBeGreaterThan(halo.height);
+      expect(halo.height).toBeGreaterThan(core.height);
+      expect(core.height).toBeGreaterThan(glint.height);
+
+      expect(glint.width).toBeGreaterThanOrEqual(4);
+      expect(glint.height).toBeGreaterThanOrEqual(3);
     });
 
-    it('sets rounded pill border radius to half width for soft edges', () => {
-      const geom = calculateSheenGeometry(200);
+    it('sets rounded elliptical border radius to half height for soft edges', () => {
+      const geom = calculateSheenGeometry(200, 200);
       const { outer, mid, halo, core } = geom.layers;
 
-      expect(outer.borderRadius).toBe(Math.round(outer.width / 2));
-      expect(mid.borderRadius).toBe(Math.round(mid.width / 2));
-      expect(halo.borderRadius).toBe(Math.round(halo.width / 2));
-      expect(core.borderRadius).toBe(Math.round(core.width / 2));
+      expect(outer.borderRadius).toBe(Math.round(outer.height / 2));
+      expect(mid.borderRadius).toBe(Math.round(mid.height / 2));
+      expect(halo.borderRadius).toBe(Math.round(halo.height / 2));
+      expect(core.borderRadius).toBe(Math.round(core.height / 2));
     });
 
     it('handles invalid or zero width with fallback dimensions', () => {
       const nanGeom = calculateSheenGeometry(NaN);
-      expect(nanGeom.beamWidth).toBeGreaterThanOrEqual(18);
+      expect(nanGeom.beamWidth).toBeGreaterThanOrEqual(20);
 
       const zeroGeom = calculateSheenGeometry(0);
-      expect(zeroGeom.beamWidth).toBeGreaterThanOrEqual(18);
+      expect(zeroGeom.beamWidth).toBeGreaterThanOrEqual(20);
     });
   });
 
