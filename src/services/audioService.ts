@@ -90,6 +90,11 @@ const MAX_PLAYBACK_DURATION_MS = 10000;
         private isPlaying: boolean = false;
         private isConfigured: boolean = false;
         private listeners: Set<PlaybackListener> = new Set();
+        private prePlayHook: (() => void) | null = null;
+
+        public setPrePlayHook(hook: () => void): void {
+          this.prePlayHook = hook;
+        }
 
         public subscribe(listener: PlaybackListener): () => void {
           this.listeners.add(listener);
@@ -208,6 +213,14 @@ const MAX_PLAYBACK_DURATION_MS = 10000;
             public async playBird(bird: BirdCard): Promise<boolean> {
               const reqId = ++this.requestSeq;
               this.disposeAllPlayers();
+
+              if (this.prePlayHook) {
+                try {
+                  this.prePlayHook();
+                } catch {
+                  // Non-blocking
+                }
+              }
 
               this.currentBirdId = bird.id;
               this.isPlaying = true;

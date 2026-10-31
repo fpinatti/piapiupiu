@@ -1,6 +1,7 @@
 import { Feather } from '@expo/vector-icons';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { birdSpeechService } from '../services/birdSpeechService';
 import {
   colors,
   EXPANSION_THEME,
@@ -38,6 +39,34 @@ export function BirdPlayingCard({
   const primaryHabTheme = primaryHabitat
     ? HABITAT_THEME[primaryHabitat]
     : undefined;
+
+  const [isSpeaking, setIsSpeaking] = useState<boolean>(() => {
+    const s = birdSpeechService.getState();
+    return s.isSpeaking && s.currentBirdId === bird.id;
+  });
+
+  useEffect(() => {
+    const unsubscribe = birdSpeechService.subscribe((s) => {
+      setIsSpeaking(s.isSpeaking && s.currentBirdId === bird.id);
+    });
+
+    if (birdSpeechService.isAutoAnnounceEnabled()) {
+      birdSpeechService.speakBird(bird);
+    }
+
+    return () => {
+      unsubscribe();
+      birdSpeechService.stop();
+    };
+  }, [bird.id]);
+
+  const handleToggleSpeech = () => {
+    if (isSpeaking) {
+      birdSpeechService.stop();
+    } else {
+      birdSpeechService.speakBird(bird);
+    }
+  };
 
   return (
     <View style={styles.cardContainer}>
@@ -92,19 +121,45 @@ export function BirdPlayingCard({
           </View>
         </View>
 
-        {onDismiss && (
+        <View style={styles.headerRightActions}>
           <WatercolorBlobButton
-            onPress={onDismiss}
+            onPress={handleToggleSpeech}
             shape="pebble"
-            shapeVariant={2}
-            variant="secondary"
+            shapeVariant={1}
+            variant={isSpeaking ? 'primary' : 'secondary'}
             size="sm"
-            accessibilityLabel="Fechar card da ave"
-            contentStyle={{ minHeight: 32, width: 32, paddingHorizontal: 0, paddingVertical: 0 }}
+            accessibilityLabel={isSpeaking ? 'Parar fala de nome da ave' : 'Ouvir nome falado da ave'}
+            contentStyle={{ minHeight: 32, paddingHorizontal: 8, gap: 4 }}
           >
-            <Feather name="x" size={17} color={colors.textSecondary} />
+            <Feather
+              name={isSpeaking ? 'volume-x' : 'message-circle'}
+              size={13}
+              color={isSpeaking ? colors.onPrimary : colors.textPrimary}
+            />
+            <Text
+              style={[
+                styles.speechBtnText,
+                { color: isSpeaking ? colors.onPrimary : colors.textPrimary },
+              ]}
+            >
+              {isSpeaking ? 'Falando' : 'Piu piu'}
+            </Text>
           </WatercolorBlobButton>
-        )}
+
+          {onDismiss && (
+            <WatercolorBlobButton
+              onPress={onDismiss}
+              shape="pebble"
+              shapeVariant={2}
+              variant="secondary"
+              size="sm"
+              accessibilityLabel="Fechar card da ave"
+              contentStyle={{ minHeight: 32, width: 32, paddingHorizontal: 0, paddingVertical: 0 }}
+            >
+              <Feather name="x" size={17} color={colors.textSecondary} />
+            </WatercolorBlobButton>
+          )}
+        </View>
       </View>
 
       {/* Main Card Body (Linen Texture Surface) */}
@@ -181,6 +236,16 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surfaceSubtle,
     borderBottomWidth: 1,
     borderBottomColor: colors.borderSubtle,
+  },
+  headerRightActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+  },
+  speechBtnText: {
+    fontSize: 11,
+    fontFamily: fonts.serif,
+    fontWeight: '600',
   },
   badgesRow: {
     flexDirection: 'row',

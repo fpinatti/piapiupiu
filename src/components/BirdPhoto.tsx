@@ -14,6 +14,7 @@ import {
   getCachedBirdPhoto,
   resolveBirdPhoto,
 } from '../services/birdImageService';
+import { birdSpeechService } from '../services/birdSpeechService';
 import { LivingBirdArtwork } from './LivingBirdArtwork';
 import { WatercolorBlobButton } from './WatercolorBlobButton';
 import {
@@ -68,6 +69,34 @@ export function BirdPhoto({
   });
   const [imageError, setImageError] = useState<boolean>(false);
   const [zoomVisible, setZoomVisible] = useState<boolean>(false);
+  const [isSpeaking, setIsSpeaking] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (!zoomVisible) {
+      return;
+    }
+
+    const unsubscribe = birdSpeechService.subscribe((s) => {
+      setIsSpeaking(s.isSpeaking && s.currentBirdId === bird.id);
+    });
+
+    if (birdSpeechService.isAutoAnnounceEnabled()) {
+      birdSpeechService.speakBird(bird);
+    }
+
+    return () => {
+      unsubscribe();
+      birdSpeechService.stop();
+    };
+  }, [zoomVisible, bird.id]);
+
+  const handleToggleSpeech = () => {
+    if (isSpeaking) {
+      birdSpeechService.stop();
+    } else {
+      birdSpeechService.speakBird(bird);
+    }
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -220,17 +249,43 @@ export function BirdPhoto({
                 </Text>
               </View>
 
-              <WatercolorBlobButton
-                onPress={() => setZoomVisible(false)}
-                shape="pebble"
-                shapeVariant={2}
-                variant="secondary"
-                size="sm"
-                accessibilityLabel="Fechar visualização da foto"
-                contentStyle={{ minHeight: 36, width: 36, paddingHorizontal: 0, paddingVertical: 0 }}
-              >
-                <Feather name="x" size={18} color={colors.textPrimary} />
-              </WatercolorBlobButton>
+              <View style={styles.modalHeaderActions}>
+                <WatercolorBlobButton
+                  onPress={handleToggleSpeech}
+                  shape="pebble"
+                  shapeVariant={1}
+                  variant={isSpeaking ? 'primary' : 'secondary'}
+                  size="sm"
+                  accessibilityLabel={isSpeaking ? 'Parar fala de nome da ave' : 'Ouvir nome falado da ave'}
+                  contentStyle={{ minHeight: 36, paddingHorizontal: 10, gap: 5 }}
+                >
+                  <Feather
+                    name={isSpeaking ? 'volume-x' : 'message-circle'}
+                    size={15}
+                    color={isSpeaking ? colors.onPrimary : colors.textPrimary}
+                  />
+                  <Text
+                    style={[
+                      styles.speechBtnText,
+                      { color: isSpeaking ? colors.onPrimary : colors.textPrimary },
+                    ]}
+                  >
+                    {isSpeaking ? 'Falando' : 'Piu piu'}
+                  </Text>
+                </WatercolorBlobButton>
+
+                <WatercolorBlobButton
+                  onPress={() => setZoomVisible(false)}
+                  shape="pebble"
+                  shapeVariant={2}
+                  variant="secondary"
+                  size="sm"
+                  accessibilityLabel="Fechar visualização da foto"
+                  contentStyle={{ minHeight: 36, width: 36, paddingHorizontal: 0, paddingVertical: 0 }}
+                >
+                  <Feather name="x" size={18} color={colors.textPrimary} />
+                </WatercolorBlobButton>
+              </View>
             </View>
 
             <View style={styles.modalImageWrapper}>
@@ -349,6 +404,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: colors.borderSubtle,
     backgroundColor: colors.surfaceSubtle,
+  },
+  modalHeaderActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+  },
+  speechBtnText: {
+    fontSize: 12,
+    fontFamily: fonts.serif,
+    fontWeight: '600',
   },
   modalTitleGroup: {
     flex: 1,
