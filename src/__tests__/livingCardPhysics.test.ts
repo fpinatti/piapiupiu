@@ -3,6 +3,7 @@ import {
   calculateBreathingOffset,
   calculateFeatherSheen,
   calculateLayerOffset,
+  calculateSheenGeometry,
   spawnParticle,
   stepParticles,
 } from '../utils/livingCardPhysics';
@@ -81,6 +82,47 @@ describe('livingCardPhysics', () => {
       const nanSheen = calculateFeatherSheen(NaN);
       expect(nanSheen.sweepProgress).toBe(0);
       expect(nanSheen.intensity).toBe(0);
+    });
+  });
+
+  describe('calculateSheenGeometry', () => {
+    it('scales beam dimensions proportionally with card width', () => {
+      const thumbnailGeom = calculateSheenGeometry(54);
+      const heroGeom = calculateSheenGeometry(76);
+      const modalGeom = calculateSheenGeometry(300);
+
+      expect(thumbnailGeom.beamWidth).toBeGreaterThanOrEqual(18);
+      expect(heroGeom.beamWidth).toBeGreaterThanOrEqual(18);
+      expect(modalGeom.beamWidth).toBe(75);
+    });
+
+    it('enforces concentric nested hierarchy with decreasing widths', () => {
+      const geom = calculateSheenGeometry(300);
+      const { outer, mid, halo, core, glint } = geom.layers;
+
+      expect(outer.width).toBeGreaterThan(mid.width);
+      expect(mid.width).toBeGreaterThan(halo.width);
+      expect(halo.width).toBeGreaterThan(core.width);
+      expect(core.width).toBeGreaterThan(glint.width);
+      expect(glint.width).toBeGreaterThanOrEqual(2);
+    });
+
+    it('sets rounded pill border radius to half width for soft edges', () => {
+      const geom = calculateSheenGeometry(200);
+      const { outer, mid, halo, core } = geom.layers;
+
+      expect(outer.borderRadius).toBe(Math.round(outer.width / 2));
+      expect(mid.borderRadius).toBe(Math.round(mid.width / 2));
+      expect(halo.borderRadius).toBe(Math.round(halo.width / 2));
+      expect(core.borderRadius).toBe(Math.round(core.width / 2));
+    });
+
+    it('handles invalid or zero width with fallback dimensions', () => {
+      const nanGeom = calculateSheenGeometry(NaN);
+      expect(nanGeom.beamWidth).toBeGreaterThanOrEqual(18);
+
+      const zeroGeom = calculateSheenGeometry(0);
+      expect(zeroGeom.beamWidth).toBeGreaterThanOrEqual(18);
     });
   });
 

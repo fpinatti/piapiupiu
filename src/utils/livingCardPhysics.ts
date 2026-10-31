@@ -104,6 +104,76 @@ half4 main(float2 xy) {
 `;
 
 /**
+ * Geometry and diffusion properties for a single concentric layer of feather sheen.
+ */
+export interface SheenBeamLayer {
+  width: number;
+  borderRadius: number;
+  backgroundColor: string;
+}
+
+/**
+ * Concentric Gaussian diffusion geometry for natural feather sheen on native and web.
+ */
+export interface SheenGeometry {
+  beamWidth: number;
+  layers: {
+    outer: SheenBeamLayer;
+    mid: SheenBeamLayer;
+    halo: SheenBeamLayer;
+    core: SheenBeamLayer;
+    glint: SheenBeamLayer;
+  };
+}
+
+/**
+ * Calculates a multi-tier concentric Gaussian diffusion beam.
+ * Simulates optical light dispersion across feathers so that Android and native
+ * renderers display a continuous gradient curve without sharp rectangular edges,
+ * even without CSS mix-blend-mode or hardware shader support.
+ */
+export function calculateSheenGeometry(cardWidth: number): SheenGeometry {
+  const w = isNaN(cardWidth) || cardWidth <= 0 ? 100 : cardWidth;
+  const beamWidth = Math.max(18, Math.round(w * 0.25));
+  const wOuter = beamWidth;
+  const wMid = Math.round(beamWidth * 0.72);
+  const wHalo = Math.round(beamWidth * 0.48);
+  const wCore = Math.round(beamWidth * 0.26);
+  const wGlint = Math.max(2, Math.round(beamWidth * 0.10));
+
+  return {
+    beamWidth,
+    layers: {
+      outer: {
+        width: wOuter,
+        borderRadius: Math.round(wOuter / 2),
+        backgroundColor: 'rgba(255, 252, 240, 0.04)',
+      },
+      mid: {
+        width: wMid,
+        borderRadius: Math.round(wMid / 2),
+        backgroundColor: 'rgba(255, 252, 240, 0.06)',
+      },
+      halo: {
+        width: wHalo,
+        borderRadius: Math.round(wHalo / 2),
+        backgroundColor: 'rgba(255, 250, 235, 0.09)',
+      },
+      core: {
+        width: wCore,
+        borderRadius: Math.round(wCore / 2),
+        backgroundColor: 'rgba(255, 255, 245, 0.12)',
+      },
+      glint: {
+        width: wGlint,
+        borderRadius: Math.max(1, Math.round(wGlint / 2)),
+        backgroundColor: 'rgba(255, 255, 255, 0.16)',
+      },
+    },
+  };
+}
+
+/**
  * Spawns a single atmospheric particle for a given habitat or audio playback note.
  */
 export function spawnParticle(

@@ -16,6 +16,7 @@ import {
   calculateBreathingOffset,
   calculateFeatherSheen,
   calculateLayerOffset,
+  calculateSheenGeometry,
   stepParticles,
 } from '../utils/livingCardPhysics';
 
@@ -148,6 +149,8 @@ export function LivingBirdArtwork({
     [motion.tiltX, motion.tiltY, reduceMotion]
   );
 
+  const sheenGeometry = useMemo(() => calculateSheenGeometry(width), [width]);
+
   // PanResponder to capture touch-drag tilts smoothly
   const panResponder = useMemo(
     () =>
@@ -223,7 +226,7 @@ export function LivingBirdArtwork({
           <View style={[styles.placeholderBox, { backgroundColor: habitatTheme.bg }]} />
         )}
 
-        {/* Subtle Specular Feather Sheen (Reflexo de luz do sol nas penas) */}
+        {/* Subtle Specular Feather Sheen (Reflexo de luz do sol nas penas com difusão concêntrica) */}
         {!reduceMotion && (
           <View
             style={[
@@ -232,7 +235,7 @@ export function LivingBirdArtwork({
                 transform: [
                   { rotate: '-35deg' },
                   {
-                    translateX: sheen.sweepProgress * (width * 0.75),
+                    translateX: sheen.sweepProgress * (width * 0.8),
                   },
                 ],
                 opacity: sheen.intensity,
@@ -240,7 +243,60 @@ export function LivingBirdArtwork({
             ]}
             pointerEvents="none"
           >
-            <View style={styles.featherSheenBeam} />
+            <View
+              style={[
+                styles.sheenLayerOuter,
+                {
+                  width: sheenGeometry.layers.outer.width,
+                  borderRadius: sheenGeometry.layers.outer.borderRadius,
+                  backgroundColor: sheenGeometry.layers.outer.backgroundColor,
+                },
+              ]}
+            >
+              <View
+                style={[
+                  styles.sheenLayerNested,
+                  {
+                    width: sheenGeometry.layers.mid.width,
+                    borderRadius: sheenGeometry.layers.mid.borderRadius,
+                    backgroundColor: sheenGeometry.layers.mid.backgroundColor,
+                  },
+                ]}
+              >
+                <View
+                  style={[
+                    styles.sheenLayerNested,
+                    {
+                      width: sheenGeometry.layers.halo.width,
+                      borderRadius: sheenGeometry.layers.halo.borderRadius,
+                      backgroundColor: sheenGeometry.layers.halo.backgroundColor,
+                    },
+                  ]}
+                >
+                  <View
+                    style={[
+                      styles.sheenLayerNested,
+                      {
+                        width: sheenGeometry.layers.core.width,
+                        borderRadius: sheenGeometry.layers.core.borderRadius,
+                        backgroundColor: sheenGeometry.layers.core.backgroundColor,
+                      },
+                    ]}
+                  >
+                    <View
+                      style={[
+                        styles.sheenLayerNested,
+                        {
+                          width: sheenGeometry.layers.glint.width,
+                          borderRadius: sheenGeometry.layers.glint.borderRadius,
+                          backgroundColor: sheenGeometry.layers.glint.backgroundColor,
+                        },
+                      ]}
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
           </View>
         )}
       </View>
@@ -326,6 +382,8 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFill,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 12,
+    overflow: 'hidden',
   },
   birdImage: {
     borderRadius: 12,
@@ -350,24 +408,21 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFill,
     justifyContent: 'center',
     alignItems: 'center',
-    margin: -30,
-  },
-  featherSheenBeam: {
-    width: 22,
-    height: '240%',
-    backgroundColor: 'rgba(255, 252, 240, 0.38)',
-    borderRadius: 14,
     ...Platform.select({
       web: {
-        filter: 'blur(7px)',
+        filter: 'blur(6px)',
         mixBlendMode: 'screen',
       },
-      default: {
-        shadowColor: '#FFF8E7',
-        shadowOffset: { width: 0, height: 0 },
-        shadowOpacity: 0.8,
-        shadowRadius: 8,
-      },
     }),
+  },
+  sheenLayerOuter: {
+    height: '240%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  sheenLayerNested: {
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
