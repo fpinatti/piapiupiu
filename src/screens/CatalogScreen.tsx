@@ -100,26 +100,34 @@ export function CatalogScreen({
           const secondaryTitle = item.name_en;
 
           return (
-            <TouchableOpacity
-              onPress={() => onTogglePlayBird(item)}
+            <View
               style={[
                 styles.birdRow,
                 numColumns > 1 && styles.birdRowColumn,
                 active && styles.birdRowActive,
               ]}
-              activeOpacity={0.8}
-              accessibilityRole="button"
-              accessibilityLabel={
-                active
-                  ? `Parar canto de ${primaryTitle}`
-                  : `Ouvir canto de ${primaryTitle}`
-              }
             >
               <View style={styles.birdLeading}>
-                <BirdPhoto bird={item} variant="thumbnail" enableZoom />
+                <BirdPhoto
+                  bird={item}
+                  variant="thumbnail"
+                  living={active}
+                  isPlaying={active}
+                  enableZoom
+                />
               </View>
 
-              <View style={styles.birdInfo}>
+              <TouchableOpacity
+                onPress={() => onTogglePlayBird(item)}
+                style={styles.birdInfo}
+                activeOpacity={0.7}
+                accessibilityRole="button"
+                accessibilityLabel={
+                  active
+                    ? `Parar canto de ${primaryTitle}`
+                    : `Ouvir canto de ${primaryTitle}`
+                }
+              >
                 <View style={styles.titleLine}>
                   <Text style={styles.primaryName}>{primaryTitle}</Text>
                 </View>
@@ -156,7 +164,7 @@ export function CatalogScreen({
                     />
                   ))}
                 </View>
-              </View>
+              </TouchableOpacity>
 
               <WatercolorBlobButton
                 onPress={() => onTogglePlayBird(item)}
@@ -177,7 +185,7 @@ export function CatalogScreen({
                   color={active ? colors.onDanger : colors.onPrimary}
                 />
               </WatercolorBlobButton>
-            </TouchableOpacity>
+            </View>
           );
         }}
         ListEmptyComponent={

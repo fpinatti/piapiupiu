@@ -14,6 +14,7 @@ import {
   getCachedBirdPhoto,
   resolveBirdPhoto,
 } from '../services/birdImageService';
+import { LivingBirdArtwork } from './LivingBirdArtwork';
 import { WatercolorBlobButton } from './WatercolorBlobButton';
 import {
   colors,
@@ -37,6 +38,10 @@ export interface BirdPhotoProps {
   variant?: 'hero' | 'thumbnail' | 'mini';
   /** Whether tapping the photo opens the full-screen zoom modal */
   enableZoom?: boolean;
+  /** Whether to render dynamic 2.5D living artwork with parallax, breathing, and particles */
+  living?: boolean;
+  /** Whether bird audio is currently actively playing (emits melodic notes) */
+  isPlaying?: boolean;
 }
 
 const VARIANT_DIMENSIONS = {
@@ -49,6 +54,8 @@ export function BirdPhoto({
   bird,
   variant = 'thumbnail',
   enableZoom,
+  living = false,
+  isPlaying = false,
 }: BirdPhotoProps) {
   const canZoom = enableZoom ?? variant === 'hero';
   const dims = VARIANT_DIMENSIONS[variant];
@@ -115,27 +122,43 @@ export function BirdPhoto({
   const content = (
     <View style={containerStyle}>
       {hasValidPhoto && photo ? (
-        <>
-          <Image
-            source={{ uri: photo.thumbUrl, cache: 'force-cache' }}
-            style={[
-              styles.image,
-              {
-                width: dims.size,
-                height: dims.size,
-                borderRadius: dims.borderRadius - 1,
-              },
-            ]}
-            resizeMode="cover"
-            onError={() => setImageError(true)}
-            accessibilityLabel={`Fotografia da ave ${bird.name_pt} (${bird.scientific})`}
-          />
-          {canZoom && variant === 'hero' && (
-            <View style={styles.zoomBadge}>
-              <Feather name="maximize-2" size={11} color="#FFFFFF" />
-            </View>
-          )}
-        </>
+        living ? (
+          <>
+            <LivingBirdArtwork
+              bird={bird}
+              isPlaying={isPlaying}
+              width={dims.size}
+              height={dims.size}
+            />
+            {canZoom && variant === 'hero' && (
+              <View style={styles.zoomBadge}>
+                <Feather name="maximize-2" size={11} color="#FFFFFF" />
+              </View>
+            )}
+          </>
+        ) : (
+          <>
+            <Image
+              source={{ uri: photo.thumbUrl, cache: 'force-cache' }}
+              style={[
+                styles.image,
+                {
+                  width: dims.size,
+                  height: dims.size,
+                  borderRadius: dims.borderRadius - 1,
+                },
+              ]}
+              resizeMode="cover"
+              onError={() => setImageError(true)}
+              accessibilityLabel={`Fotografia da ave ${bird.name_pt} (${bird.scientific})`}
+            />
+            {canZoom && variant === 'hero' && (
+              <View style={styles.zoomBadge}>
+                <Feather name="maximize-2" size={11} color="#FFFFFF" />
+              </View>
+            )}
+          </>
+        )
       ) : (
         <View style={styles.placeholderBox}>
           {isLoading ? (
@@ -211,11 +234,11 @@ export function BirdPhoto({
             </View>
 
             <View style={styles.modalImageWrapper}>
-              <Image
-                source={{ uri: photo.fullUrl || photo.thumbUrl, cache: 'force-cache' }}
-                style={styles.modalImage}
-                resizeMode="contain"
-                accessibilityLabel={`Fotografia ampliada de ${bird.name_pt}`}
+              <LivingBirdArtwork
+                bird={bird}
+                isPlaying={isPlaying}
+                width={300}
+                height={300}
               />
             </View>
 

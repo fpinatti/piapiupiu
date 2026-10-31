@@ -111,7 +111,13 @@ export function BirdPlayingCard({
       <View style={styles.cardBody}>
         <View style={styles.mainRow}>
           <View style={styles.photoFrame}>
-            <BirdPhoto bird={bird} variant="hero" enableZoom />
+            <BirdPhoto
+              bird={bird}
+              variant="hero"
+              living
+              isPlaying={isPlaying}
+              enableZoom
+            />
           </View>
 
           <View style={styles.namesColumn}>
