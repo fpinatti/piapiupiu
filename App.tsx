@@ -167,6 +167,8 @@ export default function App() {
                 <BirdPhoto
                   bird={currentlyPlayingBird}
                   variant="mini"
+                  living
+                  isPlaying
                   enableZoom={false}
                 />
                 <View style={styles.miniPlayerTexts}>

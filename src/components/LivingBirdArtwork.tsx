@@ -17,6 +17,8 @@ import {
   calculateFeatherSheen,
   calculateLayerOffset,
   calculateSheenGeometry,
+  HABITAT_WATERCOLOR_SKSL,
+  hexToRgbNormalized,
   stepParticles,
 } from '../utils/livingCardPhysics';
 
@@ -28,6 +30,7 @@ let SkiaComponents: {
   Path: any;
   Fill: any;
   Skia: any;
+  Shader: any;
 } | null = null;
 
 try {
@@ -40,6 +43,7 @@ try {
       Path: skia.Path,
       Fill: skia.Fill,
       Skia: skia.Skia,
+      Shader: skia.Shader,
     };
   }
 } catch {
@@ -134,25 +138,49 @@ export function LivingBirdArtwork({
     return () => cancelAnimationFrame(animId);
   }, [disabled, reduceMotion, appActive, width, height, primaryHabitat, isPlaying, motion.tiltX, motion.tiltY]);
 
+  // Compile Habitat Living Watercolor GLSL/SkSL Runtime Shader if Skia is ready
+  const watercolorRuntimeEffect = useMemo(() => {
+    if (!isSkiaAvailable || !SkiaComponents?.Skia?.RuntimeEffect) return null;
+    try {
+      return SkiaComponents.Skia.RuntimeEffect.Make(HABITAT_WATERCOLOR_SKSL);
+    } catch {
+      return null;
+    }
+  }, []);
+
+  const bgUniforms = useMemo(() => {
+    return {
+      resolution: [width, height],
+      tilt: [motion.tiltX, motion.tiltY],
+      time: (Date.now() / 1000) % 1000,
+      colorBg: hexToRgbNormalized(habitatTheme.bg),
+      colorWash: hexToRgbNormalized(habitatTheme.wash),
+      colorAccent: hexToRgbNormalized(habitatTheme.border),
+    };
+  }, [width, height, motion.tiltX, motion.tiltY, habitatTheme]);
+
   // Proportional subtle parallax offset (delicate 2.5D optical micro-shift)
   const maxParallax = useMemo(
     () => Math.max(3, Math.min(7, Math.round(width * 0.03))),
     [width]
   );
 
+  // Background shifts in inverse perspective direction for stereoscopic 2.5D depth separation
   const bgOffset = useMemo(
-      () => (reduceMotion ? { x: 0, y: 0 } : calculateLayerOffset(motion.tiltX, motion.tiltY, 0.3, maxParallax)),
-        [motion.tiltX, motion.tiltY, reduceMotion, maxParallax]
+    () => (reduceMotion ? { x: 0, y: 0 } : calculateLayerOffset(-motion.tiltX, -motion.tiltY, 0.5, maxParallax)),
+    [motion.tiltX, motion.tiltY, reduceMotion, maxParallax]
   );
 
+  // Subject bird shifts slightly forward in the focal plane
   const subjectOffset = useMemo(
-      () => (reduceMotion ? { x: 0, y: 0 } : calculateLayerOffset(motion.tiltX, motion.tiltY, 0.6, maxParallax)),
-        [motion.tiltX, motion.tiltY, reduceMotion, maxParallax]
+    () => (reduceMotion ? { x: 0, y: 0 } : calculateLayerOffset(motion.tiltX, motion.tiltY, 0.6, maxParallax)),
+    [motion.tiltX, motion.tiltY, reduceMotion, maxParallax]
   );
 
+  // Atmospheric particles float closest to the viewer (strongest parallax)
   const particleOffset = useMemo(
-      () => (reduceMotion ? { x: 0, y: 0 } : calculateLayerOffset(motion.tiltX, motion.tiltY, 1.35, maxParallax)),
-        [motion.tiltX, motion.tiltY, reduceMotion, maxParallax]
+    () => (reduceMotion ? { x: 0, y: 0 } : calculateLayerOffset(motion.tiltX, motion.tiltY, 1.35, maxParallax)),
+    [motion.tiltX, motion.tiltY, reduceMotion, maxParallax]
   );
 
   const sheenGeometry = useMemo(() => calculateSheenGeometry(width, height), [width, height]);
@@ -192,7 +220,7 @@ export function LivingBirdArtwork({
       ]}
       {...panResponder.panHandlers}
     >
-      {/* Layer 0: Background Habitat Watercolor Wash */}
+      {/* Layer 0: Background Living Habitat Watercolor (GLSL SkSL / Organic Pigment) */}
       <View
         style={[
           styles.layerBackground,
@@ -205,12 +233,43 @@ export function LivingBirdArtwork({
           },
         ]}
       >
-        <View
-          style={[
-            styles.watercolorWashDroplet,
-            { backgroundColor: habitatTheme.wash, opacity: 0.18 },
-          ]}
-        />
+        {isSkiaAvailable && SkiaComponents?.Canvas && SkiaComponents?.Fill && SkiaComponents?.Shader && watercolorRuntimeEffect ? (
+          <SkiaComponents.Canvas style={{ width, height }}>
+            <SkiaComponents.Fill>
+              <SkiaComponents.Shader source={watercolorRuntimeEffect} uniforms={bgUniforms} />
+            </SkiaComponents.Fill>
+          </SkiaComponents.Canvas>
+        ) : (
+          <View style={styles.watercolorFallbackContainer}>
+            <View
+              style={[
+                styles.watercolorWashDroplet,
+                {
+                  backgroundColor: habitatTheme.wash,
+                  opacity: 0.22,
+                  transform: [
+                    { scale: 1.0 + breathing.offsetY * 0.04 },
+                    { rotate: `${bgOffset.x * 0.8}deg` },
+                  ],
+                },
+              ]}
+            />
+            <View
+              style={[
+                styles.watercolorSecondaryWash,
+                {
+                  backgroundColor: habitatTheme.border,
+                  opacity: 0.16,
+                  transform: [
+                    { translateX: -bgOffset.x * 0.6 },
+                    { translateY: -bgOffset.y * 0.6 },
+                    { rotate: `${-bgOffset.y}deg` },
+                  ],
+                },
+              ]}
+            />
+          </View>
+        )}
       </View>
 
       {/* Layer 1: Subject Bird with Living Breathing Oscillation */}
@@ -227,12 +286,29 @@ export function LivingBirdArtwork({
         ]}
       >
         {photoUrl ? (
-          <Image
-            source={{ uri: photoUrl, cache: 'force-cache' }}
-            style={[styles.birdImage, { width: imageWidth, height: imageHeight }]}
-            resizeMode="cover"
-            accessibilityLabel={`Foto viva de ${bird.name_pt}`}
-          />
+          <View style={styles.birdImageContainer}>
+            <Image
+              source={{ uri: photoUrl, cache: 'force-cache' }}
+              style={[styles.birdImage, { width: imageWidth, height: imageHeight }]}
+              resizeMode="cover"
+              accessibilityLabel={`Foto viva de ${bird.name_pt}`}
+            />
+            {/* Soft Field-Guide Naturalist Vignette (separa a foto da ave do fundo em aquarela) */}
+            <View
+              style={[
+                styles.naturalistVignette,
+                {
+                  borderColor: habitatTheme.border,
+                  ...Platform.select({
+                    web: {
+                      boxShadow: `inset 0 0 ${Math.max(10, Math.round(width * 0.08))}px rgba(0, 0, 0, 0.16)`,
+                    },
+                  }),
+                },
+              ]}
+              pointerEvents="none"
+            />
+          </View>
         ) : (
           <View style={[styles.placeholderBox, { backgroundColor: habitatTheme.bg }]} />
         )}
@@ -392,18 +468,40 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  watercolorFallbackContainer: {
+    ...StyleSheet.absoluteFill,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   watercolorWashDroplet: {
     width: '120%',
     height: '120%',
     borderRadius: 100,
+  },
+  watercolorSecondaryWash: {
+    position: 'absolute',
+    width: '90%',
+    height: '90%',
+    borderRadius: 80,
   },
   layerSubject: {
     ...StyleSheet.absoluteFill,
     justifyContent: 'center',
     alignItems: 'center',
   },
+  birdImageContainer: {
+    ...StyleSheet.absoluteFill,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   birdImage: {
     position: 'absolute',
+  },
+  naturalistVignette: {
+    ...StyleSheet.absoluteFill,
+    borderRadius: 12,
+    borderWidth: 1,
+    opacity: 0.35,
   },
   placeholderBox: {
     width: '100%',

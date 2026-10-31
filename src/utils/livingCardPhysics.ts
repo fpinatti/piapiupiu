@@ -197,6 +197,119 @@ export function calculateSheenGeometry(cardWidth: number, cardHeight?: number): 
 }
 
 /**
+ * Converts a hex color string (e.g. '#EAF3ED') to normalized RGB floats [0.0, 1.0] for GLSL / SkSL uniforms.
+ */
+export function hexToRgbNormalized(hex: string): [number, number, number] {
+  if (!hex || typeof hex !== 'string') {
+    return [1.0, 1.0, 1.0];
+  }
+  const cleanHex = hex.replace('#', '').trim();
+  if (cleanHex.length === 3) {
+    const r = parseInt(cleanHex[0] + cleanHex[0], 16) / 255;
+    const g = parseInt(cleanHex[1] + cleanHex[1], 16) / 255;
+    const b = parseInt(cleanHex[2] + cleanHex[2], 16) / 255;
+    return [isNaN(r) ? 1.0 : r, isNaN(g) ? 1.0 : g, isNaN(b) ? 1.0 : b];
+  }
+  if (cleanHex.length === 6) {
+    const r = parseInt(cleanHex.substring(0, 2), 16) / 255;
+    const g = parseInt(cleanHex.substring(2, 4), 16) / 255;
+    const b = parseInt(cleanHex.substring(4, 6), 16) / 255;
+    return [isNaN(r) ? 1.0 : r, isNaN(g) ? 1.0 : g, isNaN(b) ? 1.0 : b];
+  }
+  return [1.0, 1.0, 1.0];
+}
+
+/**
+ * GLSL / SkSL Runtime Effect for Living Habitat Watercolor Background.
+ * Simulates fluid organic watercolor pigments bleeding on textured parchment paper,
+ * with dynamic 2.5D camera perspective parallax responding to device tilt.
+ */
+export const HABITAT_WATERCOLOR_SKSL = `
+uniform float2 resolution;
+uniform float2 tilt;
+uniform float time;
+uniform float3 colorBg;
+uniform float3 colorWash;
+uniform float3 colorAccent;
+
+float hash(float2 p) {
+  return fract(sin(dot(p, float2(127.1, 311.7))) * 43758.5453123);
+}
+
+float noise(float2 p) {
+  float2 i = floor(p);
+  float2 f = fract(p);
+  float2 u = f * f * (3.0 - 2.0 * f);
+  return mix(
+    mix(hash(i + float2(0.0, 0.0)), hash(i + float2(1.0, 0.0)), u.x),
+    mix(hash(i + float2(0.0, 1.0)), hash(i + float2(1.0, 1.0)), u.x),
+    u.y
+  );
+}
+
+float fbm(float2 p) {
+  float v = 0.0;
+  float a = 0.5;
+  for (int i = 0; i < 3; i++) {
+    v += a * noise(p);
+    p = p * 2.1 + float2(1.7, 9.2);
+    a *= 0.5;
+  }
+  return v;
+}
+
+half4 main(float2 xy) {
+  float2 uv = xy / resolution;
+
+  // 2.5D deep perspective parallax offset (moves in opposite direction to foreground bird)
+  float2 parallaxUv = uv - tilt * 0.14;
+
+  // Domain warping simulating liquid watercolor pigment dispersal
+  float2 q = float2(
+    fbm(parallaxUv * 2.4 + float2(0.0, 0.0) + time * 0.035),
+    fbm(parallaxUv * 2.4 + float2(5.2, 1.3) - time * 0.025)
+  );
+
+  float pigment = fbm(parallaxUv * 3.2 + q * 1.4);
+
+  // Organic watercolor droplet shape centered on card
+  float dist = distance(parallaxUv, float2(0.5, 0.5));
+  float washMask = smoothstep(0.72, 0.18, dist + (pigment - 0.5) * 0.28);
+
+  // Layered naturalist pigment mixing: parchment base -> primary wash -> accent pigment
+  float3 finalColor = mix(colorBg, colorWash, washMask * 0.60);
+  finalColor = mix(finalColor, colorAccent, pigment * washMask * 0.38);
+
+  return half4(finalColor, 1.0);
+}
+`;
+
+/**
+ * GLSL / SkSL Runtime Effect for 2.5D Depth-Map Foreground/Background Separation.
+ * Takes a 2D image and shifts background pixels dynamically relative to the foreground focal subject.
+ */
+export const PARALLAX_DEPTH_SEPARATION_SKSL = `
+uniform float2 resolution;
+uniform float2 tilt;
+uniform float time;
+uniform shader image;
+
+half4 main(float2 xy) {
+  float2 uv = xy / resolution;
+
+  // Synthetic focal depth map: center (bird) is focal plane (depth ~ 0.0), periphery is background (depth ~ 1.0)
+  float dist = distance(uv, float2(0.5, 0.48));
+  float depth = smoothstep(0.18, 0.68, dist);
+
+  // Parallax displacement: background moves deeper and wider than foreground
+  float2 parallaxOffset = tilt * depth * (resolution * 0.04);
+  float2 sampleCoord = xy + parallaxOffset;
+
+  return image.eval(sampleCoord);
+}
+`;
+
+/**
  * Spawns a single atmospheric particle for a given habitat or audio playback note.
  */
 export function spawnParticle(

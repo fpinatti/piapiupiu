@@ -4,6 +4,9 @@ import {
   calculateFeatherSheen,
   calculateLayerOffset,
   calculateSheenGeometry,
+  HABITAT_WATERCOLOR_SKSL,
+  hexToRgbNormalized,
+  PARALLAX_DEPTH_SEPARATION_SKSL,
   spawnParticle,
   stepParticles,
 } from '../utils/livingCardPhysics';
@@ -132,6 +135,38 @@ describe('livingCardPhysics', () => {
 
       const zeroGeom = calculateSheenGeometry(0);
       expect(zeroGeom.beamWidth).toBeGreaterThanOrEqual(20);
+    });
+  });
+
+  describe('hexToRgbNormalized and GLSL Shaders', () => {
+    it('normalizes 6-digit hex color strings to [0.0, 1.0]', () => {
+      const white = hexToRgbNormalized('#FFFFFF');
+      expect(white).toEqual([1, 1, 1]);
+
+      const black = hexToRgbNormalized('#000000');
+      expect(black).toEqual([0, 0, 0]);
+
+      const forestBg = hexToRgbNormalized('#EAF3ED');
+      expect(forestBg[0]).toBeCloseTo(0.917, 2);
+      expect(forestBg[1]).toBeCloseTo(0.953, 2);
+      expect(forestBg[2]).toBeCloseTo(0.929, 2);
+    });
+
+    it('normalizes 3-digit hex color strings', () => {
+      const red = hexToRgbNormalized('#F00');
+      expect(red).toEqual([1, 0, 0]);
+    });
+
+    it('handles invalid or empty hex strings gracefully', () => {
+      const fallback = hexToRgbNormalized('');
+      expect(fallback).toEqual([1, 1, 1]);
+    });
+
+    it('defines valid GLSL / SkSL runtime effects for habitat watercolor and depth separation', () => {
+      expect(HABITAT_WATERCOLOR_SKSL).toContain('uniform float2 tilt');
+      expect(HABITAT_WATERCOLOR_SKSL).toContain('half4 main(float2 xy)');
+      expect(PARALLAX_DEPTH_SEPARATION_SKSL).toContain('uniform shader image');
+      expect(PARALLAX_DEPTH_SEPARATION_SKSL).toContain('depth');
     });
   });
 
