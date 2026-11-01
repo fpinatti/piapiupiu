@@ -52,9 +52,9 @@ describe('scoreCalculator', () => {
   });
 
   describe('getActiveCategories', () => {
-    it('returns all 8 categories by default for unified table mode', () => {
+    it('returns all 9 categories by default for unified table mode', () => {
       const allCats = getActiveCategories();
-      expect(allCats).toHaveLength(8);
+      expect(allCats).toHaveLength(9);
       expect(allCats.map((c) => c.id)).toEqual([
         'birds',
         'bonus',
@@ -64,6 +64,7 @@ describe('scoreCalculator', () => {
         'food',
         'tucked',
         'nectar',
+        'duo',
       ]);
     });
 
@@ -77,6 +78,18 @@ describe('scoreCalculator', () => {
         'eggs',
         'food',
         'tucked',
+      ]);
+
+      const asiaCats = getActiveCategories('asia');
+      expect(asiaCats).toHaveLength(7);
+      expect(asiaCats.map((c) => c.id)).toEqual([
+        'birds',
+        'bonus',
+        'goals',
+        'eggs',
+        'food',
+        'tucked',
+        'duo',
       ]);
     });
   });
@@ -101,6 +114,7 @@ describe('scoreCalculator', () => {
         eggs: '5',
         hummingbirds: '',
         nectar: '',
+        duo: '',
       };
       expect(calculatePlayerTotal(scores)).toBe(35);
     });
@@ -111,9 +125,10 @@ describe('scoreCalculator', () => {
         eggs: '10',
         hummingbirds: '15',
         nectar: '8',
+        duo: '12',
       };
-      // 40 + 10 + 15 + 8 = 73
-      expect(calculatePlayerTotal(scores)).toBe(73);
+      // 40 + 10 + 15 + 8 + 12 = 85
+      expect(calculatePlayerTotal(scores)).toBe(85);
     });
   });
 
@@ -196,19 +211,39 @@ describe('scoreCalculator', () => {
         player1: {
           id: 'player1',
           name: 'Player 1',
-          scores: { birds: '40', hummingbirds: '15', nectar: '5' }, // 60
+          scores: { birds: '40', hummingbirds: '15', nectar: '5', duo: '10' }, // 70
         },
         player2: {
           id: 'player2',
           name: 'Player 2',
-          scores: { birds: '50', nectar: '12' }, // 62
+          scores: { birds: '50', nectar: '12', duo: '6' }, // 68
         },
       };
       const evalResult = evaluateScorepad(state);
-      expect(evalResult.player1Total).toBe(60);
-      expect(evalResult.player2Total).toBe(62);
-      expect(evalResult.leader).toBe('player2');
+      expect(evalResult.player1Total).toBe(70);
+      expect(evalResult.player2Total).toBe(68);
+      expect(evalResult.leader).toBe('player1');
       expect(evalResult.diff).toBe(2);
+    });
+
+    it('evaluates state objects cleanly even if the duo key is entirely missing', () => {
+      const stateWithoutDuo: ScorepadState = {
+        player1: {
+          id: 'player1',
+          name: 'Jogador 1',
+          scores: { birds: '50' },
+        },
+        player2: {
+          id: 'player2',
+          name: 'Jogador 2',
+          scores: { birds: '40' },
+        },
+      };
+      const evalResult = evaluateScorepad(stateWithoutDuo);
+      expect(evalResult.player1Total).toBe(50);
+      expect(evalResult.player2Total).toBe(40);
+      expect(evalResult.diff).toBe(10);
+      expect(evalResult.leader).toBe('player1');
     });
   });
 

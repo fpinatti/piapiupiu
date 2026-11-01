@@ -18,7 +18,8 @@ export type WatercolorIconType =
   | 'food'
   | 'tucked'
   | 'hummingbird'
-  | 'nectar';
+  | 'nectar'
+  | 'duo';
 
 export interface WatercolorIconProps {
   type: WatercolorIconType;
@@ -146,6 +147,12 @@ const PALETTES: Record<
     ink: '#7C3415',
     halo: 'rgba(200, 100, 50, 0.18)',
   },
+  duo: {
+    bg: '#FAEBEC',
+    border: '#E2A5A7',
+    ink: '#7A2024',
+    halo: 'rgba(160, 60, 70, 0.16)',
+  },
 };
 
 export function WatercolorIcon({
@@ -220,6 +227,8 @@ export function WatercolorIcon({
         return <MaterialCommunityIcons name="bird" size={iconSize} color={palette.ink} />;
       case 'nectar':
         return <MaterialCommunityIcons name="flower-tulip-outline" size={iconSize} color={palette.ink} />;
+      case 'duo':
+        return <MaterialCommunityIcons name="yin-yang" size={iconSize} color={palette.ink} />;
       case 'feather':
       default:
         return <Feather name="feather" size={iconSize} color={palette.ink} />;

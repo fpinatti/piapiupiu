@@ -14,6 +14,7 @@ import { WatercolorBlobButton } from '../components/WatercolorBlobButton';
 import { WatercolorIcon } from '../components/WatercolorIcon';
 import {
   colors,
+  EXPANSION_THEME,
   fonts,
   MIN_TOUCH_TARGET,
   spacing,
@@ -269,11 +270,30 @@ export function ScorepadScreen({
                   <View style={styles.catTextContainer}>
                     <Text style={styles.catLabel}>{category.label}</Text>
                     {category.expansion !== 'base' ? (
-                      <View style={styles.expansionTag}>
-                        <Text style={styles.expansionTagText}>
-                          {category.expansion === 'americas'
-                            ? 'Américas'
-                            : 'Oceania'}
+                      <View
+                        style={[
+                          styles.expansionTag,
+                          EXPANSION_THEME[category.expansion] && {
+                            backgroundColor: EXPANSION_THEME[category.expansion].bg,
+                            borderColor: EXPANSION_THEME[category.expansion].border,
+                            borderWidth: 0.5,
+                          },
+                        ]}
+                      >
+                        <Text
+                          style={[
+                            styles.expansionTagText,
+                            EXPANSION_THEME[category.expansion] && {
+                              color: EXPANSION_THEME[category.expansion].text,
+                            },
+                          ]}
+                        >
+                          {EXPANSION_THEME[category.expansion]?.label ??
+                            (category.expansion === 'americas'
+                              ? 'Américas'
+                              : category.expansion === 'oceania'
+                              ? 'Oceania'
+                              : 'Ásia')}
                         </Text>
                       </View>
                     ) : null}

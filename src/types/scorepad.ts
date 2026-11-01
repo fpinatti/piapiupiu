@@ -2,7 +2,7 @@
  * Types and Seeds for Wingspan Score Pad Calculator
  */
 
-export type ScorepadVersionId = 'base' | 'americas' | 'oceania';
+export type ScorepadVersionId = 'base' | 'americas' | 'oceania' | 'asia';
 
 export type ScoreCategoryIconType =
   | 'feather'
@@ -12,13 +12,14 @@ export type ScoreCategoryIconType =
   | 'food'
   | 'tucked'
   | 'hummingbird'
-  | 'nectar';
+  | 'nectar'
+  | 'duo';
 
 export interface ScoreCategoryDefinition {
   readonly id: string;
   readonly label: string;
   readonly description: string;
-  readonly expansion: 'base' | 'americas' | 'oceania';
+  readonly expansion: 'base' | 'americas' | 'oceania' | 'asia';
   readonly iconType: ScoreCategoryIconType;
   readonly max?: number;
 }
@@ -64,6 +65,11 @@ export const SCOREPAD_VERSIONS: readonly ScorepadVersionDefinition[] = [
     id: 'oceania',
     label: 'Oceania',
     subtitle: 'Com pontuação de Néctar',
+  },
+  {
+    id: 'asia',
+    label: 'Ásia',
+    subtitle: 'Com pontuação do Modo Duo',
   },
 ] as const;
 
@@ -123,6 +129,13 @@ export const DEFAULT_SCORE_CATEGORIES: readonly ScoreCategoryDefinition[] = [
     description: 'Pontos de maioria de néctar nos habitats (Oceania)',
     expansion: 'oceania',
     iconType: 'nectar',
+  },
+  {
+    id: 'duo',
+    label: 'Modo Duo',
+    description: 'Pontos do maior grupo de fichas conectadas no tabuleiro de Duo (Ásia)',
+    expansion: 'asia',
+    iconType: 'duo',
   },
 ] as const;
 
